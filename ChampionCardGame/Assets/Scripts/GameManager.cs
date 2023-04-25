@@ -5,8 +5,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     // Public Information we Feed into this script
-    public int player1Life = 2;
-    public int player2Life = 2;
+    public Player player1;
+    public Player player2;
 
     public Round round;
 
@@ -44,8 +44,8 @@ public class GameManager : MonoBehaviour
     private void StartGame()
     {
         // Initialize player and opponent health
-        player1Life = 3;
-        player2Life = 3;
+        player1.health = 3;
+        player2.health = 3;
 
         // Initialize champion health and attack Power
         player1ChampionAttackPower = 1;
@@ -69,13 +69,13 @@ public class GameManager : MonoBehaviour
 
     private void EndGame()
     {
-        if (player1Life <= 0)
+        if (player1.health <= 0)
         {
             Debug.Log("Player1 has lost the game.");
             StartGame();
             // End game logic goes here
         }
-        else if (player2Life <= 0)
+        else if (player2.health <= 0)
         {
             Debug.Log("Player2 has lost the game.");
             StartGame();

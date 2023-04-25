@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public string name;
+    public string playerName;
     public int health;
+    public List<Card> deck;
+
+    void Start()
+    {
+
+    }
 
     public Player(string name)
     {

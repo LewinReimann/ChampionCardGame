@@ -127,12 +127,12 @@ private void BattlePhase()
 
             if (gameManager.player1ChampionHealth <= 0)
             {
-                gameManager.player1Life--;
+                gameManager.player1.health--;
                 EndBattlePhase();
             }
             else if (gameManager.player2ChampionHealth <= 0)
             {
-                gameManager.player2Life--;
+                gameManager.player2.health--;
                 EndBattlePhase();
             }
 

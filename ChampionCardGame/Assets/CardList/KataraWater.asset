@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 011ede16aedb9054bbfd4de68d57da06, type: 3}
+  m_Name: KataraWater
+  m_EditorClassIdentifier: 
+  cardName: KataraWater
+  cardArtwork: {fileID: 21300000, guid: b10bbe03401667c428bcbc6631a49b98, type: 3}
+  championEffect: Heal for 1 every third roll
+  secondaryEffect: Heal your Champion for 2
+  health: 6

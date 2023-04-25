@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 011ede16aedb9054bbfd4de68d57da06, type: 3}
+  m_Name: Azula
+  m_EditorClassIdentifier: 
+  cardName: Azula
+  cardArtwork: {fileID: 21300000, guid: 904daa28825d24f4b8c7351eaff469ed, type: 3}
+  championEffect: Deal 3 Damage to the opponent Champion
+  secondaryEffect: Deal 1 Damage when you play a Secondary Card
+  health: 7
