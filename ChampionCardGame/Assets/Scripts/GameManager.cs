@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     public int player1Life = 2;
     public int player2Life = 2;
 
+    public Round round;
+
     public int player1ChampionHealth = 5;
     public int player1ChampionAttackPower = 1;
 
@@ -21,7 +23,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        // Starts the round
+        round.StartRound();
     }
 
     // Update is called once per frame
