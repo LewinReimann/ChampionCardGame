@@ -9,9 +9,13 @@ public class Round : MonoBehaviour
     private bool roundActive = false;
     public int currentPhaseIndex = 0;
     public int RoundCounter = 0;
+    public GameManager gameManager;
+
+    private bool battlePhaseActive = false;
 
     public void StartRound()
     {
+        gameManager = FindObjectOfType<GameManager>(); // Pass reference to GameManager to Round script
         roundActive = true;
         SwitchTurn();
     }
@@ -98,13 +102,45 @@ private void SecondaryPhase()
     }
 
 private void BattlePhase()
-{
-        Debug.Log("Battle Phase has begun");
-        currentPhaseIndex++;
-        // TODO Implement logic for the battle phase
+    {
+        Debug.Log("End Phase has begun");
+        battlePhaseActive = true;
+        StartCoroutine(ExecuteBattlePhase()); //Co-Routine is for something to Cooperate in a "Routine" of course like two small codes run at the same time and not one after another
     }
 
-private void EndPhase()
+    public void EndBattlePhase() // Call this function to end the BattleRound
+    {
+        battlePhaseActive = false;
+
+        // Set Champion Health PLACEHOLDER FOR TESTIN
+        gameManager.player1ChampionHealth = Random.Range(3, 6);
+        gameManager.player2ChampionHealth = Random.Range(3, 6);
+
+        currentPhaseIndex++;
+    }
+
+    private IEnumerator ExecuteBattlePhase() //IEnumerator are  something that will call actions in a sequence like go again and again like here: Do Attack then check if someones Health is below 0 and then wait one second and execute again from top)
+    {
+        while (battlePhaseActive)
+        {
+            gameManager.Attack();
+
+            if (gameManager.player1ChampionHealth <= 0)
+            {
+                gameManager.player1Life--;
+                EndBattlePhase();
+            }
+            else if (gameManager.player2ChampionHealth <= 0)
+            {
+                gameManager.player2Life--;
+                EndBattlePhase();
+            }
+
+            yield return new WaitForSeconds(1f); // Wait for 1 second before executing the next attack
+        }
+    }
+
+    private void EndPhase()
 {
         Debug.Log("End Phase has begun");
         currentPhaseIndex++;
