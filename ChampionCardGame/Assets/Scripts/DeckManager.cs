@@ -8,10 +8,11 @@ public class DeckManager : MonoBehaviour
     public GameObject cardPrefab;
     public Transform cardParent;
     public int startingHandSize;
+    public Hand hand;
 
     private List<Card> drawPile = new List<Card>();
     private List<Card> discardPile = new List<Card>();
-    private Hand hand;
+    
 
     void Start()
     {
@@ -22,7 +23,6 @@ public class DeckManager : MonoBehaviour
         Shuffle();
 
         // Draw starting hand
-        hand = GetComponent<Hand>();
         DrawStartingHand();
 
         foreach (Card card in deck.cards)
@@ -69,6 +69,10 @@ public class DeckManager : MonoBehaviour
         Card drawnCard = drawPile[0];
         drawPile.RemoveAt(0);
         hand.AddCard(drawnCard);
+
+        // Add the drawon card to the hands display
+        int index = hand.GetCards().Count - 1;
+        hand.AddCardToHandDisplay(drawnCard, index);
 
         return drawnCard;
     }
