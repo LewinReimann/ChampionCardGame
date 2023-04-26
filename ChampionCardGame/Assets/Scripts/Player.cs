@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     public string playerName;
     public int health;
-    public List<Card> deck;
+    public Deck deck;
 
     void Start()
     {
