@@ -1,22 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class CardDisplay : MonoBehaviour
 {
-
+    
     public Card card;
 
-    public TMP_Text cardNameText;
+    public TextMeshPro cardNameText;
 
-    public Image cardArtworkSprite;
+    public SpriteRenderer cardArtworkSprite;
 
-    public TMP_Text championEffectText;
-    public TMP_Text secondaryEffectText;
+    public TextMeshPro championEffectText;
+    public TextMeshPro secondaryEffectText;
 
-    public TMP_Text healthText;
+    public TextMeshPro healthText;
 
     // Start is called before the first frame update
     void Start()
@@ -33,5 +32,5 @@ public class CardDisplay : MonoBehaviour
 
         healthText.text = card.health.ToString();
     }
-
+    
 }

@@ -6,6 +6,7 @@ using System.Linq;
 public class Hand : MonoBehaviour
 {
     public GameObject cardPrefab;
+    [SerializeField]
     public Transform cardParent;
     public Transform[] cardSlots; // The fice slots in the hand
 
@@ -19,12 +20,21 @@ public class Hand : MonoBehaviour
         CardDisplay cardDisplay = cardObj.GetComponent<CardDisplay>();
         cardDisplay.card = card;
 
+        // Debug.Log statements to check the values of variables
+        Debug.Log("Cards count before adding card: " + cards.Count);
+        Debug.Log("Card slot index: " + cards.Count);
+
         // Set the cards parent to one of the card slots in the hand.
         cardObj.transform.SetParent(cardSlots[cards.Count], false);
 
-        // Add the card to the list of cards in the hand
+        // Debug.Log statement to check if the card object is null
+        Debug.Log("Card object: " + cardObj);
 
+        // Add the card to the list of cards in the hand
         cards.Add(cardObj);
+
+        // Debug.Log statement to check the number of cards in the hand after adding the new card
+        Debug.Log("Cards count after adding card: " + cards.Count);
     }
 
     public void RemoveCard(Card card)
