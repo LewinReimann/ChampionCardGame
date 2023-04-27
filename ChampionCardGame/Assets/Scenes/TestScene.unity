@@ -155,7 +155,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerName: Bob
   health: 3
-  deck: {fileID: 11400000, guid: 43522c607808476498b15fb9af0086af, type: 2}
 --- !u!4 &18884768
 Transform:
   m_ObjectHideFlags: 0
@@ -186,8 +185,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deck: {fileID: 11400000, guid: 43522c607808476498b15fb9af0086af, type: 2}
-  cardPrefab: {fileID: 2929638655614653089, guid: 82bb8e63e72cf0c459d547c97a57907b,
-    type: 3}
   cardParent: {fileID: 348721241}
   startingHandSize: 3
   hand: {fileID: 879748826}
@@ -317,7 +314,7 @@ GameObject:
   - component: {fileID: 114860756}
   - component: {fileID: 114860755}
   m_Layer: 0
-  m_Name: Hand
+  m_Name: HandP1
   m_TagString: Hand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1366,7 +1363,7 @@ GameObject:
   - component: {fileID: 879748825}
   - component: {fileID: 879748826}
   m_Layer: 0
-  m_Name: Hand
+  m_Name: HandP2
   m_TagString: Hand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2459,7 +2456,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerName: Tim
   health: 3
-  deck: {fileID: 11400000, guid: faa5f347c7c65b24ea581f354d2e71aa, type: 2}
 --- !u!114 &1911964183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2472,9 +2468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e7441b5d26269940ab06774347b04e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deck: {fileID: 11400000, guid: 43522c607808476498b15fb9af0086af, type: 2}
-  cardPrefab: {fileID: 2929638655614653089, guid: 82bb8e63e72cf0c459d547c97a57907b,
-    type: 3}
+  deck: {fileID: 11400000, guid: faa5f347c7c65b24ea581f354d2e71aa, type: 2}
   cardParent: {fileID: 440464437}
   startingHandSize: 2
   hand: {fileID: 114860755}

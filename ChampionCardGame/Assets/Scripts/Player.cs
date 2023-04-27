@@ -6,17 +6,15 @@ public class Player : MonoBehaviour
 {
     public string playerName;
     public int health;
-    public Deck deck;
 
     void Start()
     {
 
     }
 
-    public Player(string name, Deck deck)
+    public Player(string name)
     {
         this.name = name;
         this.health = 3;
-        this.deck = deck;
     }
 }

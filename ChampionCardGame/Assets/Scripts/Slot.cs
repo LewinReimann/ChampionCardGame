@@ -18,7 +18,7 @@ public class Slot : MonoBehaviour
         if (other.CompareTag("Card"))
         {
             spriteRenderer.enabled = true; // Activate the sprite renderer when the card enters the slot
-            Debug.Log("Sprite renderer enabled: " + spriteRenderer.enabled);
+            
         }
     }
 

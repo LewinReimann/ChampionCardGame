@@ -55,6 +55,8 @@ public class Hand : MonoBehaviour
         float spacing = Mathf.Clamp(2f / (cards.Count + 1), 0.3f, 1f);
         Vector3 position = Vector3.right * (index - (cards.Count - 1) / 2f) * spacing;
 
+        Debug.Log("Adding card " + card.cardName + " to hand at index " + index + " with spacing " + spacing + " and position " + position);
+
         // Display the cards by giving them the Prefab to feed.
         GameObject cardObj = Instantiate(cardPrefab, cardParent);
         cardObj.transform.SetParent(transform.GetChild(index), false);
