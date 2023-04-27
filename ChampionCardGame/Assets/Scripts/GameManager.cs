@@ -83,4 +83,10 @@ public class GameManager : MonoBehaviour
         }
 
     }
+
+    public void HandleCardClick(GameObject cardObject)
+    {
+
+    }
+
 }

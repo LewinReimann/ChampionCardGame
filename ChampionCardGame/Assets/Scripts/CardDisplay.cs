@@ -17,9 +17,12 @@ public class CardDisplay : MonoBehaviour
 
     public TextMeshPro healthText;
 
+    public GameManager gameManager;
+
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = FindObjectOfType<GameManager>();
 
         cardNameText.text = card.cardName;
 
@@ -29,6 +32,14 @@ public class CardDisplay : MonoBehaviour
         secondaryEffectText.text = card.secondaryEffect;
 
         healthText.text = card.health.ToString();
+    }
+
+    ///////////// CARD HANDLING ///////////////// 
+    
+    void OnMouseDown()
+    {
+        // Call the appropriate function in the GameManager component
+        gameManager.HandleCardClick(this.gameObject);
     }
     
 }
