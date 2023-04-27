@@ -16,7 +16,16 @@ public class DeckManager : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("Instantiated card: " + cardPrefab.name);
+
         hand = GetComponentInChildren<Hand>();
+
+        foreach (Card card in deck.cards)
+        {
+            GameObject cardObj = Instantiate(cardPrefab, cardParent);
+            CardDisplay cardDisplay = cardObj.GetComponent<CardDisplay>();
+            cardDisplay.card = card;
+        }
 
         // Create a new draw pile by adding all the cards from the deck
         drawPile.AddRange(deck.cards);
@@ -26,12 +35,7 @@ public class DeckManager : MonoBehaviour
         // Draw starting hand
         DrawStartingHand();
 
-        foreach (Card card in deck.cards)
-        {
-            GameObject cardObj = Instantiate(cardPrefab, cardParent);
-            CardDisplay cardDisplay = cardObj.GetComponent<CardDisplay>();
-            cardDisplay.card = card;
-        }
+  
     }
 
     private void Shuffle()
@@ -54,9 +58,9 @@ public class DeckManager : MonoBehaviour
         {
             DrawCard();
         }
-    }
+    } 
 
-    private Card DrawCard()
+    public Card DrawCard()
     {
         // Check if the draw pile is empty and huffle the discarded pile back
         if (drawPile.Count == 0)

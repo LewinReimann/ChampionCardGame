@@ -21,8 +21,6 @@ public class CardDisplay : MonoBehaviour
     void Start()
     {
 
-        Debug.Log("Card name: " + card.cardName);
-
         cardNameText.text = card.cardName;
 
         cardArtworkSprite.sprite = card.cardArtwork;

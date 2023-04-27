@@ -13,9 +13,10 @@ public class Player : MonoBehaviour
 
     }
 
-    public Player(string name)
+    public Player(string name, Deck deck)
     {
         this.name = name;
         this.health = 3;
+        this.deck = deck;
     }
 }
