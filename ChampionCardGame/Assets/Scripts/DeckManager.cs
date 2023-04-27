@@ -16,6 +16,7 @@ public class DeckManager : MonoBehaviour
 
     void Start()
     {
+        hand = GetComponentInChildren<Hand>();
 
         // Create a new draw pile by adding all the cards from the deck
         drawPile.AddRange(deck.cards);
@@ -66,8 +67,8 @@ public class DeckManager : MonoBehaviour
         }
 
         // Draw the top card from the draw pile and add it to the hand
-        Card drawnCard = drawPile[0];
-        drawPile.RemoveAt(0);
+        Card drawnCard = drawPile[0]; // draws the first card of the List so the TopDeck
+        drawPile.RemoveAt(0); // Removes that Card from the List so that it is no longer in the Deck.
         hand.AddCard(drawnCard);
 
         // Add the drawon card to the hands display
