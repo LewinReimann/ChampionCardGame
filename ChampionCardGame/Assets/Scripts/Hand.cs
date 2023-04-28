@@ -10,26 +10,36 @@ public class Hand : MonoBehaviour
     public Transform cardParent;
     public Transform[] cardSlots; // The fice slots in the hand
     public List<Card> graveyard = new List<Card>();
+    public HandLayout handLayout;
 
     private List<GameObject> cards = new List<GameObject>(); // The Cards in the Hand
 
     public void AddCard(Card card)
     {
+
+        
+            handLayout.AddCardSlot();
+        
+
         // Set the initial location o the card to Hand
         card.location = CardLocation.Hand;
 
 
-        // Create anew GameObject for the card and set its CardDisplay Component
+        // Instantiate a new GameObject for the card and set its CardDisplay Component
         // to display the given card.
         GameObject cardObj = Instantiate(cardPrefab, cardParent);
         CardDisplay cardDisplay = cardObj.GetComponent<CardDisplay>();
         cardDisplay.card = card;
 
         // Set the cards parent to one of the card slots in the hand.
-        cardObj.transform.SetParent(cardSlots[cards.Count], false);
+        int index = cards.Count;
+        cardObj.transform.SetParent(transform.GetChild(cards.Count), false);
 
         // Add the card to the list of cards in the hand
         cards.Add(cardObj);
+
+        // Update the hand layout
+        handLayout.UpdateLayout();
     }
 
     public void RemoveCard(Card card)
@@ -43,12 +53,17 @@ public class Hand : MonoBehaviour
         GameObject cardObj = cards.Find(c => c.GetComponent<CardDisplay>().card == card);
         cards.Remove(cardObj);
         Destroy(cardObj);
+
+        
     }
 
     public void PlayCard(Card card)
     {
         card.inPlay = true;
         cards.Remove(cards.Find(c => c.GetComponent<CardDisplay>().card == card));
+
+        handLayout.RemoveCardSlot();
+        handLayout.UpdateLayout();
     }
 
     public List<Card> GetCards()

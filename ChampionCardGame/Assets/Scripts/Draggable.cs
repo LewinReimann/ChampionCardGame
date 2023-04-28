@@ -49,11 +49,23 @@ public class Draggable : MonoBehaviour
         Slot slot = nearestDropZone.GetComponent<Slot>();
         if (nearestDropZoneDistance < dropZoneRadius && !slot.isOccupied)
         {
-          
-            
-                transform.position = nearestDropZone.transform.position;
+            {
+                Hand hand = GetComponentInParent<Hand>();
+                if (hand != null)
+                {
+                    CardDisplay cardDisplay = GetComponent<CardDisplay>();
+                    Card card = cardDisplay.card;
+                    hand.PlayCard(card);
+                }
+            }
+
+            transform.position = nearestDropZone.transform.position;
                 transform.SetParent(nearestDropZone.transform);
                 slot.SetOccupied(true);
+
+            // set the scale and rotation of the object after its dropped
+            transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            transform.rotation = Quaternion.identity;
                 
             
         }
