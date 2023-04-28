@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Draggable : MonoBehaviour
 {
+    
     private bool isDragging = false;
     private Vector3 screenPoint;
     private Vector3 offset;
@@ -45,10 +46,16 @@ public class Draggable : MonoBehaviour
 
         // If the nearest drop zone is within a certain range, the card will snap to its position
         float dropZoneRadius = 2f;
-        if (nearestDropZoneDistance < dropZoneRadius)
+        Slot slot = nearestDropZone.GetComponent<Slot>();
+        if (nearestDropZoneDistance < dropZoneRadius && !slot.isOccupied)
         {
-            transform.position = nearestDropZone.transform.position;
-            // TODO: Handle card drop event
+          
+            
+                transform.position = nearestDropZone.transform.position;
+                transform.SetParent(nearestDropZone.transform);
+                slot.SetOccupied(true);
+                
+            
         }
 
         // Otherwise, return the card to tis original position

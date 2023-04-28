@@ -9,11 +9,16 @@ public class Hand : MonoBehaviour
     [SerializeField]
     public Transform cardParent;
     public Transform[] cardSlots; // The fice slots in the hand
+    public List<Card> graveyard = new List<Card>();
 
     private List<GameObject> cards = new List<GameObject>(); // The Cards in the Hand
 
     public void AddCard(Card card)
     {
+        // Set the initial location o the card to Hand
+        card.location = CardLocation.Hand;
+
+
         // Create anew GameObject for the card and set its CardDisplay Component
         // to display the given card.
         GameObject cardObj = Instantiate(cardPrefab, cardParent);
@@ -29,9 +34,21 @@ public class Hand : MonoBehaviour
 
     public void RemoveCard(Card card)
     {
+        if (card.inPlay)
+        {
+            card.location = CardLocation.Graveyard;
+            graveyard.Add(card);
+        }
+
         GameObject cardObj = cards.Find(c => c.GetComponent<CardDisplay>().card == card);
         cards.Remove(cardObj);
         Destroy(cardObj);
+    }
+
+    public void PlayCard(Card card)
+    {
+        card.inPlay = true;
+        cards.Remove(cards.Find(c => c.GetComponent<CardDisplay>().card == card));
     }
 
     public List<Card> GetCards()
