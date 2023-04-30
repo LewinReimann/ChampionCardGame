@@ -7,6 +7,7 @@ public class Slot : MonoBehaviour
     private SpriteRenderer spriteRenderer;
 
     public bool isOccupied = false;
+    public bool championSlot = false;
 
     private void Start()
     {
@@ -33,7 +34,7 @@ public class Slot : MonoBehaviour
         if (other.CompareTag("Card"))
         {
             CardDisplay cardDisplay = other.GetComponent<CardDisplay>();
-            if (cardDisplay.card.inPlay == false)
+            if (cardDisplay.isInPlay == false)
             {
                 spriteRenderer.enabled = true; // Activate the sprite renderer when the card enters the slot
             }

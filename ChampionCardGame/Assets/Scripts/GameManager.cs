@@ -15,11 +15,45 @@ public class GameManager : MonoBehaviour
     public int player2ChampionHealth = 5;
     public int player2ChampionAttackPower = 1;
 
+    public static GameManager instance;
+
+
+
     // Private Information we Feed into this script
 
-    public int RollDice() // This Is our standard Dice Roll of 1-6 to see what gets rolled.
+
+    public void Awake()
+    {
+        // Check if an instance of the GameManager already exists
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        // Set this instance as the single instance
+        instance = this;
+    }
+
+        public int RollDice() // This Is our standard Dice Roll of 1-6 to see what gets rolled.
     {
         return Random.Range(1, 7);
+    }
+
+    public void SetChampionHealth()
+    {
+        GameObject slotPlayer1 = GameObject.Find("SCSlotPlayer1");
+        if (slotPlayer1 != null)
+        {
+            ChampionCard championCard = slotPlayer1.GetComponentInChildren<ChampionCard>();
+            if (championCard != null)
+            {
+                int health = championCard.health;
+                player1ChampionHealth = health;
+            }
+        }
+
+       
     }
 
     public void Attack() // We Roll the RollDice we defined earlier to see who gets damaged with what Value. 
@@ -84,9 +118,6 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void HandleCardClick(GameObject cardObject)
-    {
-
-    }
+   
 
 }

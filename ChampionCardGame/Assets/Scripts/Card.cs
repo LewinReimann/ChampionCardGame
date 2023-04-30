@@ -13,8 +13,6 @@ public class Card : ScriptableObject
     public string secondaryEffect;
 
     public int health;
-
-    public bool inPlay { get; set; } = false; // Indicates whether the card is in play or not
     public CardLocation location { get; set; } = CardLocation.Deck;
 
 }

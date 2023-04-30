@@ -12,11 +12,18 @@ public class Round : MonoBehaviour
     public GameManager gameManager;
     public DeckManager deckManager;
 
-    private bool drawPhaseActive = false;
-    // private bool championPhaseActive = false;
-    // private bool secondaryPhaseActive = false;
-    private bool battlePhaseActive = false;
-    // private bool endPhaseActive = false;
+    public bool drawPhaseActive = false;
+    public bool championPhaseActive = false;
+    public bool secondaryPhaseActive = false;
+    public bool battlePhaseActive = false;
+    public bool endPhaseActive = false;
+
+    private CardManager cardManager;
+
+    private void Start()
+    {
+        cardManager = GetComponent<CardManager>();
+    }
 
     public void StartRound()
     {
@@ -67,27 +74,33 @@ public class Round : MonoBehaviour
         Debug.Log("Draw Phase has begun");
         drawPhaseActive = true;
         deckManager.DrawCard();
-
-        drawPhaseActive = false;
         currentPhaseIndex++;
     }
 
     private void ChampionPhase()
 {
+        drawPhaseActive = false;
+        championPhaseActive = true;
         Debug.Log("Champion Phase has begun");
         currentPhaseIndex++;
         // TODO Implement logic for the champion phase
     }
 
-private void SecondaryPhase()
+private void SecondaryPhase()   
 {
+        // Set the ChampionHealth inside the GameManager
+        GameManager.instance.SetChampionHealth();
+
+        championPhaseActive = false;
+        secondaryPhaseActive = true;
         Debug.Log("Secondary Phase has begun");
         currentPhaseIndex++;
 }
 
 private void BattlePhase()
     {
-        Debug.Log("End Phase has begun");
+        secondaryPhaseActive = false;
+        Debug.Log("Battlephase has begun");
         battlePhaseActive = true;
         StartCoroutine(ExecuteBattlePhase()); //Co-Routine is for something to Cooperate in a "Routine" of course like two small codes run at the same time and not one after another
     }
@@ -129,6 +142,7 @@ private void BattlePhase()
         Debug.Log("End Phase has begun");
         currentPhaseIndex++;
         // TODO implement logic for the EndPhase
+        cardManager.ClearBoard();
     }
 
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CardHover : MonoBehaviour
 {
-    public bool isInHand = false; // set this to true if the card is in the hand
+    
 
     private bool isHovering;
 

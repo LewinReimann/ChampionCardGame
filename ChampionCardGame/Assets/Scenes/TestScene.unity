@@ -412,8 +412,9 @@ MonoBehaviour:
     type: 3}
   cardParent: {fileID: 203042134}
   cardSlots: []
-  graveyard: []
   handLayout: {fileID: 114860757}
+  round: {fileID: 1366572000}
+  cardManager: {fileID: 1366572001}
 --- !u!114 &114860757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1415,8 +1416,9 @@ MonoBehaviour:
     type: 3}
   cardParent: {fileID: 1876221175}
   cardSlots: []
-  graveyard: []
   handLayout: {fileID: 879748827}
+  round: {fileID: 1366572000}
+  cardManager: {fileID: 1366572001}
 --- !u!114 &879748827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2030,8 +2032,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1366571999}
   - component: {fileID: 1366572000}
+  - component: {fileID: 1366572001}
   m_Layer: 5
-  m_Name: RoundHolder
+  m_Name: Round/CardManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2075,6 +2078,27 @@ MonoBehaviour:
   RoundCounter: 0
   gameManager: {fileID: 934965461}
   deckManager: {fileID: 1911964183}
+  drawPhaseActive: 0
+  championPhaseActive: 0
+  secondaryPhaseActive: 0
+  battlePhaseActive: 0
+  endPhaseActive: 0
+--- !u!114 &1366572001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1366571998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d51ce51217f99a4286c6c8ba8cac838, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allCards: []
+  onHand: []
+  onBoard: []
+  graveyard: []
 --- !u!1 &1638706483
 GameObject:
   m_ObjectHideFlags: 0
@@ -2446,7 +2470,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deck: {fileID: 11400000, guid: faa5f347c7c65b24ea581f354d2e71aa, type: 2}
   cardParent: {fileID: 440464437}
-  startingHandSize: 1
+  startingHandSize: 3
   hand: {fileID: 114860755}
 --- !u!1 &1985880600
 GameObject:
@@ -2541,7 +2565,7 @@ PrefabInstance:
     - target: {fileID: 5250352423354661454, guid: 99eacf5d061e4e14b9cb9939037b2d9b,
         type: 3}
       propertyPath: m_Name
-      value: SCSlot
+      value: SCSlotPlayer1
       objectReference: {fileID: 0}
     - target: {fileID: 5250352423354661455, guid: 99eacf5d061e4e14b9cb9939037b2d9b,
         type: 3}
@@ -2551,12 +2575,12 @@ PrefabInstance:
     - target: {fileID: 5250352423354661455, guid: 99eacf5d061e4e14b9cb9939037b2d9b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.72
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: 5250352423354661455, guid: 99eacf5d061e4e14b9cb9939037b2d9b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.15
+      value: 1.56
       objectReference: {fileID: 0}
     - target: {fileID: 5250352423354661455, guid: 99eacf5d061e4e14b9cb9939037b2d9b,
         type: 3}
@@ -2597,6 +2621,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6681612633492152559, guid: 99eacf5d061e4e14b9cb9939037b2d9b,
+        type: 3}
+      propertyPath: championSlot
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99eacf5d061e4e14b9cb9939037b2d9b, type: 3}

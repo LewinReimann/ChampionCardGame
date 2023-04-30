@@ -19,6 +19,9 @@ public class CardDisplay : MonoBehaviour
 
     public GameManager gameManager;
 
+    public bool isChampion = false;
+    public bool isInPlay = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,11 +38,6 @@ public class CardDisplay : MonoBehaviour
     }
 
     ///////////// CARD HANDLING ///////////////// 
-    
-    void OnMouseDown()
-    {
-        // Call the appropriate function in the GameManager component
-        gameManager.HandleCardClick(this.gameObject);
-    }
+   
     
 }

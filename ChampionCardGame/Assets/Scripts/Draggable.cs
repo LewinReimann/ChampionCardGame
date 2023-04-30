@@ -49,26 +49,68 @@ public class Draggable : MonoBehaviour
         Slot slot = nearestDropZone.GetComponent<Slot>();
         if (nearestDropZoneDistance < dropZoneRadius && !slot.isOccupied)
         {
-            {
-                Hand hand = GetComponentInParent<Hand>();
-                if (hand != null)
-                {
-                    CardDisplay cardDisplay = GetComponent<CardDisplay>();
-                    Card card = cardDisplay.card;
-                    hand.PlayCard(card);
-                }
-            }
-
-            transform.position = nearestDropZone.transform.position;
-                transform.SetParent(nearestDropZone.transform);
-                slot.SetOccupied(true);
-
-            // set the scale and rotation of the object after its dropped
-            transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-            transform.rotation = Quaternion.identity;
-                
+            Round round = FindObjectOfType<Round>();
             
+            Hand hand = GetComponentInParent<Hand>();
+            if (hand != null)
+            {
+                CardDisplay cardDisplay = GetComponent<CardDisplay>();
+                Card card = cardDisplay.card;
+
+                // check if it is a ChampionSlot and championPhaseActive is true
+                if (slot.championSlot && round.championPhaseActive)
+                {
+                    // set the card as a Champion and play it
+                    cardDisplay.isChampion = true;
+                    cardDisplay.isInPlay = true;
+                    hand.PlayCard(card);
+
+                    // Add the ChampionCard Component
+                    ChampionCard championCard = gameObject.AddComponent<ChampionCard>();
+
+                    transform.position = nearestDropZone.transform.position;
+                    transform.SetParent(nearestDropZone.transform);
+                    slot.isOccupied = true;
+
+                    // set the scale and rotation of the object after its dropped
+                    transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                    transform.rotation = Quaternion.identity;
+                }
+
+                // check if it is a ChampionSlot and championPhaseActive is false
+                else if (slot.championSlot && !round.championPhaseActive)
+                {
+                    // move the card back to its original position
+                    transform.position = originalPosition;
+
+                }
+
+                // check if it is NOT a ChampionSlot and championPhaseActive is true
+                else if(!slot.championSlot && round.championPhaseActive)
+                {
+                    // move card back to its orignal position
+                    transform.position = originalPosition;
+                }
+
+                // check if it is NOT a ChampionSlot and championPhaseActiv is false
+                else
+                {
+                    cardDisplay.isInPlay = true;
+                    hand.PlayCard(card);
+
+                    transform.position = nearestDropZone.transform.position;
+                    transform.SetParent(nearestDropZone.transform);
+                    slot.isOccupied = true;
+
+                    // set the scale and rotation of the object after its dropped
+                    transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                    transform.rotation = Quaternion.identity;
+                }
+
+            }
         }
+          
+        
 
         // Otherwise, return the card to tis original position
         else

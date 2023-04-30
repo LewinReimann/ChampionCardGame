@@ -9,8 +9,9 @@ public class Hand : MonoBehaviour
     [SerializeField]
     public Transform cardParent;
     public Transform[] cardSlots; // The fice slots in the hand
-    public List<Card> graveyard = new List<Card>();
     public HandLayout handLayout;
+    public Round round;
+    public CardManager cardManager;
 
     private List<GameObject> cards = new List<GameObject>(); // The Cards in the Hand
 
@@ -37,6 +38,7 @@ public class Hand : MonoBehaviour
 
         // Add the card to the list of cards in the hand
         cards.Add(cardObj);
+        cardManager.AddCardToHand(card);
 
         // Update the hand layout
         handLayout.UpdateLayout();
@@ -44,32 +46,27 @@ public class Hand : MonoBehaviour
 
     public void RemoveCard(Card card)
     {
-        if (card.inPlay)
-        {
-            card.location = CardLocation.Graveyard;
-            graveyard.Add(card);
-        }
-
-        GameObject cardObj = cards.Find(c => c.GetComponent<CardDisplay>().card == card);
-        cards.Remove(cardObj);
-        Destroy(cardObj);
-
-        
+       
     }
 
     public void PlayCard(Card card)
     {
-        card.inPlay = true;
+        
         cards.Remove(cards.Find(c => c.GetComponent<CardDisplay>().card == card));
 
         handLayout.RemoveCardSlot();
         handLayout.UpdateLayout();
+        cardManager.RemoveCardFromHand(card);
+        cardManager.AddCardToPlay(card);
+
     }
 
     public List<Card> GetCards()
     {
         return cards.Select(c => c.GetComponent<CardDisplay>().card).ToList();
     }
+
+   
 
     public void Clear()
     {
@@ -84,10 +81,10 @@ public class Hand : MonoBehaviour
     public void AddCardToHandDisplay(Card card, int index)
     {
         // This will to the spacing depending on how many cards are in the hands
-        float spacing = Mathf.Clamp(2f / (cards.Count + 1), 0.3f, 1f);
-        Vector3 position = Vector3.right * (index - (cards.Count - 1) / 2f) * spacing;
+        // float spacing = Mathf.Clamp(2f / (cards.Count + 1), 0.3f, 1f);
+        // Vector3 position = Vector3.right * (index - (cards.Count - 1) / 2f) * spacing;
 
-        Debug.Log("Adding card " + card.cardName + " to hand at index " + index + " with spacing " + spacing + " and position " + position);
+       // Debug.Log("Adding card " + card.cardName + " to hand at index " + index + " with spacing " + spacing + " and position " + position);
 
         // Display the cards by giving them the Prefab to feed.
         GameObject cardObj = Instantiate(cardPrefab, cardParent);
