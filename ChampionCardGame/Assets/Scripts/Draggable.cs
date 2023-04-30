@@ -10,6 +10,7 @@ public class Draggable : MonoBehaviour
     private Vector3 offset;
     private Vector3 originalPosition;
 
+
     private void OnMouseDown()
     {
         isDragging = true;
@@ -75,6 +76,8 @@ public class Draggable : MonoBehaviour
                     // set the scale and rotation of the object after its dropped
                     transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
                     transform.rotation = Quaternion.identity;
+                    
+                    Invoke("round.EndChampionPhase", 1f);
                 }
 
                 // check if it is a ChampionSlot and championPhaseActive is false

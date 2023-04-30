@@ -18,15 +18,20 @@ public class Round : MonoBehaviour
     public bool battlePhaseActive = false;
     public bool endPhaseActive = false;
 
+    public GameObject SCSlotPlayer1;
+
     private CardManager cardManager;
+    private CardDisplay cardDisplay;
 
     private void Start()
     {
         cardManager = GetComponent<CardManager>();
+        SCSlotPlayer1 = GameObject.Find("SCSlotPlayer1"); // Define the variable by finding the GameObject in the scene by name
     }
 
     public void StartRound()
     {
+        Debug.Log("Is this called?");
         gameManager = FindObjectOfType<GameManager>(); // Pass reference to GameManager to Round script
         roundActive = true;
         SwitchTurn();
@@ -75,21 +80,38 @@ public class Round : MonoBehaviour
         drawPhaseActive = true;
         deckManager.DrawCard();
         currentPhaseIndex++;
+
+        Invoke("SwitchTurn", 3f); // This will call the SwitcHTurn() method after X Seconds.
     }
 
     private void ChampionPhase()
 {
+
+        Debug.Log("Champion Phase has begun");
         drawPhaseActive = false;
         championPhaseActive = true;
-        Debug.Log("Champion Phase has begun");
         currentPhaseIndex++;
+
         // TODO Implement logic for the champion phase
+    }
+
+    public void EndChampionPhase()
+    {
+        
+            championPhaseActive = false;
+            SwitchTurn();
+            
+            
+        
     }
 
 private void SecondaryPhase()   
 {
         // Set the ChampionHealth inside the GameManager
         GameManager.instance.SetChampionHealth();
+
+        cardDisplay = FindObjectOfType<CardDisplay>();
+        cardDisplay.ActivateGameManagerHealth();
 
         championPhaseActive = false;
         secondaryPhaseActive = true;
@@ -109,9 +131,6 @@ private void BattlePhase()
     {
         battlePhaseActive = false;
 
-        // Set Champion Health PLACEHOLDER FOR TESTIN
-        gameManager.player1ChampionHealth = Random.Range(3, 6);
-        gameManager.player2ChampionHealth = Random.Range(3, 6);
 
         currentPhaseIndex++;
     }
@@ -126,11 +145,13 @@ private void BattlePhase()
             {
                 gameManager.player1.health--;
                 EndBattlePhase();
+                SwitchTurn();
             }
             else if (gameManager.player2ChampionHealth <= 0)
             {
                 gameManager.player2.health--;
                 EndBattlePhase();
+                SwitchTurn();
             }
 
             yield return new WaitForSeconds(1f); // Wait for 1 second before executing the next attack
@@ -143,6 +164,10 @@ private void BattlePhase()
         currentPhaseIndex++;
         // TODO implement logic for the EndPhase
         cardManager.ClearBoard();
+
+        cardDisplay = FindObjectOfType<CardDisplay>();
+        cardDisplay.DeactivateGameManagerHealth();
+        Invoke("SwitchTurn", 2f); 
     }
 
 }

@@ -13,7 +13,7 @@ public class Hand : MonoBehaviour
     public Round round;
     public CardManager cardManager;
 
-    private List<GameObject> cards = new List<GameObject>(); // The Cards in the Hand
+    public List<GameObject> cards = new List<GameObject>(); // The Cards in the Hand
 
     public void AddCard(Card card)
     {
@@ -51,13 +51,16 @@ public class Hand : MonoBehaviour
 
     public void PlayCard(Card card)
     {
-        
+        // Remove all empty slots from our Hand GameObject List
+        cards.RemoveAll(item => item == null);
+
+        cardManager.RemoveCardFromHand(card);
+        cardManager.AddCardToPlay(card);
+
         cards.Remove(cards.Find(c => c.GetComponent<CardDisplay>().card == card));
 
         handLayout.RemoveCardSlot();
         handLayout.UpdateLayout();
-        cardManager.RemoveCardFromHand(card);
-        cardManager.AddCardToPlay(card);
 
     }
 
