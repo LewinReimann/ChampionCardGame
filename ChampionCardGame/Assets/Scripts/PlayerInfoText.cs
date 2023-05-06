@@ -20,15 +20,15 @@ public class PlayerInfoText : MonoBehaviour
     {
         switch (phaseIndex)
         {
-            case 0:
+            case 1:
                 return "Draw Phase";
-            case 1 :
+            case 2 :
                 return "Champion Phase";
-            case 2:
-                return "Secondary Phae";
             case 3:
-                return "BattlePhase";
+                return "Secondary Phase";
             case 4:
+                return "BattlePhase";
+            case 5:
                 return "End Phase";
             default:
                 return "UnknownPhase";

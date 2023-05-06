@@ -6,7 +6,7 @@ public class CardHover : MonoBehaviour
 {
     
 
-    private bool isHovering;
+    public bool isHovering;
     private Vector3 originalPosition;
     private Vector3 originalScale;
     private HandLayout handLayout;

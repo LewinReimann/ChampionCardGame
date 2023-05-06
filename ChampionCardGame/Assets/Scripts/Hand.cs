@@ -70,6 +70,8 @@ public class Hand : MonoBehaviour
         {
             Debug.LogError("Card not found in Hand.");
         }
+
+
     }
     public List<Card> GetCards()
     {

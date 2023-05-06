@@ -9,10 +9,16 @@ public class Slot : MonoBehaviour
     public bool isOccupied = false;
     public bool championSlot = false;
 
+    public bool isColliding = false;
+
+    private Round round;
+
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.enabled = false; // start with the sprite renderer deactivated
+
+        round = FindObjectOfType<Round>();
     }
 
     public void SetOccupied(bool occupied)
@@ -28,24 +34,68 @@ public class Slot : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void Update()
     {
         
+        UpdateHighlight();
+        
+    }
+
+    public void DeactivateHighlight()
+    {
+        isColliding = false;
+    }
+
+    private void UpdateHighlight()
+    {
+      if (isOccupied || isColliding)
+        {
+            spriteRenderer.enabled = true;
+        }
+      else
+        {
+            spriteRenderer.enabled = false;
+        }
+    }
+
+    public void SetColliderEnabled(bool enabled)
+    {
+        Collider collider = GetComponent<Collider>();
+        if (collider != null)
+        {
+            collider.enabled = enabled;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!round.CanPlayCards()) return;
+
         if (other.CompareTag("Card"))
         {
-            CardDisplay cardDisplay = other.GetComponent<CardDisplay>();
-            if (cardDisplay.isInPlay == false)
+            // Check if the required conditions are met for triggering
+            if ((championSlot && round.championPhaseActive) || (!championSlot && !round.championPhaseActive))
             {
-                spriteRenderer.enabled = true; // Activate the sprite renderer when the card enters the slot
+                isColliding = true;
+                UpdateHighlight();
             }
+         
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
+        if (!round.CanPlayCards()) return;
+
         if (other.CompareTag("Card"))
         {
-            spriteRenderer.enabled = false; // deactivate the sprite Renderer when the card exits the collider
+            // Check if the required conditions are met for triggering
+            if ((championSlot && round.championPhaseActive) || (!championSlot && !round.championPhaseActive))
+            {
+                isColliding = false;
+                UpdateHighlight();
+            }
+                
         }
     }
 

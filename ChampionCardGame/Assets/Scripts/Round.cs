@@ -29,6 +29,9 @@ public class Round : MonoBehaviour
     public TextMeshProUGUI player1DiceRollText;
     public TextMeshProUGUI player2DiceRollText;
 
+    public GameObject Player1DiceRollText;
+    public GameObject Player2DiceRollText;
+
     private void Start()
     {
         cardManager = GetComponent<CardManager>();
@@ -83,7 +86,7 @@ public class Round : MonoBehaviour
     public bool CanPlayCards()
     {
         // Return false if the current phase is DrawingPhase, BattlePhase or EndPhase,
-        if (currentPhaseIndex == 0 || currentPhaseIndex == 3 || currentPhaseIndex == 4)
+        if (currentPhaseIndex == 1 || currentPhaseIndex == 4 || currentPhaseIndex == 5)
         {
             return false;
         }
@@ -92,6 +95,12 @@ public class Round : MonoBehaviour
     
     public void DrawPhase()
     {
+        Slot[] slots = FindObjectsOfType<Slot>();
+        foreach (Slot slot in slots)
+        {
+            slot.SetColliderEnabled(true); // Enable the Collider
+        }
+
         Debug.Log("Draw Phase has begun");
         drawPhaseActive = true;
         deckManager.DrawCard();
@@ -151,18 +160,36 @@ private void SecondaryPhase()
 
 private void BattlePhase()
     {
+
+        // Find Slot Component to Deactivate the isColliding for the Highlight
+        Slot[] slots = FindObjectsOfType<Slot>();
+        foreach (Slot slot in slots)
+        {
+            slot.SetColliderEnabled(false); // Disable the Collider
+        }
+
+        Player1DiceRollText.SetActive(true);
+        Player2DiceRollText.SetActive(true);
         secondaryPhaseActive = false;
         Debug.Log("Battlephase has begun");
         battlePhaseActive = true;
         StartCoroutine(ExecuteBattlePhase()); //Co-Routine is for something to Cooperate in a "Routine" of course like two small codes run at the same time and not one after another
+
+        currentPhaseIndex++;
     }
 
     public void EndBattlePhase() // Call this function to end the BattleRound
     {
         battlePhaseActive = false;
+        Player1DiceRollText.SetActive(false);
+        Player2DiceRollText.SetActive(false);
 
+        Slot[] slots = FindObjectsOfType<Slot>();
+        foreach (Slot slot in slots)
+        {
+            slot.DeactivateHighlight();
 
-        currentPhaseIndex++;
+        }
     }
 
     private IEnumerator ExecuteBattlePhase() //IEnumerator are  something that will call actions in a sequence like go again and again like here: Do Attack then check if someones Health is below 0 and then wait one second and execute again from top)
@@ -198,6 +225,8 @@ private void BattlePhase()
         currentPhaseIndex++;
         // TODO implement logic for the EndPhase
         cardManager.ClearBoard();
+      
+       
 
         cardDisplay = FindObjectOfType<CardDisplay>();
         cardDisplay.DeactivateGameManagerHealth();
