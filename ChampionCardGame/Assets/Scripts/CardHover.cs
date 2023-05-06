@@ -17,7 +17,7 @@ public class CardHover : MonoBehaviour
         {
         isHovering = true;
         transform.localScale *= 1.2f; // scale up the card when hovering
-        transform.position += new Vector3(0f, 0.5f, -0.5f);
+        transform.position += new Vector3(0f, 0.5f, 1f);
         }
     }
 
@@ -27,7 +27,7 @@ public class CardHover : MonoBehaviour
         {
             isHovering = false;
             transform.localScale /= 1.2f; // scale down the card when not hovering
-            transform.position -= new Vector3(0f, 0.5f, -0.5f);
+            transform.position -= new Vector3(0f, 0.5f, 1f);
         }
     }
 

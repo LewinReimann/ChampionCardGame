@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,13 +10,18 @@ public class GameManager : MonoBehaviour
     public Player player2;
 
     public Round round;
+    public DiceManager diceManager;
 
     public int player1ChampionHealth = 5;
     public int player1ChampionAttackPower = 1;
     public int player2ChampionHealth = 5;
     public int player2ChampionAttackPower = 1;
 
+    public Action<int, int> OnRollsCompleted;
+
     public static GameManager instance;
+
+
 
 
 
@@ -35,10 +41,7 @@ public class GameManager : MonoBehaviour
         instance = this;
     }
 
-        public int RollDice() // This Is our standard Dice Roll of 1-6 to see what gets rolled.
-    {
-        return Random.Range(1, 7);
-    }
+
 
     public void SetChampionHealth()
     {
@@ -70,10 +73,16 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public (int, int) Attack() // We Roll the RollDice we defined earlier to see who gets damaged with what Value. 
+    public IEnumerator Attack(System.Action<int, int> onRollsCompleted) // We Roll the RollDice we defined earlier to see who gets damaged with what Value. 
     {
-        int player1Roll = RollDice();
-        int player2Roll = RollDice();
+        // Get the rolls from the DiceManager
+        diceManager.RollDiceForBothPlayers();
+
+        // Wait for the dice rolls to be completed
+        yield return new WaitUntil(() => diceManager.player1Roll != 0 && diceManager.player2Roll != 0);
+
+        int player1Roll = diceManager.player1Roll;
+        int player2Roll = diceManager.player2Roll;
 
         if (player1Roll > player2Roll)
         {
@@ -88,7 +97,8 @@ public class GameManager : MonoBehaviour
             // no harm done
         }
 
-        return (player1Roll, player2Roll);
+        // Invoke the callback with the dice rolls
+        onRollsCompleted?.Invoke(player1Roll, player2Roll);
     }
 
     private void StartGame()

@@ -8,6 +8,7 @@ TagManager:
   - DropZone
   - Card
   - Ground
+  - Dice
   layers:
   - Default
   - TransparentFX

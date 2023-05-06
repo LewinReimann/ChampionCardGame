@@ -94,7 +94,7 @@ public class Draggable : MonoBehaviour
 
                         // set the scale and rotation of the object after its dropped
                         transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-                        transform.rotation = Quaternion.identity;
+                        // transform.rotation = Quaternion.identity;
 
 
                     }
@@ -126,7 +126,7 @@ public class Draggable : MonoBehaviour
 
                         // set the scale and rotation of the object after its dropped
                         transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-                        transform.rotation = Quaternion.identity;
+                        // transform.rotation = Quaternion.identity;
                     }
 
                     if (Slot.CheckIfChampionSlotsAreOccupied() && !round.championSlotsChecked)

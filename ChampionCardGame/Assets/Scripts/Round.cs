@@ -196,11 +196,13 @@ private void BattlePhase()
     {
         while (battlePhaseActive)
         {
-            (int player1Roll, int player2Roll) = gameManager.Attack();
-
-            // Update the UI Text objects with the dice rolls
-            player1DiceRollText.text = player1Roll.ToString();
-            player2DiceRollText.text = player2Roll.ToString();
+            // Start the Attack coroutine and pass in the callback to handle the dice rolls
+            yield return StartCoroutine(gameManager.Attack((player1Roll, player2Roll) =>
+            {
+                // Update the UI text objects with the dice rolls
+                player1DiceRollText.text = player1Roll.ToString();
+                player2DiceRollText.text = player2Roll.ToString();
+            }));
 
             if (gameManager.player1ChampionHealth <= 0)
             {
@@ -215,7 +217,7 @@ private void BattlePhase()
                 SwitchTurn();
             }
 
-            yield return new WaitForSeconds(1f); // Wait for 1 second before executing the next attack
+            yield return new WaitForSeconds(1f); // wait for 1 second before the next roll
         }
     }
 

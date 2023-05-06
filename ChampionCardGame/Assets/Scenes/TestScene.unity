@@ -169,6 +169,7 @@ Transform:
   m_Children:
   - {fileID: 879748825}
   - {fileID: 348721241}
+  - {fileID: 1317788223}
   m_Father: {fileID: 934965462}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1704,7 +1705,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1366572002}
         m_TargetAssemblyTypeName: DiceManager, Assembly-CSharp
-        m_MethodName: RollDice
+        m_MethodName: RollDiceForBothPlayers
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2208,6 +2209,7 @@ MonoBehaviour:
   player1: {fileID: 1911964182}
   player2: {fileID: 18884767}
   round: {fileID: 1366572000}
+  diceManager: {fileID: 1366572002}
   player1ChampionHealth: 5
   player1ChampionAttackPower: 1
   player2ChampionHealth: 5
@@ -2628,6 +2630,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1317788222
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1317788223}
+  m_Layer: 0
+  m_Name: DiceSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1317788223
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1317788222}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
+  m_LocalPosition: {x: 3.49, y: -1.64, z: 1.45}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 18884768}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!1 &1366571998
 GameObject:
   m_ObjectHideFlags: 0
@@ -2641,7 +2674,7 @@ GameObject:
   - component: {fileID: 1366572001}
   - component: {fileID: 1366572002}
   m_Layer: 5
-  m_Name: Round/CardManager
+  m_Name: Round/Card/DiceManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2726,9 +2759,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a4ac395f9e8b5243b1cc37beb46c37b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dicePrefab: {fileID: 1604780197056599858, guid: b4fca792e5bbb4c48b2b6e777e391628,
+  dicePrefabPlayer1: {fileID: 1604780197056599858, guid: 38e0cbb1f01628f48b72536b5afcd254,
     type: 3}
-  spawnPoint: {fileID: 2120366968}
+  dicePrefabPlayer2: {fileID: 1604780197056599858, guid: b4fca792e5bbb4c48b2b6e777e391628,
+    type: 3}
+  spawnPointPlayer1: {fileID: 2120366968}
+  spawnPointPlayer2: {fileID: 1317788223}
+  player1Roll: 0
+  player2Roll: 0
 --- !u!1 &1638706483
 GameObject:
   m_ObjectHideFlags: 0

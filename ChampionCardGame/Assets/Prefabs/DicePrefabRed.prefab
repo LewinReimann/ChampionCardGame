@@ -529,8 +529,8 @@ GameObject:
   - component: {fileID: 2115496788506919740}
   - component: {fileID: 8053325986733448403}
   m_Layer: 0
-  m_Name: DicePrefab
-  m_TagString: Untagged
+  m_Name: DicePrefabRed
+  m_TagString: Dice
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
