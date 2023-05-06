@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Round : MonoBehaviour
 {
@@ -18,10 +19,15 @@ public class Round : MonoBehaviour
     public bool battlePhaseActive = false;
     public bool endPhaseActive = false;
 
+    public bool championSlotsChecked = false;
+
     public GameObject SCSlotPlayer1;
 
     private CardManager cardManager;
     private CardDisplay cardDisplay;
+
+    public TextMeshProUGUI player1DiceRollText;
+    public TextMeshProUGUI player2DiceRollText;
 
     private void Start()
     {
@@ -73,6 +79,16 @@ public class Round : MonoBehaviour
         }
 
     }
+
+    public bool CanPlayCards()
+    {
+        // Return false if the current phase is DrawingPhase, BattlePhase or EndPhase,
+        if (currentPhaseIndex == 0 || currentPhaseIndex == 3 || currentPhaseIndex == 4)
+        {
+            return false;
+        }
+        return true;
+    }
     
     public void DrawPhase()
     {
@@ -81,7 +97,7 @@ public class Round : MonoBehaviour
         deckManager.DrawCard();
         currentPhaseIndex++;
 
-        Invoke("SwitchTurn", 3f); // This will call the SwitcHTurn() method after X Seconds.
+        Invoke("SwitchTurn", 1f); // This will call the SwitcHTurn() method after X Seconds.
     }
 
     private void ChampionPhase()
@@ -90,14 +106,17 @@ public class Round : MonoBehaviour
         Debug.Log("Champion Phase has begun");
         drawPhaseActive = false;
         championPhaseActive = true;
+        championSlotsChecked = false; // Reset the boolean
         currentPhaseIndex++;
+
 
         // TODO Implement logic for the champion phase
     }
 
     public void EndChampionPhase()
     {
-        
+
+           
             championPhaseActive = false;
             SwitchTurn();
             
@@ -107,13 +126,24 @@ public class Round : MonoBehaviour
 
 private void SecondaryPhase()   
 {
+       
         // Set the ChampionHealth inside the GameManager
         GameManager.instance.SetChampionHealth();
 
-        cardDisplay = FindObjectOfType<CardDisplay>();
-        cardDisplay.ActivateGameManagerHealth();
+        // Find all CardDisplay components in the scene
+        CardDisplay[] cardDisplays = FindObjectsOfType<CardDisplay>();
 
-        championPhaseActive = false;
+        // Loop through all the CardDisplay components
+        foreach (CardDisplay cardDisplay in cardDisplays)
+        {
+            // Check if the card is in the onBoard List
+            if (cardManager.onBoard.Contains(cardDisplay.card))
+            {
+                cardDisplay.ActivateGameManagerHealth();
+            }
+        }
+
+
         secondaryPhaseActive = true;
         Debug.Log("Secondary Phase has begun");
         currentPhaseIndex++;
@@ -139,7 +169,11 @@ private void BattlePhase()
     {
         while (battlePhaseActive)
         {
-            gameManager.Attack();
+            (int player1Roll, int player2Roll) = gameManager.Attack();
+
+            // Update the UI Text objects with the dice rolls
+            player1DiceRollText.text = player1Roll.ToString();
+            player2DiceRollText.text = player2Roll.ToString();
 
             if (gameManager.player1ChampionHealth <= 0)
             {

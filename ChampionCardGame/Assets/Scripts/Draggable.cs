@@ -10,6 +10,13 @@ public class Draggable : MonoBehaviour
     private Vector3 offset;
     private Vector3 originalPosition;
 
+    private Round round;
+
+    private void Start()
+    {
+        round = FindObjectOfType<Round>();
+    }
+
 
     private void OnMouseDown()
     {
@@ -31,8 +38,9 @@ public class Draggable : MonoBehaviour
 
     private void OnMouseUp()
     {
-        // Find the nearet drop zone
-        GameObject[] dropZones = GameObject.FindGameObjectsWithTag("DropZone");
+        
+            // Find the nearet drop zone
+            GameObject[] dropZones = GameObject.FindGameObjectsWithTag("DropZone");
         GameObject nearestDropZone = null;
         float nearestDropZoneDistance = Mathf.Infinity;
         foreach (GameObject dropZone in dropZones)
@@ -44,77 +52,104 @@ public class Draggable : MonoBehaviour
                 nearestDropZoneDistance = distance;
             }
         }
-
-        // If the nearest drop zone is within a certain range, the card will snap to its position
-        float dropZoneRadius = 2f;
-        Slot slot = nearestDropZone.GetComponent<Slot>();
-        if (nearestDropZoneDistance < dropZoneRadius && !slot.isOccupied)
-        {
-            Round round = FindObjectOfType<Round>();
-            
-            Hand hand = GetComponentInParent<Hand>();
-            if (hand != null)
-            {
-                CardDisplay cardDisplay = GetComponent<CardDisplay>();
-                Card card = cardDisplay.card;
-
-                // check if it is a ChampionSlot and championPhaseActive is true
-                if (slot.championSlot && round.championPhaseActive)
-                {
-                    // set the card as a Champion and play it
-                    cardDisplay.isChampion = true;
-                    cardDisplay.isInPlay = true;
-                    hand.PlayCard(card);
-
-                    // Add the ChampionCard Component
-                    ChampionCard championCard = gameObject.AddComponent<ChampionCard>();
-
-                    transform.position = nearestDropZone.transform.position;
-                    transform.SetParent(nearestDropZone.transform);
-                    slot.isOccupied = true;
-
-                    // set the scale and rotation of the object after its dropped
-                    transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-                    transform.rotation = Quaternion.identity;
-                    
-                    Invoke("round.EndChampionPhase", 1f);
-                }
-
-                // check if it is a ChampionSlot and championPhaseActive is false
-                else if (slot.championSlot && !round.championPhaseActive)
-                {
-                    // move the card back to its original position
-                    transform.position = originalPosition;
-
-                }
-
-                // check if it is NOT a ChampionSlot and championPhaseActive is true
-                else if(!slot.championSlot && round.championPhaseActive)
-                {
-                    // move card back to its orignal position
-                    transform.position = originalPosition;
-                }
-
-                // check if it is NOT a ChampionSlot and championPhaseActiv is false
-                else
-                {
-                    cardDisplay.isInPlay = true;
-                    hand.PlayCard(card);
-
-                    transform.position = nearestDropZone.transform.position;
-                    transform.SetParent(nearestDropZone.transform);
-                    slot.isOccupied = true;
-
-                    // set the scale and rotation of the object after its dropped
-                    transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-                    transform.rotation = Quaternion.identity;
-                }
-
-            }
-        }
-          
         
+            // If the nearest drop zone is within a certain range, the card will snap to its position
+            float dropZoneRadius = 2f;
+            Slot slot = nearestDropZone.GetComponent<Slot>();
+            if (nearestDropZoneDistance < dropZoneRadius && !slot.isOccupied && round.CanPlayCards())
+            {
+                Round round = FindObjectOfType<Round>();
 
+                Hand hand = GetComponentInParent<Hand>();
+                if (hand != null)
+                {
+                    CardDisplay cardDisplay = GetComponent<CardDisplay>();
+                    Card card = cardDisplay.card;
+
+                    // check if it is a ChampionSlot and championPhaseActive is true
+                    if (slot.championSlot && round.championPhaseActive)
+                    {
+                        // set the card as a Champion and play it
+                        cardDisplay.isChampion = true;
+                        cardDisplay.isInPlay = true;
+                        hand.PlayCard(card);
+
+                        if (nearestDropZone.name == "SCSlotPlayer1")
+                        {
+                            cardDisplay.playerID = 1;
+                        }
+
+                        else if (nearestDropZone.name == "SCSlotPlayer2")
+                        {
+                            cardDisplay.playerID = 2;
+                        }
+
+                        // Add the ChampionCard Component
+                        ChampionCard championCard = gameObject.AddComponent<ChampionCard>();
+                        championCard.GetChampionHealth();
+
+                        transform.position = nearestDropZone.transform.position;
+                        transform.SetParent(nearestDropZone.transform);
+                        slot.isOccupied = true;
+
+                        // set the scale and rotation of the object after its dropped
+                        transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                        transform.rotation = Quaternion.identity;
+
+
+                    }
+
+                    // check if it is a ChampionSlot and championPhaseActive is false
+                    else if (slot.championSlot && !round.championPhaseActive)
+                    {
+                        // move the card back to its original position
+                        transform.position = originalPosition;
+
+                    }
+
+                    // check if it is NOT a ChampionSlot and championPhaseActive is true
+                    else if (!slot.championSlot && round.championPhaseActive)
+                    {
+                        // move card back to its orignal position
+                        transform.position = originalPosition;
+                    }
+
+                    // check if it is NOT a ChampionSlot and championPhaseActiv is false
+                    else
+                    {
+                        cardDisplay.isInPlay = true;
+                        hand.PlayCard(card);
+
+                        transform.position = nearestDropZone.transform.position;
+                        transform.SetParent(nearestDropZone.transform);
+                        slot.isOccupied = true;
+
+                        // set the scale and rotation of the object after its dropped
+                        transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                        transform.rotation = Quaternion.identity;
+                    }
+
+                    if (Slot.CheckIfChampionSlotsAreOccupied() && !round.championSlotsChecked)
+                    {
+                        // Activate isUpdateEnabled for both ChampionCards
+                        CardDisplay[] allCardDisplays = FindObjectsOfType<CardDisplay>();
+                        foreach (CardDisplay display in allCardDisplays)
+                        {
+                            if (display.isChampion)
+                            {
+                                display.ActivateGameManagerHealth();
+
+                            }
+                        }
+                        round.championSlotsChecked = true;
+                        round.EndChampionPhase();
+                    }
+
+                }
+            
+           
+
+        }
         // Otherwise, return the card to tis original position
         else
         {
@@ -122,6 +157,7 @@ public class Draggable : MonoBehaviour
         }
 
         isDragging = false;
-
     }
+    
+ 
 }

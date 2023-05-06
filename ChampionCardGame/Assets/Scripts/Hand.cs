@@ -14,11 +14,12 @@ public class Hand : MonoBehaviour
     public CardManager cardManager;
 
     public List<GameObject> cards = new List<GameObject>(); // The Cards in the Hand
+    
 
     public void AddCard(Card card)
     {
 
-        
+        // handLayout.ChildAdded();
             handLayout.AddCardSlot();
         
 
@@ -44,10 +45,6 @@ public class Hand : MonoBehaviour
         handLayout.UpdateLayout();
     }
 
-    public void RemoveCard(Card card)
-    {
-       
-    }
 
     public void PlayCard(Card card)
     {
@@ -57,13 +54,23 @@ public class Hand : MonoBehaviour
         cardManager.RemoveCardFromHand(card);
         cardManager.AddCardToPlay(card);
 
-        cards.Remove(cards.Find(c => c.GetComponent<CardDisplay>().card == card));
+        // Find the card object before removing it
+        GameObject foundCardObj = cards.Find(c => c.GetComponent<CardDisplay>().card == card);
+        cards.Remove(foundCardObj);
 
-        handLayout.RemoveCardSlot();
-        handLayout.UpdateLayout();
+        handLayout.RemoveEmptyCardSlot();
 
+        // Add Card to a cardsInPlay List
+        if (foundCardObj != null)
+        {
+            CardDisplay cardDisplayInstance = foundCardObj.GetComponent<CardDisplay>();
+            cardManager.cardsInPlay.Add(cardDisplayInstance);
+        }
+        else
+        {
+            Debug.LogError("Card not found in Hand.");
+        }
     }
-
     public List<Card> GetCards()
     {
         return cards.Select(c => c.GetComponent<CardDisplay>().card).ToList();

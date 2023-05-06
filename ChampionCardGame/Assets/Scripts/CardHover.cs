@@ -7,6 +7,9 @@ public class CardHover : MonoBehaviour
     
 
     private bool isHovering;
+    private Vector3 originalPosition;
+    private Vector3 originalScale;
+    private HandLayout handLayout;
 
     private void OnMouseEnter()
     {
@@ -26,5 +29,29 @@ public class CardHover : MonoBehaviour
             transform.localScale /= 1.2f; // scale down the card when not hovering
             transform.position -= new Vector3(0f, 0.5f, -0.5f);
         }
+    }
+
+    private void Start()
+    {
+        handLayout = transform.parent.GetComponent<HandLayout>();
+        if (handLayout != null)
+        {
+            handLayout.OnLayoutUpdated += UpdateOriginalValues;
+            UpdateOriginalValues();
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (handLayout != null)
+        {
+            handLayout.OnLayoutUpdated -= UpdateOriginalValues;
+        }
+    }
+
+    private void UpdateOriginalValues()
+    {
+        originalPosition = transform.position;
+        originalScale = transform.localScale;
     }
 }

@@ -23,7 +23,9 @@ public class CardDisplay : MonoBehaviour
     public bool isChampion = false;
     public bool isInPlay = false;
 
-    private bool isUpdateEnabled = false;
+    public bool isUpdateEnabled = false;
+
+    public int playerID = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -45,11 +47,13 @@ public class CardDisplay : MonoBehaviour
     public void ActivateGameManagerHealth()
     {
         isUpdateEnabled = true;
+        Debug.Log("ActivateGameManagerHealth called for card: " + card.name);
     }
 
     public void DeactivateGameManagerHealth()
     {
         isUpdateEnabled = false;
+        Debug.Log("DeactivateGameManagerHealth called for card: " + card.name);
     }
 
     private void Update()
@@ -67,7 +71,8 @@ public class CardDisplay : MonoBehaviour
                 GameManager gameManager = FindObjectOfType<GameManager>();
                 if (gameManager != null)
                 {
-                    int championHealth = gameManager.player1ChampionHealth;
+                    int championHealth = playerID == 1 ? gameManager.player1ChampionHealth : gameManager.player2ChampionHealth;
+                    
                     transform.Find("ChampionHealthText").GetComponent<TextMeshPro>().text = championHealth.ToString();
                 }
             }

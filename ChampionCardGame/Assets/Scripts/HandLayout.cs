@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class HandLayout : MonoBehaviour
 {
@@ -8,6 +9,10 @@ public class HandLayout : MonoBehaviour
     public List<Transform> cardSlots;
     public float spacing = 0.2f;
     public float startOffset = 0f;
+
+    public event Action OnLayoutUpdated;
+
+    public bool isWaitingForChild = false;
 
     private void Start()
     {
@@ -34,29 +39,45 @@ public class HandLayout : MonoBehaviour
             // Set the position of the card slot
             cardSlot.position = transform.TransformPoint(cardPos);
         }
+
+        // Invoke the event after updating the layout
+        OnLayoutUpdated?.Invoke();
     }
 
     public void AddCardSlot()
     {
-        
+        // Set the flag to indicate that a child will be added soon
+        isWaitingForChild = true;
+
         // Instantiate a new card slot and add it to the list of slots
         GameObject slotObject = Instantiate(cardSlotPrefab, transform);
         Transform slotTransform = slotObject.transform;
         cardSlots.Add(slotTransform);
 
-        // Update the layout to accommodate the new slot
-        UpdateLayout();
+        isWaitingForChild = false;
     }
 
-    public void RemoveCardSlot()
+    public void RemoveEmptyCardSlot()
     {
-        
-        // Destroy the last card slot in the list
-        int lastIndex = cardSlots.Count - 1;
-        Destroy(cardSlots[lastIndex].gameObject);
-        cardSlots.RemoveAt(lastIndex);
+        for (int i = cardSlots.Count - 1; i >= 0; i--)
+        {
+            Transform cardSlot = cardSlots[i];
+            if (cardSlot.childCount == 0 && !isWaitingForChild)
+            {
+                Destroy(cardSlots[i].gameObject);
+                cardSlots.RemoveAt(i);
+            }
+        }
+    }
 
-        // Update the layout to remove the destroyed slot
+    public void ChildAdded()
+    {
+        isWaitingForChild = false;
+    }
+
+    private void Update()
+    {
         UpdateLayout();
+        RemoveEmptyCardSlot();
     }
 }

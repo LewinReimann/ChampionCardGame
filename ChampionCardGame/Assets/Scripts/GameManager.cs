@@ -50,13 +50,27 @@ public class GameManager : MonoBehaviour
             {
                 int health = championCard.health;
                 player1ChampionHealth = health;
+
+                Debug.Log($"Player1 Champion set. Health: {health}");
             }
         }
 
-       
+        GameObject slotPlayer2 = GameObject.Find("SCSlotPlayer2");
+        if (slotPlayer2 != null)
+        {
+            ChampionCard championCard = slotPlayer2.GetComponentInChildren<ChampionCard>();
+            if (championCard != null)
+            {
+                int health = championCard.health;
+                player2ChampionHealth = health;
+
+                Debug.Log($"Player2 Champion set. Health: {health}");
+            }
+        }
+
     }
 
-    public void Attack() // We Roll the RollDice we defined earlier to see who gets damaged with what Value. 
+    public (int, int) Attack() // We Roll the RollDice we defined earlier to see who gets damaged with what Value. 
     {
         int player1Roll = RollDice();
         int player2Roll = RollDice();
@@ -73,6 +87,8 @@ public class GameManager : MonoBehaviour
         {
             // no harm done
         }
+
+        return (player1Roll, player2Roll);
     }
 
     private void StartGame()

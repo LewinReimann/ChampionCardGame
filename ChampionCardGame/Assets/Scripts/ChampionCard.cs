@@ -8,11 +8,11 @@ public class ChampionCard : MonoBehaviour
 
     public GameManager gameManager;
 
-    private void Start()
-    {
-        GetChampionHealth();
+    // private void Start()
+    // {
+        // GetChampionHealth();
 
-    }
+    // }
 
     public void GetChampionHealth()
     {

@@ -60,7 +60,7 @@ MonoBehaviour:
   championEffectText: {fileID: 1846743314744515208}
   secondaryEffectText: {fileID: 5474901797670027847}
   healthText: {fileID: 38764936312986849}
-  championHealthText: {fileID: 0}
+  championHealthText: {fileID: 4468607689121237553}
   gameManager: {fileID: 0}
   isChampion: 0
   isInPlay: 0

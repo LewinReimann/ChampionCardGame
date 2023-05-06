@@ -9,7 +9,7 @@ public class CardManager : MonoBehaviour
     public List<Card> onBoard = new List<Card>();
     public List<Card> graveyard = new List<Card>();
 
-    private List<CardDisplay> cardsInPlay = new List<CardDisplay>();
+    public List<CardDisplay> cardsInPlay = new List<CardDisplay>();
 
     
     public void AddCardToHand(Card card)
@@ -44,27 +44,20 @@ public class CardManager : MonoBehaviour
 
     public void ClearBoard()
     {
-        // Find all GameObjects in the scene that have a CardDisplay component
-        CardDisplay[] cardDisplay = FindObjectsOfType<CardDisplay>();
+        // Find all CardDisplay components in the scene
+        CardDisplay[] cardDisplays = FindObjectsOfType<CardDisplay>();
 
-        // Loop through all the CardDisplays and add those that have isInPlay = true and add them to a List
-        foreach (CardDisplay cd in cardDisplay)
+        // Loop through all the CardDisplays components
+        foreach (CardDisplay cardDisplay in cardDisplays)
         {
-            if (cd.isInPlay)
+            // Check if the card is in the onBoard list
+            if (onBoard.Contains(cardDisplay.card))
             {
-                cardsInPlay.Add(cd);
+                // Destroy the cards GameObject and remove it from the onBoard List
+                Destroy(cardDisplay.gameObject);
+                onBoard.Remove(cardDisplay.card);
             }
         }
-
-        // Loop through all the CardDisplays that have isInPlay = true and destroy them
-        foreach(CardDisplay cd in cardsInPlay)
-        {
-            Destroy(cd.gameObject);
-        }
-
-        // Clear the cardsInPlay list
-        cardsInPlay.Clear();
-
         // Find all GameObjects in the scene that have a Slot component
         Slot[] slots = FindObjectsOfType<Slot>();
 

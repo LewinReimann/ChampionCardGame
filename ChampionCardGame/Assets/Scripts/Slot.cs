@@ -68,4 +68,21 @@ public class Slot : MonoBehaviour
         return false;
     }
 
+    public static bool CheckIfChampionSlotsAreOccupied()
+    {
+        GameObject[] dropZones = GameObject.FindGameObjectsWithTag("DropZone");
+        int occupiedChampionSlots = 0;
+
+        foreach (GameObject dropZone in dropZones)
+        {
+            Slot slot = dropZone.GetComponent<Slot>();
+            if (slot.championSlot && slot.isOccupied)
+            {
+                occupiedChampionSlots++;
+            }
+        }
+
+        return (occupiedChampionSlots >= 2);
+    }
+
 }
