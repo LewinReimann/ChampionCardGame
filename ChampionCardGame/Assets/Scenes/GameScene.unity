@@ -185,7 +185,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e7441b5d26269940ab06774347b04e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deck: {fileID: 11400000, guid: 43522c607808476498b15fb9af0086af, type: 2}
+  defaultDeck: {fileID: 0}
+  customDeck: {fileID: 0}
   cardParent: {fileID: 348721241}
   startingHandSize: 1
   hand: {fileID: 879748826}
@@ -626,7 +627,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Test
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -955,6 +956,51 @@ Transform:
   m_Father: {fileID: 18884768}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!1 &412243768
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 412243770}
+  - component: {fileID: 412243769}
+  m_Layer: 0
+  m_Name: DeckController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &412243769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412243768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beca3ab3e480a6149beef76deb56b48b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  customDeck: {fileID: 0}
+--- !u!4 &412243770
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412243768}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.78878, y: 2.594366, z: 2.6195107}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &435384321
 GameObject:
   m_ObjectHideFlags: 0
@@ -1285,8 +1331,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 10
-  m_fontSizeBase: 10
+  m_fontSize: 22
+  m_fontSizeBase: 22
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1992,8 +2038,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 10
-  m_fontSizeBase: 10
+  m_fontSize: 22
+  m_fontSizeBase: 22
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2108,7 +2154,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Test
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2210,6 +2256,7 @@ MonoBehaviour:
   player2: {fileID: 18884767}
   round: {fileID: 1366572000}
   diceManager: {fileID: 1366572002}
+  cardManager: {fileID: 1366572001}
   player1ChampionHealth: 5
   player1ChampionAttackPower: 1
   player2ChampionHealth: 5
@@ -2725,7 +2772,6 @@ MonoBehaviour:
   battlePhaseActive: 0
   endPhaseActive: 0
   championSlotsChecked: 0
-  SCSlotPlayer1: {fileID: 0}
   player1DiceRollText: {fileID: 892167299}
   player2DiceRollText: {fileID: 178748162}
   Player1DiceRollText: {fileID: 892167296}
@@ -2742,6 +2788,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d51ce51217f99a4286c6c8ba8cac838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  diceManager: {fileID: 1366572002}
   allCards: []
   onHand: []
   onBoard: []
@@ -2759,12 +2806,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a4ac395f9e8b5243b1cc37beb46c37b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardManager: {fileID: 1366572001}
   dicePrefabPlayer1: {fileID: 1604780197056599858, guid: 38e0cbb1f01628f48b72536b5afcd254,
     type: 3}
   dicePrefabPlayer2: {fileID: 1604780197056599858, guid: b4fca792e5bbb4c48b2b6e777e391628,
     type: 3}
   spawnPointPlayer1: {fileID: 2120366968}
   spawnPointPlayer2: {fileID: 1317788223}
+  rollCount: 0
   player1Roll: 0
   player2Roll: 0
 --- !u!1 &1638706483
@@ -3217,7 +3266,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e7441b5d26269940ab06774347b04e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deck: {fileID: 11400000, guid: faa5f347c7c65b24ea581f354d2e71aa, type: 2}
+  defaultDeck: {fileID: 0}
+  customDeck: {fileID: 0}
   cardParent: {fileID: 440464437}
   startingHandSize: 3
   hand: {fileID: 114860755}

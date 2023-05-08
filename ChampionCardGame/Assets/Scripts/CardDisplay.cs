@@ -47,13 +47,11 @@ public class CardDisplay : MonoBehaviour
     public void ActivateGameManagerHealth()
     {
         isUpdateEnabled = true;
-        Debug.Log("ActivateGameManagerHealth called for card: " + card.name);
     }
 
     public void DeactivateGameManagerHealth()
     {
         isUpdateEnabled = false;
-        Debug.Log("DeactivateGameManagerHealth called for card: " + card.name);
     }
 
     private void Update()

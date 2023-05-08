@@ -5,6 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
 public class Card : ScriptableObject
 {
+
+    public EffectCondition effectCondition;
+    public EffectAction effectAction;
+
     public string cardName;
 
     public Sprite cardArtwork;
@@ -24,4 +28,20 @@ public enum CardLocation
     Champion,
     Secondary,
     Graveyard
+}
+
+public enum EffectCondition
+{
+    None,
+    OnRoll5, 
+    OnReceiveEffectDamage,
+        // Add more conditions here
+}
+
+public enum EffectAction
+{
+    None,
+    Deal1DamageToOpponent,
+    Heal1
+        // Add more actions here
 }

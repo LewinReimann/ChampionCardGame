@@ -5,7 +5,10 @@ using System.Linq;
 
 public class DeckManager : MonoBehaviour
 {
-    public Deck deck;
+    public Deck defaultDeck;
+    public Deck customDeck;
+    private Deck activeDeck;
+
     public Transform cardParent;
     public int startingHandSize;
     public Hand hand;
@@ -16,8 +19,17 @@ public class DeckManager : MonoBehaviour
 
     void Awake()
     {
+        if (DeckController.Instance != null && DeckController.Instance.customDeck != null && DeckController.Instance.customDeck.cards.Count > 0)
+        {
+            activeDeck = DeckController.Instance.customDeck;
+        }
+        else
+        {
+            activeDeck = defaultDeck;
+        }
+
         // Create a new draw pile by adding all the cards from the deck
-        drawPile.AddRange(deck.cards);
+        drawPile.AddRange(activeDeck.cards);
 
     }
 

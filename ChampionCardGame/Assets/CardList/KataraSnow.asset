@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 011ede16aedb9054bbfd4de68d57da06, type: 3}
   m_Name: KataraSnow
   m_EditorClassIdentifier: 
+  effectCondition: 1
+  effectAction: 1
   cardName: KataraSnow
   cardArtwork: {fileID: 21300000, guid: 1b3809fbb0e777a459651ba55ad0b345, type: 3}
   championEffect: After Every Roll you receive 1 damage.

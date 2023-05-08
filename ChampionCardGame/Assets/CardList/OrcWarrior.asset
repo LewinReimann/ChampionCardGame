@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 011ede16aedb9054bbfd4de68d57da06, type: 3}
   m_Name: OrcWarrior
   m_EditorClassIdentifier: 
+  effectCondition: 1
+  effectAction: 1
   cardName: Orc Warrior
   cardArtwork: {fileID: 21300000, guid: 50fc6d3b020b2d14bbfc397527ef822d, type: 3}
   championEffect: A strong Warrior chilling

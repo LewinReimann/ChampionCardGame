@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 
     public Round round;
     public DiceManager diceManager;
+    public CardManager cardManager;
 
     public int player1ChampionHealth = 5;
     public int player1ChampionAttackPower = 1;
@@ -20,7 +21,6 @@ public class GameManager : MonoBehaviour
     public event Action<int, int> OnRollsCompleted;
 
     public static GameManager instance;
-
 
 
 
@@ -79,17 +79,17 @@ public class GameManager : MonoBehaviour
         diceManager.RollDiceForBothPlayers();
 
         yield return new WaitUntil(() => diceManager.rollCount == 2);
-        
+
+        cardManager.ApplyEffectsOnRoll(diceManager.player1Roll, diceManager.player2Roll, ref player1ChampionHealth, ref player2ChampionHealth);
+
             // Calculate the damage
             if (diceManager.player1Roll > diceManager.player2Roll)
             {
-                player2ChampionHealth -= player1ChampionAttackPower;
-                Debug.Log("Is this Health changing?");
+                cardManager.DealDamage(ref player2ChampionHealth, player1ChampionAttackPower, DamageType.BattleDamage);
             }
             else if (diceManager.player2Roll > diceManager.player1Roll)
             {
-                player1ChampionHealth -= player2ChampionAttackPower;
-                Debug.Log("Is this Health changing? Player2");
+                cardManager.DealDamage(ref player1ChampionHealth, player2ChampionAttackPower, DamageType.BattleDamage);
             }
 
             else

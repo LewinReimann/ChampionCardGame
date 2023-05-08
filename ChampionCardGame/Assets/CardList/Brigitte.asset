@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 011ede16aedb9054bbfd4de68d57da06, type: 3}
   m_Name: Brigitte
   m_EditorClassIdentifier: 
+  effectCondition: 1
+  effectAction: 1
   cardName: Brigitte
   cardArtwork: {fileID: 21300000, guid: 0d224b159aec5214ab5f6c8d1be774fe, type: 3}
   championEffect: Gain +1 on your Rolls

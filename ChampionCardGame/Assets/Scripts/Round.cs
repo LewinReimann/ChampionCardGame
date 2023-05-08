@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class Round : MonoBehaviour
 {
@@ -100,7 +101,6 @@ public class Round : MonoBehaviour
             slot.SetColliderEnabled(true); // Enable the Collider
         }
 
-        Debug.Log("Draw Phase has begun");
         drawPhaseActive = true;
         deckManager.DrawCard();
         currentPhaseIndex++;
@@ -110,8 +110,6 @@ public class Round : MonoBehaviour
 
     private void ChampionPhase()
 {
-
-        Debug.Log("Champion Phase has begun");
         drawPhaseActive = false;
         championPhaseActive = true;
         championSlotsChecked = false; // Reset the boolean
@@ -153,13 +151,12 @@ private void SecondaryPhase()
 
 
         secondaryPhaseActive = true;
-        Debug.Log("Secondary Phase has begun");
         currentPhaseIndex++;
 }
 
 private void BattlePhase()
     {
-
+        
         // Find Slot Component to Deactivate the isColliding for the Highlight
         Slot[] slots = FindObjectsOfType<Slot>();
         foreach (Slot slot in slots)
@@ -170,14 +167,13 @@ private void BattlePhase()
         Player1DiceRollText.SetActive(true);
         Player2DiceRollText.SetActive(true);
         secondaryPhaseActive = false;
-        Debug.Log("Battlephase has begun");
         battlePhaseActive = true;
         StartCoroutine(ExecuteBattlePhase()); //Co-Routine is for something to Cooperate in a "Routine" of course like two small codes run at the same time and not one after another
 
         currentPhaseIndex++;
     }
 
-    public void EndBattlePhase() // Call this function to end the BattleRound
+    public IEnumerator EndBattlePhase() // Call this function to end the BattleRound
     {
         battlePhaseActive = false;
         Player1DiceRollText.SetActive(false);
@@ -189,6 +185,8 @@ private void BattlePhase()
             slot.DeactivateHighlight();
 
         }
+        yield return new WaitForSeconds(2f); // Wait for 2 seconds
+        SwitchTurn();
     }
 
     private IEnumerator ExecuteBattlePhase()
@@ -203,26 +201,30 @@ private void BattlePhase()
             player2DiceRollText.text = gameManager.diceManager.player2Roll.ToString();
             
 
-            if (gameManager.player1ChampionHealth <= 0)
+            if (gameManager.player1ChampionHealth <= 0 && gameManager.player2ChampionHealth >= 0)
             {
                 gameManager.player1.health--;
-                EndBattlePhase();
-                SwitchTurn();
+                StartCoroutine(EndBattlePhase());
+                
             }
-            else if (gameManager.player2ChampionHealth <= 0)
+            else if (gameManager.player2ChampionHealth <= 0 && gameManager.player1ChampionHealth >= 0)
             {
                 gameManager.player2.health--;
-                EndBattlePhase();
-                SwitchTurn();
+                StartCoroutine(EndBattlePhase());
+
+            }
+            else if (gameManager.player1ChampionHealth <= 0 && gameManager.player2ChampionHealth <= 0)
+            {
+                StartCoroutine(EndBattlePhase());
+
             }
 
-            yield return new WaitForSeconds(3f); // wait for 1 second before the next roll
+            yield return new WaitForSeconds(1f); // wait for 1 second before the next roll
         }
     }
 
     private void EndPhase()
 {
-        Debug.Log("End Phase has begun");
         currentPhaseIndex++;
         // TODO implement logic for the EndPhase
         cardManager.ClearBoard();

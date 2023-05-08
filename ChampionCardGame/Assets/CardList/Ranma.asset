@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 011ede16aedb9054bbfd4de68d57da06, type: 3}
   m_Name: Ranma
   m_EditorClassIdentifier: 
+  effectCondition: 1
+  effectAction: 1
   cardName: Ranma
   cardArtwork: {fileID: 21300000, guid: 5cc99baada58ea149b73b3dbf589748a, type: 3}
   championEffect: Deal 1 Damage to your opponent after every  Roll

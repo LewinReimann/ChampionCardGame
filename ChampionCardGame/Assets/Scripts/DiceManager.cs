@@ -5,6 +5,8 @@ using System;
 
 public class DiceManager : MonoBehaviour
 {
+    public CardManager cardManager;
+
     public GameObject dicePrefabPlayer1;
     public GameObject dicePrefabPlayer2;
     public Transform spawnPointPlayer1;
@@ -31,7 +33,6 @@ public class DiceManager : MonoBehaviour
 
         dice.OnRollCompleted += (result) => onRollCompleted(result, isPlayer1, dice);
 
-        Debug.Log("Rolling dice for " + (isPlayer1 ? "Player 1" : "Player 2"));
 
     }
 
@@ -52,7 +53,6 @@ public class DiceManager : MonoBehaviour
 
         int finalResult = result;
 
-        Debug.Log((isPlayer1 ? "Player 1" : "Player 2") + " Dice Roll result: " + finalResult);
 
         Destroy(diceInstance, 1f);
 

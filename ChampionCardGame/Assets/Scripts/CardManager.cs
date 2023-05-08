@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CardManager : MonoBehaviour
 {
+    public DiceManager diceManager;
+
     public List<Card> allCards = new List<Card>();
     public List<Card> onHand = new List<Card>();
     public List<Card> onBoard = new List<Card>();
@@ -67,4 +69,88 @@ public class CardManager : MonoBehaviour
             slot.isOccupied = false;
         }
     }
+
+    public void ApplyEffectsOnDamage(DamageType damageType, ref int targetChampionHealth)
+    {
+      if (damageType == DamageType.EffectDamage)
+        {
+            foreach (Card card in onBoard)
+            {
+                if (card.effectCondition == EffectCondition.OnReceiveEffectDamage)
+                {
+                    // Apply the corresponding action
+                    switch (card.effectAction)
+                    {
+                        case EffectAction.Heal1:
+                            targetChampionHealth += 1;
+                            break;
+
+                        // Handle more actions as needed
+
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+    }
+
+    public void ApplyEffectsOnDraw()
+    {
+
+    }
+
+    public void ApplyEffectsOnRoll(int player1Roll, int player2Roll, ref int player1ChampionHealth, ref int player2ChampionHealth)
+    {
+        foreach (Card card in onBoard)
+        {
+            // Check if the cards condition is met
+            bool conditionMet = false;
+            switch (card.effectCondition)
+            {
+                case EffectCondition.OnRoll5:
+                    if (player1Roll == 5)
+                    {
+                        conditionMet = true;
+                    }
+                    break;
+
+                // Handle more condition as needed
+
+                default:
+                    break;
+            }
+
+            // if the condition is met, apply the corresponding action
+            if (conditionMet)
+            {
+                switch (card.effectAction)
+                {
+                    case EffectAction.Deal1DamageToOpponent:
+                        // Apply 1 damage to the opponent
+                        DealDamage(ref player2ChampionHealth, 1, DamageType.EffectDamage);
+                        Debug.Log("Effect has been triggerd correctly at roll 5");
+                        break;
+
+                    // Handle more actions as needed
+
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
+    public void DealDamage(ref int targetChampionHealth, int damageAmount, DamageType damageType)
+    {
+        targetChampionHealth -= damageAmount;
+        ApplyEffectsOnDamage(damageType, ref targetChampionHealth);
+    }
+
+}
+
+public enum DamageType
+{
+    BattleDamage,
+    EffectDamage
 }

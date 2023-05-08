@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 011ede16aedb9054bbfd4de68d57da06, type: 3}
   m_Name: Bea
   m_EditorClassIdentifier: 
+  effectCondition: 1
+  effectAction: 1
   cardName: Bea
   cardArtwork: {fileID: 21300000, guid: 106b07896dd9d25458e9489d037dc212, type: 3}
   championEffect: Draw a Card if you roll a 6

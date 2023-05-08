@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 011ede16aedb9054bbfd4de68d57da06, type: 3}
   m_Name: NightElfArcher
   m_EditorClassIdentifier: 
+  effectCondition: 1
+  effectAction: 1
   cardName: Nightelf Archer
   cardArtwork: {fileID: 21300000, guid: 9de1947b50a6d914a895d53face3ef28, type: 3}
   championEffect: Whenever you Roll a 3 deal out 1 Damage.
