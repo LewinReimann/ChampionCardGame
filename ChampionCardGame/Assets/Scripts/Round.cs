@@ -21,7 +21,6 @@ public class Round : MonoBehaviour
 
     public bool championSlotsChecked = false;
 
-    public GameObject SCSlotPlayer1;
 
     private CardManager cardManager;
     private CardDisplay cardDisplay;
@@ -35,12 +34,12 @@ public class Round : MonoBehaviour
     private void Start()
     {
         cardManager = GetComponent<CardManager>();
-        SCSlotPlayer1 = GameObject.Find("SCSlotPlayer1"); // Define the variable by finding the GameObject in the scene by name
+      
     }
 
     public void StartRound()
     {
-        Debug.Log("Is this called?");
+        
         gameManager = FindObjectOfType<GameManager>(); // Pass reference to GameManager to Round script
         roundActive = true;
         SwitchTurn();
@@ -192,17 +191,17 @@ private void BattlePhase()
         }
     }
 
-    private IEnumerator ExecuteBattlePhase() //IEnumerator are  something that will call actions in a sequence like go again and again like here: Do Attack then check if someones Health is below 0 and then wait one second and execute again from top)
+    private IEnumerator ExecuteBattlePhase()
     {
         while (battlePhaseActive)
         {
-            // Start the Attack coroutine and pass in the callback to handle the dice rolls
-            yield return StartCoroutine(gameManager.Attack((player1Roll, player2Roll) =>
-            {
-                // Update the UI text objects with the dice rolls
-                player1DiceRollText.text = player1Roll.ToString();
-                player2DiceRollText.text = player2Roll.ToString();
-            }));
+
+            yield return StartCoroutine(gameManager.Attack());
+
+            // Update the UI text objects with the dice rolls
+            player1DiceRollText.text = gameManager.diceManager.player1Roll.ToString();
+            player2DiceRollText.text = gameManager.diceManager.player2Roll.ToString();
+            
 
             if (gameManager.player1ChampionHealth <= 0)
             {
@@ -217,7 +216,7 @@ private void BattlePhase()
                 SwitchTurn();
             }
 
-            yield return new WaitForSeconds(1f); // wait for 1 second before the next roll
+            yield return new WaitForSeconds(3f); // wait for 1 second before the next roll
         }
     }
 
@@ -227,8 +226,7 @@ private void BattlePhase()
         currentPhaseIndex++;
         // TODO implement logic for the EndPhase
         cardManager.ClearBoard();
-      
-       
+     
 
         cardDisplay = FindObjectOfType<CardDisplay>();
         cardDisplay.DeactivateGameManagerHealth();

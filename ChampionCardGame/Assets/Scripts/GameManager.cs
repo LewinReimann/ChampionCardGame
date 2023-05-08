@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     public int player2ChampionHealth = 5;
     public int player2ChampionAttackPower = 1;
 
-    public Action<int, int> OnRollsCompleted;
+    public event Action<int, int> OnRollsCompleted;
 
     public static GameManager instance;
 
@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
 
     public void Awake()
     {
+        
         // Check if an instance of the GameManager already exists
         if (instance != null)
         {
@@ -73,32 +74,30 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public IEnumerator Attack(System.Action<int, int> onRollsCompleted) // We Roll the RollDice we defined earlier to see who gets damaged with what Value. 
+    public IEnumerator Attack()
     {
-        // Get the rolls from the DiceManager
         diceManager.RollDiceForBothPlayers();
 
-        // Wait for the dice rolls to be completed
-        yield return new WaitUntil(() => diceManager.player1Roll != 0 && diceManager.player2Roll != 0);
+        yield return new WaitUntil(() => diceManager.rollCount == 2);
+        
+            // Calculate the damage
+            if (diceManager.player1Roll > diceManager.player2Roll)
+            {
+                player2ChampionHealth -= player1ChampionAttackPower;
+                Debug.Log("Is this Health changing?");
+            }
+            else if (diceManager.player2Roll > diceManager.player1Roll)
+            {
+                player1ChampionHealth -= player2ChampionAttackPower;
+                Debug.Log("Is this Health changing? Player2");
+            }
 
-        int player1Roll = diceManager.player1Roll;
-        int player2Roll = diceManager.player2Roll;
-
-        if (player1Roll > player2Roll)
-        {
-            player2ChampionHealth -= player1ChampionAttackPower;
-        }
-        else if (player2Roll > player1Roll)
-        {
-            player1ChampionHealth -= player2ChampionAttackPower;
-        }
-        else // rolls are the same
-        {
-            // no harm done
-        }
-
-        // Invoke the callback with the dice rolls
-        onRollsCompleted?.Invoke(player1Roll, player2Roll);
+            else
+            {
+                // nothing happens
+            }
+            // If the rolls are equal, no damage is dealt
+        
     }
 
     private void StartGame()
@@ -143,7 +142,4 @@ public class GameManager : MonoBehaviour
         }
 
     }
-
-   
-
 }

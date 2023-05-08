@@ -10,31 +10,36 @@ public class DiceManager : MonoBehaviour
     public Transform spawnPointPlayer1;
     public Transform spawnPointPlayer2;
 
-    private int rollCount = 0;
+    public int rollCount = 0;
     public int player1Roll;
     public int player2Roll;
+
+    public event Action<int, int> OnRollsCompleted;
 
     public (int, int) GetPlayerRolls()
     {
         return (player1Roll, player2Roll);
     }
 
-    public void RollDice(GameObject dicePrefab, Transform spawnPoint, System.Action<int, bool> onRollCompleted)
+    public void RollDice(GameObject dicePrefab, Transform spawnPoint, System.Action<int, bool, Dice> onRollCompleted)
     {
         GameObject diceInstance = Instantiate(dicePrefab, spawnPoint.position, Quaternion.identity);
         diceInstance.transform.SetParent(spawnPoint); // Set the dice as a child of the spawn Point
         Dice dice = diceInstance.GetComponent<Dice>();
         bool isPlayer1 = (dicePrefab == dicePrefabPlayer1);
-        dice.OnRollCompleted += (result) => onRollCompleted(result, isPlayer1);
         dice.Roll();
+
+        dice.OnRollCompleted += (result) => onRollCompleted(result, isPlayer1, dice);
+
+        Debug.Log("Rolling dice for " + (isPlayer1 ? "Player 1" : "Player 2"));
 
     }
 
-    private void HandleRollCompleted(int result, bool isPlayer1)
+    private void HandleRollCompleted(int result, bool isPlayer1, Dice dice)
     {
         rollCount++;
 
-        GameObject diceInstance = GameObject.FindGameObjectWithTag("Dice");
+        GameObject diceInstance = dice.gameObject;
 
         if (isPlayer1)
         {
@@ -45,28 +50,26 @@ public class DiceManager : MonoBehaviour
             player2Roll = result;
         }
 
-        Dice dice = FindObjectOfType<Dice>();
-        dice.OnRollCompleted -= (r) => HandleRollCompleted(r, isPlayer1);
-
         int finalResult = result;
 
-        Debug.Log("Dice Roll result: " + finalResult);
+        Debug.Log((isPlayer1 ? "Player 1" : "Player 2") + " Dice Roll result: " + finalResult);
 
         Destroy(diceInstance, 1f);
 
-        if (player1Roll != 0 && player2Roll != 0)
+        // Check if both dice rolls have been completed
+        if (rollCount == 2)
         {
-            GameManager.instance.OnRollsCompleted?.Invoke(player1Roll, player2Roll);
-            player1Roll = 0;
-            player2Roll = 0;
+            // Trigger the OnRollsCompleted event
+            OnRollsCompleted?.Invoke(player1Roll, player2Roll);
         }
-
     }
 
     public void RollDiceForBothPlayers()
     {
-        RollDice(dicePrefabPlayer1, spawnPointPlayer1, HandleRollCompleted);
-        RollDice(dicePrefabPlayer2, spawnPointPlayer2, HandleRollCompleted);
+        rollCount = 0;
+
+        RollDice(dicePrefabPlayer1, spawnPointPlayer1, (result, player1Roll, dice) => HandleRollCompleted(result, true, dice));
+        RollDice(dicePrefabPlayer2, spawnPointPlayer2, (result, player2Roll, dice) => HandleRollCompleted(result, false, dice));
     }
 
 

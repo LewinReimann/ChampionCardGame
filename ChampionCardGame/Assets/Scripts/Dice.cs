@@ -9,6 +9,8 @@ public class Dice : MonoBehaviour
 
     private Rigidbody rb;
 
+    public bool resultHandled = false;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -16,6 +18,8 @@ public class Dice : MonoBehaviour
 
     public void Roll()
     {
+        resultHandled = false;
+
         Vector3 forceDirection = new Vector3(-2f, 0f, 0f);
         Vector3 torqueDirection = new Vector3(UnityEngine.Random.Range(-0.5f, 0.5f), UnityEngine.Random.Range(0.5f, 0.5f), UnityEngine.Random.Range(-0.5f, 0.5f));
 
@@ -36,18 +40,24 @@ public class Dice : MonoBehaviour
     {
         yield return new WaitForSeconds(2f); // Wait for Dice to settle
 
-        int highestDotCount = 0;
-        Transform highestFace = transform.GetChild(0); // Initialize the highestFace variable
-
-        foreach (Transform face in transform)
+        if (!resultHandled)
         {
-            if (face.position.y > highestFace.position.y)
-            {
-                highestFace = face;
-                highestDotCount = int.Parse(face.name.Substring(face.name.Length - 1));
-            }
-        }
+            resultHandled = true;
 
-        OnRollCompleted?.Invoke(highestDotCount);
+            int highestDotCount = 0;
+            Transform highestFace = transform.GetChild(0); // Initialize the highestFace variable
+
+            foreach (Transform face in transform)
+            {
+                if (face.position.y > highestFace.position.y)
+                {
+                    highestFace = face;
+                    highestDotCount = int.Parse(face.name.Substring(face.name.Length - 1));
+                }
+            }
+
+            OnRollCompleted?.Invoke(highestDotCount);
+        }
+        
     }
 }
