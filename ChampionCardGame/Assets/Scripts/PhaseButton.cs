@@ -9,7 +9,7 @@ public class PhaseButton : MonoBehaviour
 
     public void NextPhase()
     {
-        round.SwitchTurn();
+        round.SwitchPhase();
     }
   
 }

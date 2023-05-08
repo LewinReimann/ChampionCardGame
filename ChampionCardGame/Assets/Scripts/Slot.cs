@@ -13,8 +13,12 @@ public class Slot : MonoBehaviour
 
     private Round round;
 
+    private CardDisplay cardDisplay;
+
     private void Start()
     {
+        
+
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.enabled = false; // start with the sprite renderer deactivated
 
@@ -69,7 +73,9 @@ public class Slot : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!round.CanPlayCards()) return;
+        CardDisplay cardDisplay = FindObjectOfType<CardDisplay>();
+
+        if (!round.CanPlayCards(cardDisplay.playerID)) return;
 
         if (other.CompareTag("Card"))
         {
@@ -85,7 +91,9 @@ public class Slot : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (!round.CanPlayCards()) return;
+        CardDisplay cardDisplay = FindObjectOfType<CardDisplay>();
+
+        if (!round.CanPlayCards(cardDisplay.playerID)) return;
 
         if (other.CompareTag("Card"))
         {

@@ -32,6 +32,8 @@ public class Round : MonoBehaviour
     public GameObject Player1DiceRollText;
     public GameObject Player2DiceRollText;
 
+    public int currentPlayerTurn = 1;
+
     private void Start()
     {
         cardManager = GetComponent<CardManager>();
@@ -43,10 +45,10 @@ public class Round : MonoBehaviour
         
         gameManager = FindObjectOfType<GameManager>(); // Pass reference to GameManager to Round script
         roundActive = true;
-        SwitchTurn();
+        SwitchPhase();
     }
 
-    public void SwitchTurn()
+    public void SwitchPhase()
     {
         
         
@@ -83,13 +85,25 @@ public class Round : MonoBehaviour
 
     }
 
-    public bool CanPlayCards()
+    public void SwitchPlayerTurn()
+    {
+        currentPlayerTurn = (currentPlayerTurn == 1) ? 2 : 1;
+    }
+
+    public bool CanPlayCards(int playerID)
     {
         // Return false if the current phase is DrawingPhase, BattlePhase or EndPhase,
         if (currentPhaseIndex == 1 || currentPhaseIndex == 4 || currentPhaseIndex == 5)
         {
             return false;
         }
+
+        // Return false if its not the current players turn
+        if (playerID != currentPlayerTurn)
+        {
+            return false;
+        }
+
         return true;
     }
     
@@ -105,7 +119,7 @@ public class Round : MonoBehaviour
         deckManager.DrawCard();
         currentPhaseIndex++;
 
-        Invoke("SwitchTurn", 1f); // This will call the SwitcHTurn() method after X Seconds.
+        Invoke("SwitchPhase", 1f); // This will call the SwitcHPhase() method after X Seconds.
     }
 
     private void ChampionPhase()
@@ -124,7 +138,7 @@ public class Round : MonoBehaviour
 
            
             championPhaseActive = false;
-            SwitchTurn();
+            SwitchPhase();
             
             
         
@@ -186,7 +200,7 @@ private void BattlePhase()
 
         }
         yield return new WaitForSeconds(2f); // Wait for 2 seconds
-        SwitchTurn();
+        SwitchPhase();
     }
 
     private IEnumerator ExecuteBattlePhase()
@@ -232,7 +246,7 @@ private void BattlePhase()
 
         cardDisplay = FindObjectOfType<CardDisplay>();
         cardDisplay.DeactivateGameManagerHealth();
-        Invoke("SwitchTurn", 2f); 
+        Invoke("SwitchPhase", 2f); 
     }
 
 }

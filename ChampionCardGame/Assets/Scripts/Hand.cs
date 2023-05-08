@@ -33,8 +33,19 @@ public class Hand : MonoBehaviour
         CardDisplay cardDisplay = cardObj.GetComponent<CardDisplay>();
         cardDisplay.card = card;
 
+        // Set the playerID based on the parent GameObjects name so either player1 or player2
+        if (transform.parent.name == "Player1")
+        {
+            cardDisplay.playerID = 1;
+        }
+        else if (transform.parent.name == "Player2")
+        {
+            cardDisplay.playerID = 2;
+        }
+
         // Set the cards parent to one of the card slots in the hand.
         int index = cards.Count;
+        
         cardObj.transform.SetParent(transform.GetChild(cards.Count), false);
 
         // Add the card to the list of cards in the hand
@@ -53,6 +64,8 @@ public class Hand : MonoBehaviour
 
         cardManager.RemoveCardFromHand(card);
         cardManager.AddCardToPlay(card);
+
+        round.SwitchPlayerTurn();
 
         // Find the card object before removing it
         GameObject foundCardObj = cards.Find(c => c.GetComponent<CardDisplay>().card == card);
