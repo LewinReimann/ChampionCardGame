@@ -71,7 +71,7 @@ public class Draggable : MonoBehaviour
             // If the nearest drop zone is within a certain range, the card will snap to its position
             float dropZoneRadius = 2f;
             Slot slot = nearestDropZone.GetComponent<Slot>();
-            if (nearestDropZoneDistance < dropZoneRadius && !slot.isOccupied && round.CanPlayCards(cardDisplay.playerID))
+            if (nearestDropZoneDistance < dropZoneRadius && !slot.isOccupied && round.CanPlayCards(cardDisplay.playerID) && cardDisplay.playerID == slot.playerID)
             {
 
                 Hand hand = GetComponentInParent<Hand>();
@@ -88,15 +88,7 @@ public class Draggable : MonoBehaviour
                         cardDisplay.isInPlay = true;
                         hand.PlayCard(card);
 
-                        if (nearestDropZone.name == "SCSlotPlayer1")
-                        {
-                            cardDisplay.playerID = 1;
-                        }
-
-                        else if (nearestDropZone.name == "SCSlotPlayer2")
-                        {
-                            cardDisplay.playerID = 2;
-                        }
+                     
 
                         // Add the ChampionCard Component
                         ChampionCard championCard = gameObject.AddComponent<ChampionCard>();
@@ -176,8 +168,4 @@ public class Draggable : MonoBehaviour
             isDragging = false;
         
     }
-        
-            
-    
- 
 }
