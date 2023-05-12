@@ -6,14 +6,6 @@ public class ChampionCard : MonoBehaviour
 {
     public int health;
 
-    public GameManager gameManager;
-
-    // private void Start()
-    // {
-        // GetChampionHealth();
-
-    // }
-
     public void GetChampionHealth()
     {
         // Get the CardDisplay component attached to this GameObject

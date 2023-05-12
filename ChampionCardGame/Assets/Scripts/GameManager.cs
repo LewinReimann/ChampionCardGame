@@ -2,12 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     // Public Information we Feed into this script
-    public Player player1;
-    public Player player2;
+    
+    public Photon.Realtime.Player player1;
+    public Photon.Realtime.Player player2;
+
+    public PlayerData player1Data;
+    public PlayerData player2Data;
 
     public Round round;
     public DiceManager diceManager;
@@ -20,26 +25,67 @@ public class GameManager : MonoBehaviour
 
     public event Action<int, int> OnRollsCompleted;
 
-    public static GameManager instance;
+    public static GameManager Instance { get; private set; }
 
-
-
+    public int playerID = 0;
 
     // Private Information we Feed into this script
 
+    public void SetPlayer1(Photon.Realtime.Player player)
+    {
+        player1 = player;
+    }
+
+    public void SetPlayer2(Photon.Realtime.Player player)
+    {
+        player2 = player;
+    }
+
+    public int GetPlayer1ActorNumber()
+    {
+        return player1.ActorNumber;
+    }
+
+    public int GetPlayer2ActorNumber()
+    {
+        return player2.ActorNumber;
+    }
 
     public void Awake()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
         
         // Check if an instance of the GameManager already exists
-        if (instance != null)
+        if (Instance != null)
         {
-            Destroy(gameObject);
+            Debug.LogError("More t han one GameManager instance found!");
+            Destroy(this.gameObject);
             return;
         }
 
+        Debug.Log("GameManager Awake called. Instance Set.");
+
         // Set this instance as the single instance
-        instance = this;
+        Instance = this;
+
+        // Initialize players health
+        player1Data = new PlayerData(3);
+        player2Data = new PlayerData(3);
+
+        // Dont destroy this object when changing scenes
+        DontDestroyOnLoad(this.gameObject);
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        round = FindObjectOfType<Round>();
+        diceManager = FindObjectOfType<DiceManager>();
+        cardManager = FindObjectOfType<CardManager>();
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
 
@@ -102,10 +148,8 @@ public class GameManager : MonoBehaviour
 
     private void StartGame()
     {
-        // Initialize player and opponent health
-        player1.health = 3;
-        player2.health = 3;
 
+       
         // Initialize champion health and attack Power
         player1ChampionAttackPower = 1;
         player2ChampionAttackPower = 1;
@@ -115,7 +159,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         // Starts the round
-        round.StartRound();
         StartGame();
     }
 
@@ -128,13 +171,13 @@ public class GameManager : MonoBehaviour
 
     private void EndGame()
     {
-        if (player1.health <= 0)
+        if (player1Data.Health <= 0)
         {
             Debug.Log("Player1 has lost the game.");
             StartGame();
             // End game logic goes here
         }
-        else if (player2.health <= 0)
+        else if (player2Data.Health <= 0)
         {
             Debug.Log("Player2 has lost the game.");
             StartGame();

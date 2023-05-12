@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Photon.Pun;
 
 public class Hand : MonoBehaviour
 {
@@ -29,19 +30,10 @@ public class Hand : MonoBehaviour
 
         // Instantiate a new GameObject for the card and set its CardDisplay Component
         // to display the given card.
-        GameObject cardObj = Instantiate(cardPrefab, cardParent);
+        // GameObject cardObj = Instantiate(cardPrefab, cardParent);
+        GameObject cardObj = PhotonNetwork.Instantiate(cardPrefab.name, Vector3.zero, Quaternion.identity);
         CardDisplay cardDisplay = cardObj.GetComponent<CardDisplay>();
         cardDisplay.card = card;
-
-        // Set the playerID based on the parent GameObjects name so either player1 or player2
-        if (transform.parent.name == "Player1")
-        {
-            cardDisplay.playerID = 1;
-        }
-        else if (transform.parent.name == "Player2")
-        {
-            cardDisplay.playerID = 2;
-        }
 
         // Set the cards parent to one of the card slots in the hand.
         int index = cards.Count;

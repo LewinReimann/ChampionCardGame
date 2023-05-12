@@ -33,6 +33,18 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Joined room: " + PhotonNetwork.CurrentRoom.Name);
         attemptingToLoadGameScene = true;
+
+        // GameManager is a singleton and its already initialized at this point
+        GameManager.Instance.SetPlayer1(PhotonNetwork.LocalPlayer);
+
+        foreach (Photon.Realtime.Player otherPlayer in PhotonNetwork.CurrentRoom.Players.Values)
+        {
+            if (otherPlayer != PhotonNetwork.LocalPlayer)
+            {
+                GameManager.Instance.SetPlayer2(otherPlayer);
+                break;
+            }
+        }
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)

@@ -11,7 +11,6 @@ public class Round : MonoBehaviour
     private bool roundActive = false;
     public int currentPhaseIndex = 0;
     public int RoundCounter = 0;
-    public GameManager gameManager;
     public DeckManager deckManager;
 
     public bool drawPhaseActive = false;
@@ -37,13 +36,13 @@ public class Round : MonoBehaviour
     private void Start()
     {
         cardManager = GetComponent<CardManager>();
+        StartRound();
       
     }
 
     public void StartRound()
     {
         
-        gameManager = FindObjectOfType<GameManager>(); // Pass reference to GameManager to Round script
         roundActive = true;
         SwitchPhase();
     }
@@ -148,7 +147,7 @@ private void SecondaryPhase()
 {
        
         // Set the ChampionHealth inside the GameManager
-        GameManager.instance.SetChampionHealth();
+        GameManager.Instance.SetChampionHealth();
 
         // Find all CardDisplay components in the scene
         CardDisplay[] cardDisplays = FindObjectsOfType<CardDisplay>();
@@ -208,26 +207,26 @@ private void BattlePhase()
         while (battlePhaseActive)
         {
 
-            yield return StartCoroutine(gameManager.Attack());
+            yield return StartCoroutine(GameManager.Instance.Attack());
 
             // Update the UI text objects with the dice rolls
-            player1DiceRollText.text = gameManager.diceManager.player1Roll.ToString();
-            player2DiceRollText.text = gameManager.diceManager.player2Roll.ToString();
+            player1DiceRollText.text = GameManager.Instance.diceManager.player1Roll.ToString();
+            player2DiceRollText.text = GameManager.Instance.diceManager.player2Roll.ToString();
             
 
-            if (gameManager.player1ChampionHealth <= 0 && gameManager.player2ChampionHealth >= 0)
+            if (GameManager.Instance.player1ChampionHealth <= 0 && GameManager.Instance.player2ChampionHealth >= 0)
             {
-                gameManager.player1.health--;
+                GameManager.Instance.player1Data.Health--;
                 StartCoroutine(EndBattlePhase());
                 
             }
-            else if (gameManager.player2ChampionHealth <= 0 && gameManager.player1ChampionHealth >= 0)
+            else if (GameManager.Instance.player2ChampionHealth <= 0 && GameManager.Instance.player1ChampionHealth >= 0)
             {
-                gameManager.player2.health--;
+                GameManager.Instance.player2Data.Health--;
                 StartCoroutine(EndBattlePhase());
 
             }
-            else if (gameManager.player1ChampionHealth <= 0 && gameManager.player2ChampionHealth <= 0)
+            else if (GameManager.Instance.player1ChampionHealth <= 0 && GameManager.Instance.player2ChampionHealth <= 0)
             {
                 StartCoroutine(EndBattlePhase());
 

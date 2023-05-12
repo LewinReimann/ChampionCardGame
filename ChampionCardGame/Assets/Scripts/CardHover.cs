@@ -38,10 +38,27 @@ public class CardHover : MonoBehaviour
 
     private void Start()
     {
+
         draggable = GetComponent<Draggable>();
 
-        handLayout = transform.parent.GetComponent<HandLayout>();
-       
+        Transform current = transform;
+        HandLayout handLayout = null;
+
+        while (current.parent != null && handLayout == null)
+        {
+            current = current.parent;
+            handLayout = current.GetComponent<HandLayout>();
+        }
+
+        if (handLayout != null)
+        {
+            // HandLayout was found
+        }
+        else
+        {
+            // HandLayout was not found
+        }
+
     }
 
     private void OnDestroy()

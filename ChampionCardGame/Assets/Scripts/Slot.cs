@@ -15,18 +15,17 @@ public class Slot : MonoBehaviour
 
     private CardDisplay cardDisplay;
 
-    public int playerID;
-
     private void Start()
     {
+   
         // Set the playerID based on the parents objects name
         if (transform.parent.name.Contains("Player1"))
         {
-            playerID = 1;
+            GameManager.Instance.playerID = 1;
         }
         else if (transform.parent.name.Contains("Player2"))
         {
-            playerID = 2;
+            GameManager.Instance.playerID = 2;
         }
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.enabled = false; // start with the sprite renderer deactivated
@@ -82,9 +81,8 @@ public class Slot : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        CardDisplay cardDisplay = FindObjectOfType<CardDisplay>();
-
-        if (!round.CanPlayCards(cardDisplay.playerID)) return;
+      
+        if (!round.CanPlayCards(GameManager.Instance.playerID)) return;
 
         if (other.CompareTag("Card"))
         {
@@ -100,9 +98,7 @@ public class Slot : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        CardDisplay cardDisplay = FindObjectOfType<CardDisplay>();
-
-        if (!round.CanPlayCards(cardDisplay.playerID)) return;
+        if (!round.CanPlayCards(GameManager.Instance.playerID)) return;
 
         if (other.CompareTag("Card"))
         {

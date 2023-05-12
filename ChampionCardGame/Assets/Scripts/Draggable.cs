@@ -71,7 +71,7 @@ public class Draggable : MonoBehaviour
             // If the nearest drop zone is within a certain range, the card will snap to its position
             float dropZoneRadius = 2f;
             Slot slot = nearestDropZone.GetComponent<Slot>();
-            if (nearestDropZoneDistance < dropZoneRadius && !slot.isOccupied && round.CanPlayCards(cardDisplay.playerID) && cardDisplay.playerID == slot.playerID)
+            if (nearestDropZoneDistance < dropZoneRadius && !slot.isOccupied && round.CanPlayCards(GameManager.Instance.playerID))
             {
 
                 Hand hand = GetComponentInParent<Hand>();

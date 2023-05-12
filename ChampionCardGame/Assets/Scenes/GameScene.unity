@@ -132,7 +132,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 18884770}
-  - component: {fileID: 18884767}
   - component: {fileID: 18884769}
   - component: {fileID: 18884771}
   m_Layer: 0
@@ -142,20 +141,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &18884767
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 18884766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85c9a7d181db4454585e8e98f9437bc9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerName: Bob
-  health: 3
 --- !u!114 &18884769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -545,8 +530,8 @@ MonoBehaviour:
   - {fileID: 203042134}
   spacing: 1
   startOffset: 0
-  cardHover: {fileID: 0}
-  draggable: {fileID: 0}
+  cardHover: {fileID: 1571881234}
+  draggable: {fileID: 1571881233}
   isWaitingForChild: 0
 --- !u!4 &114860758
 Transform:
@@ -1879,10 +1864,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a888d1987682644bbfdf692f69b63ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player1: {fileID: 1911964182}
-  player2: {fileID: 18884767}
-  roundCounter: {fileID: 1366572000}
-  currentPhaseIndex: {fileID: 1366572000}
   player1HealthText: {fileID: 642151597}
   player2HealthText: {fileID: 890619738}
   rollResultText: {fileID: 530600578}
@@ -2678,7 +2659,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 934965462}
-  - component: {fileID: 934965461}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -2686,27 +2666,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &934965461
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 934965460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d005893af1031a499bc334fd7249ccd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player1: {fileID: 1911964182}
-  player2: {fileID: 18884767}
-  round: {fileID: 1366572000}
-  diceManager: {fileID: 1366572002}
-  cardManager: {fileID: 1366572001}
-  player1ChampionHealth: 5
-  player1ChampionAttackPower: 1
-  player2ChampionHealth: 5
-  player2ChampionAttackPower: 1
 --- !u!4 &934965462
 Transform:
   m_ObjectHideFlags: 0
@@ -3609,7 +3568,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentPhaseIndex: 0
   RoundCounter: 0
-  gameManager: {fileID: 934965461}
   deckManager: {fileID: 1911964183}
   drawPhaseActive: 0
   championPhaseActive: 0
@@ -3662,6 +3620,104 @@ MonoBehaviour:
   rollCount: 0
   player1Roll: 0
   player2Roll: 0
+--- !u!1001 &1571881232
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1670003584765898365, guid: 82bb8e63e72cf0c459d547c97a57907b,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2929638655614653089, guid: 82bb8e63e72cf0c459d547c97a57907b,
+        type: 3}
+      propertyPath: m_Name
+      value: FakeCard
+      objectReference: {fileID: 0}
+    - target: {fileID: 8039682305135056291, guid: 82bb8e63e72cf0c459d547c97a57907b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8039682305135056291, guid: 82bb8e63e72cf0c459d547c97a57907b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -16.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 8039682305135056291, guid: 82bb8e63e72cf0c459d547c97a57907b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8039682305135056291, guid: 82bb8e63e72cf0c459d547c97a57907b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.58
+      objectReference: {fileID: 0}
+    - target: {fileID: 8039682305135056291, guid: 82bb8e63e72cf0c459d547c97a57907b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.99984777
+      objectReference: {fileID: 0}
+    - target: {fileID: 8039682305135056291, guid: 82bb8e63e72cf0c459d547c97a57907b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8039682305135056291, guid: 82bb8e63e72cf0c459d547c97a57907b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.01745245
+      objectReference: {fileID: 0}
+    - target: {fileID: 8039682305135056291, guid: 82bb8e63e72cf0c459d547c97a57907b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8039682305135056291, guid: 82bb8e63e72cf0c459d547c97a57907b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8039682305135056291, guid: 82bb8e63e72cf0c459d547c97a57907b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8039682305135056291, guid: 82bb8e63e72cf0c459d547c97a57907b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 82bb8e63e72cf0c459d547c97a57907b, type: 3}
+--- !u!114 &1571881233 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2039080966151096435, guid: 82bb8e63e72cf0c459d547c97a57907b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1571881232}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 244a68dc2848088458bd9efd39fdce75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1571881234 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1192795706619844256, guid: 82bb8e63e72cf0c459d547c97a57907b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1571881232}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0f2a89a106157748927a5d14a4f03fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1637269458
 GameObject:
   m_ObjectHideFlags: 0
@@ -4105,7 +4161,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1911964184}
-  - component: {fileID: 1911964182}
   - component: {fileID: 1911964183}
   - component: {fileID: 1911964185}
   m_Layer: 0
@@ -4115,20 +4170,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1911964182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1911964180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85c9a7d181db4454585e8e98f9437bc9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerName: Tim
-  health: 3
 --- !u!114 &1911964183
 MonoBehaviour:
   m_ObjectHideFlags: 0

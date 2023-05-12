@@ -5,11 +5,7 @@ using TMPro;
 
 public class PlayerInfoText : MonoBehaviour
 {
-    public Player player1;
-    public Player player2;
-    public Round roundCounter;
-    public Round currentPhaseIndex;
-
+   
     public TextMeshProUGUI player1HealthText;
     public TextMeshProUGUI player2HealthText;
     public TextMeshProUGUI rollResultText;
@@ -37,18 +33,17 @@ public class PlayerInfoText : MonoBehaviour
 
     private void Update()
     {
+        // Make sure gameManager and its properties are not null
+        if (GameManager.Instance != null && GameManager.Instance.player1Data != null && GameManager.Instance.player2Data != null && GameManager.Instance.round != null)
+        {
+            // Update player health text
+            player1HealthText.text = GameManager.Instance.player1Data.playerName + "\n" + GameManager.Instance.player1Data.Health.ToString();
+            player2HealthText.text = GameManager.Instance.player2Data.playerName + "\n" + GameManager.Instance.player2Data.Health.ToString();
 
-        // Update player health text
-        player1HealthText.text = player1.playerName + "\n" + player1.health.ToString();
-        player2HealthText.text = player2.playerName + "\n" + player2.health.ToString();
-
-        // Update roll results text
-
-        // Update Phase and round text
-        PhaseText.text = GetPhaseName(currentPhaseIndex.currentPhaseIndex);
-        roundCounterText.text = roundCounter.RoundCounter.ToString();
-
-
+            // Update Phase and round text
+            PhaseText.text = GetPhaseName(GameManager.Instance.round.currentPhaseIndex);
+            roundCounterText.text = GameManager.Instance.round.RoundCounter.ToString();
+        }
     }
 
 }

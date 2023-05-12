@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class CardDisplay : MonoBehaviour
+public class CardDisplay : MonoBehaviourPun
 {
     
     public Card card;
@@ -17,29 +19,65 @@ public class CardDisplay : MonoBehaviour
 
     public TextMeshPro healthText;
     public TextMeshPro championHealthText;
-
-    public GameManager gameManager;
-
     public bool isChampion = false;
     public bool isInPlay = false;
 
     public bool isUpdateEnabled = false;
 
-    public int playerID = 0;
+
+    private bool playerIdSet = false;
+
+    // Let's assume you have two Photon.Realtime.Player objects in your GameManager
+    Photon.Realtime.Player player1;
+    Photon.Realtime.Player player2;
 
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = FindObjectOfType<GameManager>();
+        Debug.Log("PhotonView: " + photonView);
+        Debug.Log("GameManager: " + GameManager.Instance);
+        Debug.Log("Player 1 Actor Number: " + GameManager.Instance.GetPlayer1ActorNumber());
 
-        cardNameText.text = card.cardName;
+       
 
-        cardArtworkSprite.sprite = card.cardArtwork;
+        if (!playerIdSet)
+        {
+            Transform currentTransform = transform;
 
-        championEffectText.text = card.championEffect;
-        secondaryEffectText.text = card.secondaryEffect;
+            while (currentTransform.parent != null)
+            {
+                currentTransform = currentTransform.parent;
 
-        healthText.text = card.health.ToString();
+                if (currentTransform.name == "Player1")
+                {
+                    // Transfer ownership to the player who is player1
+                    photonView.TransferOwnership(GameManager.Instance.GetPlayer1ActorNumber());
+                    playerIdSet = true;
+                    break;
+                }
+                else if (currentTransform.name == "Player2")
+                {
+                    // Transfer ownership to the player who is player2
+                    photonView.TransferOwnership(GameManager.Instance.GetPlayer2ActorNumber());
+                    playerIdSet = true;
+                    break;
+                }
+            }
+        }
+
+        
+        if (card != null)
+        {
+            cardNameText.text = card.cardName;
+            cardArtworkSprite.sprite = card.cardArtwork;
+            championEffectText.text = card.championEffect;
+            secondaryEffectText.text = card.secondaryEffect;
+            healthText.text = card.health.ToString();
+        }
+        else
+        {
+            Debug.LogError("Card object is null in CardDisplay.Start()");
+        }
     }
 
     // Deactivate the ol Health display with a new one where we get our information from the GameManager
@@ -56,6 +94,9 @@ public class CardDisplay : MonoBehaviour
 
     private void Update()
     {
+
+     
+
         if (isUpdateEnabled)
         {
             // Check if it's a champion card
@@ -66,10 +107,9 @@ public class CardDisplay : MonoBehaviour
                 transform.Find("ChampionHealthText").gameObject.SetActive(true);
 
                 // Get the ChampionHealth from the GameManager and set it as the text for the ChampionHealthText
-                GameManager gameManager = FindObjectOfType<GameManager>();
-                if (gameManager != null)
+                if (GameManager.Instance != null)
                 {
-                    int championHealth = playerID == 1 ? gameManager.player1ChampionHealth : gameManager.player2ChampionHealth;
+                    int championHealth = GameManager.Instance.playerID == 1 ? GameManager.Instance.player1ChampionHealth : GameManager.Instance.player2ChampionHealth;
                     
                     transform.Find("ChampionHealthText").GetComponent<TextMeshPro>().text = championHealth.ToString();
                 }
