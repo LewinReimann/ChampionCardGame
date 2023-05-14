@@ -34,14 +34,10 @@ public class CardDisplay : MonoBehaviourPun
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("PhotonView: " + photonView);
-        Debug.Log("GameManager: " + GameManager.Instance);
-        Debug.Log("Player 1 Actor Number: " + GameManager.Instance.GetPlayer1ActorNumber());
-
-       
 
         if (!playerIdSet)
         {
+            Debug.Log("The first !playerIDSet is functioning");
             Transform currentTransform = transform;
 
             while (currentTransform.parent != null)
@@ -50,6 +46,7 @@ public class CardDisplay : MonoBehaviourPun
 
                 if (currentTransform.name == "Player1")
                 {
+                    Debug.Log("The currentTransform for Player1 is called correctly");
                     // Transfer ownership to the player who is player1
                     photonView.TransferOwnership(GameManager.Instance.GetPlayer1ActorNumber());
                     playerIdSet = true;
@@ -57,6 +54,8 @@ public class CardDisplay : MonoBehaviourPun
                 }
                 else if (currentTransform.name == "Player2")
                 {
+                    Debug.Log("The currentTransform for Player2 is called correctly");
+
                     // Transfer ownership to the player who is player2
                     photonView.TransferOwnership(GameManager.Instance.GetPlayer2ActorNumber());
                     playerIdSet = true;
@@ -68,6 +67,8 @@ public class CardDisplay : MonoBehaviourPun
         
         if (card != null)
         {
+            Debug.Log("Is the card not null? and is this filled in then");
+
             cardNameText.text = card.cardName;
             cardArtworkSprite.sprite = card.cardArtwork;
             championEffectText.text = card.championEffect;
