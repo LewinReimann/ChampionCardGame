@@ -4,12 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using PlayFab;
 using PlayFab.ClientModels;
+using PlayFab.AuthenticationModels;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayFabLogin : MonoBehaviour
 {
     public TMP_InputField usernameInput;
     public TMP_InputField passwordInput;
+
+    public NetworkManager networkManager;
 
     public void Login()
     {
@@ -25,6 +29,17 @@ public class PlayFabLogin : MonoBehaviour
     private void OnLoginSuccess(LoginResult result)
     {
         Debug.Log("Logged in successfully!");
+
+        // Get the entity token to access entity id and type
+        PlayFabAuthenticationAPI.GetEntityToken(new GetEntityTokenRequest(),
+            resultToken => {
+            // Store the entity id and type
+            networkManager.StoreEntityId(resultToken.Entity.Id);
+            },
+            error => Debug.LogError("Failed to get entity token: " + error.GenerateErrorReport())
+        );
+
+        networkManager.LoadScene("MainMenu"); // Load the mainmenu
     }
 
     private void OnLoginFailure(PlayFabError error)
@@ -38,6 +53,7 @@ public class PlayFabLogin : MonoBehaviour
         {
             Username = usernameInput.text,
             Password = passwordInput.text,
+            DisplayName = usernameInput.text,
             RequireBothUsernameAndEmail = false
         };
 
