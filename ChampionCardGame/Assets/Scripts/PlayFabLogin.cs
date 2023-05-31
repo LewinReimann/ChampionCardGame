@@ -7,6 +7,7 @@ using PlayFab.ClientModels;
 using PlayFab.AuthenticationModels;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class PlayFabLogin : MonoBehaviour
 {
@@ -14,6 +15,20 @@ public class PlayFabLogin : MonoBehaviour
     public TMP_InputField passwordInput;
 
     public NetworkManager networkManager;
+
+    void Awake()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(usernameInput.gameObject);
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            Login();
+        }
+    }
 
     public void Login()
     {

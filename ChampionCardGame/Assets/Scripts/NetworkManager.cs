@@ -39,32 +39,30 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void SearchForOpponent()
     {
-        StartCoroutine("Matchmaking");
-    }
-
-    IEnumerator Matchmaking()
-    {
-        while (PhotonNetwork.CurrentRoom == null || PhotonNetwork.CurrentRoom.PlayerCount != 2)
-        {
-            PhotonNetwork.JoinRandomRoom();
-
-            yield return new WaitForSeconds(5);
-
-            if (PhotonNetwork.CurrentRoom == null || PhotonNetwork.CurrentRoom.PlayerCount != 2)
-            {
-                PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 2 });
-
-                yield return new WaitForSeconds(5);
-            }
-        }
-
-        LoadScene("GameScene");
+        PhotonNetwork.JoinRandomRoom();
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         Debug.Log("Failed to join random room: " + message);
         PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 2 });
+        Debug.Log("Created a new room then");
+    }
+
+    public override void OnJoinedRoom()
+    {
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+        {
+            LoadScene("GameScene");
+        }
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+        {
+            LoadScene("GameScene");
+        }
     }
 
     public override void OnDisconnected(DisconnectCause cause)
