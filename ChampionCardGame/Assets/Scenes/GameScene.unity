@@ -438,7 +438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playFabManager: {fileID: 516685145}
-  playerRollText: {fileID: 0}
+  playerRollText: {fileID: 1067548993}
 --- !u!1 &623732793
 GameObject:
   m_ObjectHideFlags: 0

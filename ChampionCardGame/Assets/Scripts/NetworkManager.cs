@@ -5,14 +5,21 @@ using PlayFab;
 using PlayFab.ClientModels;
 using PlayFab.MultiplayerModels;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class NetworkManager : MonoBehaviour
+public class NetworkManager : MonoBehaviourPunCallbacks
 {
     public static NetworkManager Instance { get; private set; }
     public string entityId;
+    public string opponentEntityId; // assign in Unity Editor
 
     public Animator transition;
 
+    public void StoreEntityId(string id)
+    {
+        entityId = id;
+    }
 
     void Awake()
     {
@@ -25,91 +32,44 @@ public class NetworkManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        PhotonNetwork.ConnectUsingSettings();
+        Debug.Log("Connected to Master");
     }
 
-    public void StoreEntityId(string id)
+    public void SearchForOpponent()
     {
-        entityId = id;
+        StartCoroutine("Matchmaking");
     }
 
-    public void StartMatchmaking()
+    IEnumerator Matchmaking()
     {
-        var request = new PlayFab.MultiplayerModels.CreateMatchmakingTicketRequest()
+        while (PhotonNetwork.CurrentRoom == null || PhotonNetwork.CurrentRoom.PlayerCount != 2)
         {
-            Creator = new PlayFab.MultiplayerModels.MatchmakingPlayer()
-            {
-                Entity = new PlayFab.MultiplayerModels.EntityKey()
-                {
-                    Id = entityId,
-                    Type = "title_player_account",
-                    
-                }
-            },
-            GiveUpAfterSeconds = 30,
-            QueueName = "FindAnEnemy"
-        };
+            PhotonNetwork.JoinRandomRoom();
 
-        PlayFabMultiplayerAPI.CreateMatchmakingTicket(request, OnMatchmakingTicketCreated, OnMatchmakingFailed);
-    }
-
-    private IEnumerator PollMatchmakingTicketStatus(string ticketId)
-    {
-        while (true)
-        {
             yield return new WaitForSeconds(5);
 
-            var request = new PlayFab.MultiplayerModels.GetMatchmakingTicketRequest()
+            if (PhotonNetwork.CurrentRoom == null || PhotonNetwork.CurrentRoom.PlayerCount != 2)
             {
-                QueueName = "FindAnEnemy",
-                TicketId = ticketId
-            };
+                PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 2 });
 
-            PlayFabMultiplayerAPI.GetMatchmakingTicket(request, OnGetMatchmakingTicketSuccess, OnGetMatchmakingTicketFailure);
+                yield return new WaitForSeconds(5);
+            }
         }
+
+        LoadScene("GameScene");
     }
 
-    private void OnMatchmakingTicketCreated(PlayFab.MultiplayerModels.CreateMatchmakingTicketResult result)
+    public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        Debug.Log("Matchmaking ticket created: " + result.TicketId);
-        // Save the ticket ID somewhere, you'll need it to check the status of the matchmaking request
-        StartCoroutine(PollMatchmakingTicketStatus(result.TicketId));
+        Debug.Log("Failed to join random room: " + message);
+        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 2 });
     }
 
-    private void OnMatchmakingFailed(PlayFabError error)
+    public override void OnDisconnected(DisconnectCause cause)
     {
-        Debug.LogError("Failed to create matchmaking ticket: " + error.GenerateErrorReport());
-    }
-
-
-    public void CheckmatchmakingStatus(string ticketId)
-    {
-        var request = new PlayFab.MultiplayerModels.GetMatchmakingTicketRequest()
-        {
-            QueueName = "FindAnEnemy",
-            TicketId = ticketId
-        };
-
-        PlayFabMultiplayerAPI.GetMatchmakingTicket(request, OnGetMatchmakingTicketSuccess, OnGetMatchmakingTicketFailure);
-    }
-
-    private void OnGetMatchmakingTicketSuccess(PlayFab.MultiplayerModels.GetMatchmakingTicketResult result)
-    {
-        if (result.Status == "Matched")
-        {
-            Debug.Log("Match found");
-            // Get the server details from result.MatchId and start the game
-            LoadScene("GameScene");
-        }
-        else
-        {
-            Debug.Log("Match not yet found, status: " + result.Status);
-            // You might want to call CheckMatchmakingStatus again after a few seconds
-        }
-    }
-
-    private void OnGetMatchmakingTicketFailure(PlayFabError error)
-    {
-        Debug.LogError("Failed to get matchmaking ticket: " + error.GenerateErrorReport());
+        Debug.Log($"Disconnected due to: {cause}");
     }
 
     public void LoadScene(string sceneName)

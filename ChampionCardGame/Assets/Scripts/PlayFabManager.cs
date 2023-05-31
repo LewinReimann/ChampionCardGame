@@ -12,7 +12,7 @@ public class PlayFabManager : MonoBehaviour
 {
 
     public TMP_Text opponentRollText; // Assign in Unity Editor
-    public string opponentEntityId; // assign in Unity Editor
+    
 
     // Send the rolls to the server to check who has won between the two results
 
@@ -44,7 +44,7 @@ public class PlayFabManager : MonoBehaviour
 
     public void FetchOpponentRoll()
     {
-        var request = new GetUserDataRequest { PlayFabId = opponentEntityId };
+        var request = new GetUserDataRequest { PlayFabId = NetworkManager.Instance.opponentEntityId };
         PlayFabClientAPI.GetUserData(request, OnGetObjectsSuccess, OnGetObjectsFailure);
     }
 

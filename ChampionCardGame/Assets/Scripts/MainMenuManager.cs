@@ -13,6 +13,6 @@ public class MainMenuManager : MonoBehaviour
 
     public void SearchOpponent()
     {
-        networkManager.StartMatchmaking();
+        networkManager.SearchForOpponent();
     }
 }
