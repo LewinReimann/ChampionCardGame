@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     new private PhotonView photonView;
 
+    public CardManager cardManager;
+
     void Start()
     {
         photonView = GetComponent<PhotonView>();
@@ -32,6 +34,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         playersLifeText.text = playersLife.ToString();
+
+        cardManager.InitializeDeck();
     }
 
     public void RollDice()
