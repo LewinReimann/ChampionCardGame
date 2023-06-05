@@ -24,7 +24,15 @@ public class Card : ScriptableObject
         Banished
     }
 
+    public enum CardFaction
+    {
+        None,
+        Ancient,
+        Elve
+    }
+
     public CardType type;
+    public CardFaction faction;
 
     public string cardName;
     public Sprite cardArtwork;
