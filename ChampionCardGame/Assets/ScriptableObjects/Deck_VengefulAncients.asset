@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fab36e20fb4c2eb4c9a011830ce23d38, type: 3}
+  m_Name: Deck_VengefulAncients
+  m_EditorClassIdentifier: 
+  deckName: Vengeful Ancients
+  cards:
+  - {fileID: 11400000, guid: 7e9064d962785ce49b6cadda634726a1, type: 2}
+  - {fileID: 11400000, guid: 7e9064d962785ce49b6cadda634726a1, type: 2}
+  - {fileID: 11400000, guid: ed88aa1569f24c740ab14d76af5e2e05, type: 2}
+  - {fileID: 11400000, guid: ed88aa1569f24c740ab14d76af5e2e05, type: 2}
+  - {fileID: 11400000, guid: 9f69c837579de6b40a06b2c1ca560b83, type: 2}
+  - {fileID: 11400000, guid: 9f69c837579de6b40a06b2c1ca560b83, type: 2}
+  - {fileID: 11400000, guid: f39aa8f0698fe6a429d80760963924eb, type: 2}
+  - {fileID: 11400000, guid: f39aa8f0698fe6a429d80760963924eb, type: 2}
+  - {fileID: 11400000, guid: bb15bdb2488ceb84797bcd4514b781c8, type: 2}
+  - {fileID: 11400000, guid: bb15bdb2488ceb84797bcd4514b781c8, type: 2}
+  - {fileID: 11400000, guid: a0c3ead0a3640d74f830be8274293d36, type: 2}
+  - {fileID: 11400000, guid: a0c3ead0a3640d74f830be8274293d36, type: 2}
+  - {fileID: 11400000, guid: 6ff54bec902165b4b9d249e20ad1282b, type: 2}
+  - {fileID: 11400000, guid: 6ff54bec902165b4b9d249e20ad1282b, type: 2}

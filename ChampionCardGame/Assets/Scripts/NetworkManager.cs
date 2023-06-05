@@ -84,4 +84,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         SceneManager.LoadScene(sceneName);
         transition.SetTrigger("End");
     }
+
+    public void TestRun()
+    {
+        // Just for testing delete after. Will just load the gamescene without needing to have an opponent
+        LoadScene("GameScene");
+    }
 }

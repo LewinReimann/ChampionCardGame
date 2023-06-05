@@ -99,7 +99,7 @@ public class CardManager : MonoBehaviour
             MoveCard(topCard, Card.CardLocation.Deck, Card.CardLocation.Hand);
 
             // Get the players hand layout and add a card slot
-            // playerHandLayout.AddCardSlot();
+            playerHandLayout.AddCardToHand(cardObject);
 
             // Set the cards parent to the last slot in the hand
             // cardObject.transform.SetParent(playerHandLayout.cardSlots[playerHandLayout.cardSlots.Count - 1]);
@@ -108,5 +108,6 @@ public class CardManager : MonoBehaviour
         {
             Debug.LogWarning("Deck is empty. Cannot draw a card.");
         }
+        
     }
 }

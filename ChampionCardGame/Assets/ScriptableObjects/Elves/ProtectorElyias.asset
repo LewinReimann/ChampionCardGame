@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b33f2c44600e34a830205ea584955a, type: 3}
+  m_Name: ProtectorElyias
+  m_EditorClassIdentifier: 
+  type: 0
+  faction: 2
+  cardName: Protector Elyias
+  cardArtwork: {fileID: 21300000, guid: f8d395e19198e8e48bfcd122b46c52d4, type: 3}
+  championEffect: Gain +6 Health in the Battle Phase
+  secondaryEffect: When you roll a 7 or higher deal 1 damage
+  health: 6

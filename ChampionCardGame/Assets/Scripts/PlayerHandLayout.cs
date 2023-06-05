@@ -8,6 +8,8 @@ public class PlayerHandLayout : MonoBehaviour
     public List<Transform> handSlot;
     public CardManager cardManager;
 
+    public GameObject handParent;
+
     public float spacing = 0.2f;
     public float startOffset = -5f;
 
@@ -32,5 +34,14 @@ public class PlayerHandLayout : MonoBehaviour
             Quaternion localRotation = Quaternion.Euler(0f, 0f, rotationAmount);
             card.localRotation = localRotation;
         }
+    }
+
+    public void AddCardToHand(GameObject cardObject)
+    {
+        cardObject.transform.SetParent(handParent.transform, false);
+
+        handSlot.Add(cardObject.transform);
+
+        UpdateLayout();
     }
 }

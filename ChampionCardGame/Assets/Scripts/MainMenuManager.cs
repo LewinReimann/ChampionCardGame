@@ -15,4 +15,9 @@ public class MainMenuManager : MonoBehaviour
     {
         networkManager.SearchForOpponent();
     }
+
+    public void TestRunStarter()
+    {
+        networkManager.TestRun();
+    }
 }

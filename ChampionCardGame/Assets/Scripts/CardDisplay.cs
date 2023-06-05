@@ -15,6 +15,7 @@ public class CardDisplay : MonoBehaviourPun
     public TextMeshPro secondaryEffectText;
     public TextMeshPro healthText;
     public TextMeshPro championHealthText;
+    public TextMeshPro factionText;
 
     public bool isChampion = false;
     public bool isInPlay = false;
@@ -34,6 +35,7 @@ public class CardDisplay : MonoBehaviourPun
             championEffectText.text = card.championEffect;
             secondaryEffectText.text = card.secondaryEffect;
             healthText.text = card.health.ToString();
+            factionText.text = card.faction.ToString();
         }
         else
         {

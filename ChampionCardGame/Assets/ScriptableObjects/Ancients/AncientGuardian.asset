@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b33f2c44600e34a830205ea584955a, type: 3}
+  m_Name: AncientGuardian
+  m_EditorClassIdentifier: 
+  type: 0
+  faction: 1
+  cardName: Ancient Guardian of the Grove
+  cardArtwork: {fileID: 21300000, guid: fe88d7c86bf3ee64a8bbe1e87a63b54b, type: 3}
+  championEffect: When you roll a 6 or higher heal for 1.
+  secondaryEffect: Heal for 3 and your secondary cards for 1
+  health: 3

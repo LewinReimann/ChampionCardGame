@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b33f2c44600e34a830205ea584955a, type: 3}
+  m_Name: ElnaariBlademaster
+  m_EditorClassIdentifier: 
+  type: 0
+  faction: 2
+  cardName: Elnaari Blademaster
+  cardArtwork: {fileID: 21300000, guid: 128727af70eff84428823bcc104b5ae8, type: 3}
+  championEffect: 'Combo: If you roll a 7, 8 and a 9, summon 2 ancient spirits.'
+  secondaryEffect: When you roll a 6 gain +1 on your rolls.
+  health: 5
