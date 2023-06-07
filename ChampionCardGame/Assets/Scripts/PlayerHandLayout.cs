@@ -15,6 +15,15 @@ public class PlayerHandLayout : MonoBehaviour
 
     public void UpdateLayout()
     {
+        // Clear the current handSlot list
+        handSlot.Clear();
+
+        // Only add those children that are directly underneath hanparent gameobject
+        foreach (Transform child in handParent.transform)
+        {
+            handSlot.Add(child);
+        }
+
         float totalWidth = handSlot.Count * spacing;
         float startX = -totalWidth / 2f + startOffset;
         int centerIndex = handSlot.Count / 2;

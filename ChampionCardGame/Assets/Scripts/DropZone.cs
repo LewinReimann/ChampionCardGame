@@ -7,6 +7,8 @@ public class DropZone : MonoBehaviour
     public RoundManager roundManager;
     private BoxCollider zoneCollider;
 
+    public PlayerHandLayout playerHandLayout;
+
     private void Start()
     {
         zoneCollider = GetComponent<BoxCollider>();
@@ -14,6 +16,10 @@ public class DropZone : MonoBehaviour
 
     public bool IsInsideDropZone(Vector3 position)
     {
-        return zoneCollider.bounds.Contains(position);
+
+
+        return roundManager.secondaryPhaseActive && zoneCollider.bounds.Contains(position);
+
+        
     }
 }
