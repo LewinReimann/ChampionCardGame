@@ -11,6 +11,23 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private Vector3 originalScale;
     private bool isDragging = false;
 
+    public CardDisplay cardDisplay;
+
+    public Card.CardType Type
+    {
+        get
+        {
+            if (cardDisplay != null && cardDisplay.card != null)
+            {
+                return cardDisplay.card.type;
+            }
+            else
+            {
+                Debug.LogError("CardDisplay or Card object is null in cardbehaviour");
+                return Card.CardType.Other;
+            }
+        }
+    }
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (!isDragging)
@@ -68,6 +85,12 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         isDragging = false;
 
+        DropZone dropZone = FindObjectOfType<DropZone>();
+        if (dropZone.IsInsideDropZone(transform.position))
+        {
+            originalParent = dropZone.transform;
+            originalRotation = Quaternion.Euler(0, 0, 0);
+        }
         // Restore the cards original position roptation and parent.
         transform.localPosition = originalPosition;
         transform.localRotation = originalRotation;

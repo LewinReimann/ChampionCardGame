@@ -12,7 +12,8 @@ public class Card : ScriptableObject
     {
         Champion,
         Spell,
-        Event
+        Event,
+        Other
     }
 
     public enum CardLocation

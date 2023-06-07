@@ -18,6 +18,7 @@ public class RoundManager : MonoBehaviour
 
     public GameManager gameManager;
     public CardManager cardManager;
+    public ChampionDropZone championDropZone;
 
     public void Start()
     {
@@ -33,18 +34,24 @@ public class RoundManager : MonoBehaviour
 
     public void GameStarts()
     {
-        Invoke("cardManager.DrawCard", 0.1f);
-        Invoke("cardManager.DrawCard", 0.2f);
-        Invoke("cardManager.DrawCard", 0.3f);
-        Invoke("cardManager.DrawCard", 0.4f);
-        Invoke("cardManager.DrawCard", 0.5f);
-        Invoke("cardManager.DrawCard", 0.6f);
-        Invoke("cardManager.DrawCard", 0.7f);
-
+        StartCoroutine(DrawCardsWithDelay(7, 3f, 0.2f));
+        // For example, to draw 7 cards with an initial delay of 3 seconds and a delay of 0.2 seconds between draws, you could use:
 
         drawPhaseActive = true;
-        Invoke("DrawPhase", 3f);
+        Invoke("DrawPhase", 4f);
         Invoke(roundText.text = "Draw Phase", 3f);
+    }
+
+    IEnumerator DrawCardsWithDelay(int numberOfCards, float initialDelay, float delayBetweenDraws)
+    {
+        yield return new WaitForSeconds(initialDelay); // Wait for the initial delay
+
+        // Draw the specified number of cards
+        for (int i = 0; i < numberOfCards; i++)
+        {
+            cardManager.DrawCard();
+            yield return new WaitForSeconds(delayBetweenDraws); // wait for the delay between draws
+        }
     }
 
     public void CanPlayCards()
@@ -144,6 +151,10 @@ public class RoundManager : MonoBehaviour
 
     public void EndPhase()
     {
-        
+        // Clear the Champion Drop Zone
+        if (championDropZone.cardInChampionZone != null)
+        {
+            CardBehaviour card = championDropZone.cardInChampionZone.GetComponent<CardBehaviour>();
+        }
     }
 }

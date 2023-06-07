@@ -82,32 +82,33 @@ public class CardManager : MonoBehaviour
 
     public void DrawCard()
     {
-        if (deck.Count > 0)
-        {
-            // Take the top card from the deck
-            Card topCard = deck[0];
 
-            // Instantiate the card prefab
-            GameObject cardObject = Instantiate(cardPrefab);
-            cardObject.transform.localScale = new Vector3(1f, 1f, 1f); // Set the cards scale
+            if (deck.Count > 0)
+            {
+                // Take the top card from the deck
+                Card topCard = deck[0];
 
-            // Get the CardDisplay component and set its card to the topCard
-            CardDisplay cardDisplay = cardObject.GetComponent<CardDisplay>();
-            cardDisplay.card = topCard;
+                // Instantiate the card prefab
+                GameObject cardObject = Instantiate(cardPrefab);
+                cardObject.transform.localScale = new Vector3(1f, 1f, 1f); // Set the cards scale
 
-            // Move the card data from the deck to the hand
-            MoveCard(topCard, Card.CardLocation.Deck, Card.CardLocation.Hand);
+                // Get the CardDisplay component and set its card to the topCard
+                CardDisplay cardDisplay = cardObject.GetComponent<CardDisplay>();
+                cardDisplay.card = topCard;
 
-            // Get the players hand layout and add a card slot
-            playerHandLayout.AddCardToHand(cardObject);
+                // Move the card data from the deck to the hand
+                MoveCard(topCard, Card.CardLocation.Deck, Card.CardLocation.Hand);
 
-            // Set the cards parent to the last slot in the hand
-            // cardObject.transform.SetParent(playerHandLayout.cardSlots[playerHandLayout.cardSlots.Count - 1]);
-        }
-        else
-        {
-            Debug.LogWarning("Deck is empty. Cannot draw a card.");
-        }
-        
+                // Get the players hand layout and add a card slot
+                playerHandLayout.AddCardToHand(cardObject);
+
+                // Set the cards parent to the last slot in the hand
+                // cardObject.transform.SetParent(playerHandLayout.cardSlots[playerHandLayout.cardSlots.Count - 1]);
+            }
+            else
+            {
+                Debug.LogWarning("Deck is empty. Cannot draw a card.");
+                
+            }
     }
 }
