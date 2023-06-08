@@ -124,8 +124,7 @@ public class RoundManager : MonoBehaviour
 
     public void DrawPhase()
     {
-        cardManager.DrawCard();
-
+        
         Invoke("SwitchPhase", 1f);
     }
 

@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Photon.Pun;
 
-public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IDragHandler, IEndDragHandler
+public class CardBehaviour : MonoBehaviourPunCallbacks, IPointerEnterHandler, IPointerExitHandler, IDragHandler, IEndDragHandler
 {
     public Vector3 originalPosition;
     public Quaternion originalRotation;
@@ -20,6 +21,22 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public CardDisplay cardDisplay;
 
     public PlayerHandLayout playerHandLayout;
+
+    public GameObject cardHider;
+
+    public void SetCardVisibility(bool isVisible)
+    {
+        cardHider.SetActive(!isVisible);
+    }
+
+    public void CheckOwnershipAndSetVisibility()
+    {
+        // If this is not the local players card hide it.
+        if (!photonView.IsMine)
+        {
+            SetCardVisibility(false);
+        }
+    }
 
     public Card.CardType Type
     {
@@ -110,7 +127,9 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
             ChampionDropZone championDropZone = FindObjectOfType<ChampionDropZone>();
             DropZone dropZone = FindObjectOfType<DropZone>();
-            if (dropZone.IsInsideDropZone(transform.position) && roundManager.secondaryPhaseActive)
+            EventDropZone eventDropZone = FindObjectOfType<EventDropZone>();
+
+            if (dropZone.IsInsideDropZone(transform.position) && roundManager.secondaryPhaseActive && Type != Card.CardType.Event)
             {
                 originalParent = dropZone.transform;
                 originalRotation = Quaternion.Euler(0, 0, 0);
@@ -125,7 +144,7 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
                 Invoke("UpdatePlayerHandLayout", 0.1f);
             }
-            else if (championDropZone.IsInsideChampionDropZone(transform.position) && roundManager.championPhaseActive && !championDropZone.MainChampion)
+            else if (championDropZone.IsInsideChampionDropZone(transform.position) && roundManager.championPhaseActive && !championDropZone.MainChampion && Type == Card.CardType.Champion)
             {
 
                 championDropZone.PlaceCardInChampionDropZone(this);
@@ -137,6 +156,19 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
                 Invoke("UpdatePlayerHandLayout", 0.1f);
 
+            }
+            else if (Type == Card.CardType.Event && eventDropZone.IsInsideEventDropZone(transform.position) && roundManager.secondaryPhaseActive)
+            {
+                originalParent = eventDropZone.transform;
+                originalRotation = Quaternion.Euler(0, 0, 0);
+
+                transform.SetParent(originalParent, true);
+
+                isInPlay = true;
+
+                cardManager.MoveCard(cardDisplay.card, Card.CardLocation.Hand, Card.CardLocation.Field);
+
+                Invoke("UpdatePlayerHandLayout", 0.1f);
             }
             else
             {

@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class CardManager : MonoBehaviour
+public class CardManager : MonoBehaviourPunCallbacks
 {
     public GameObject cardPrefab;
     public Deck currentDeck;
@@ -18,6 +19,7 @@ public class CardManager : MonoBehaviour
 
     private void Start()
     {
+        
         InitializeDeck();
     }
 
@@ -83,24 +85,37 @@ public class CardManager : MonoBehaviour
     public void DrawCard()
     {
 
-            if (deck.Count > 0)
-            {
-                // Take the top card from the deck
-                Card topCard = deck[0];
+      if (!photonView.IsMine) return;
+      
 
-                // Instantiate the card prefab
-                GameObject cardObject = Instantiate(cardPrefab);
-                cardObject.transform.localScale = new Vector3(1f, 1f, 1f); // Set the cards scale
+      if (deck.Count > 0)
+      {
+            // Take the top card from the deck
+            Card topCard = deck[0];
 
-                // Get the CardDisplay component and set its card to the topCard
-                CardDisplay cardDisplay = cardObject.GetComponent<CardDisplay>();
-                cardDisplay.card = topCard;
+            // Define position and rotation for the new card
+            Vector3 position = Vector3.zero;
+            Quaternion rotation = Quaternion.identity;
 
-                // Move the card data from the deck to the hand
-                MoveCard(topCard, Card.CardLocation.Deck, Card.CardLocation.Hand);
+            // Instantiate the card prefab
+            GameObject cardObject = PhotonNetwork.Instantiate("Assets/Prefab/Card", position, rotation);
+            cardObject.transform.localScale = new Vector3(1f, 1f, 1f); // Set the cards scale
 
-                // Get the players hand layout and add a card slot
-                playerHandLayout.AddCardToHand(cardObject);
+            // Get the CardDisplay component and set its card to the topCard
+            CardDisplay cardDisplay = cardObject.GetComponent<CardDisplay>();
+            cardDisplay.card = topCard;
+
+            // Move the card data from the deck to the hand
+            MoveCard(topCard, Card.CardLocation.Deck, Card.CardLocation.Hand);
+
+            // Get the players hand layout and add a card slot
+            playerHandLayout.AddCardToHand(cardObject);
+
+            // Get the CardBehaviour component
+            CardBehaviour cardBehaviour = cardObject.GetComponent<CardBehaviour>();
+            cardBehaviour.CheckOwnershipAndSetVisibility();
+
+            photonView.RPC("NotifyCardDrawn", RpcTarget.Others, topCard);
 
                 // Set the cards parent to the last slot in the hand
                 // cardObject.transform.SetParent(playerHandLayout.cardSlots[playerHandLayout.cardSlots.Count - 1]);
@@ -111,4 +126,23 @@ public class CardManager : MonoBehaviour
                 
             }
     }
+
+    [PunRPC]
+    public void NotifyCardDrawn(Card drawnCard)
+    {
+        // This RPC is called on other players' instances to notify them that a card was drawn
+        // Create the card object for the opponent but keep it hidden
+        GameObject cardObject = Instantiate(cardPrefab);
+        cardObject.transform.localScale = new Vector3(1f, 1f, 1f);
+
+        CardDisplay cardDisplay = cardObject.GetComponent<CardDisplay>();
+        cardDisplay.card = drawnCard;
+
+        // Hide the card for opponent
+        CardBehaviour cardBehaviour = cardObject.GetComponent<CardBehaviour>();
+        cardBehaviour.SetCardVisibility(false);
+
+        // Do any additional setup for opponents here
+    }
+
 }

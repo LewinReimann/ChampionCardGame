@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.SceneManagement;
+// using UnityEditor.SceneManagement;
 
-[InitializeOnLoad]
+
+// [InitializeOnLoad]
 public static class EditorStartScene
 {
     // This is just for the editor to always go to the login screen when we hit play, so we dont need to switch scenes all the time
-
+    /*
     static EditorStartScene()
     {
         EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
@@ -20,5 +21,5 @@ public static class EditorStartScene
         {
             EditorSceneManager.LoadScene("Assets/Scenes/LoginScene.unity");
         }
-    }
+    } */
 }
