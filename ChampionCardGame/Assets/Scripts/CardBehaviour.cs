@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Photon.Pun;
 
-public class CardBehaviour : MonoBehaviourPunCallbacks, IPointerEnterHandler, IPointerExitHandler, IDragHandler, IEndDragHandler
+public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IDragHandler, IEndDragHandler
 {
     public Vector3 originalPosition;
     public Quaternion originalRotation;
@@ -22,21 +21,6 @@ public class CardBehaviour : MonoBehaviourPunCallbacks, IPointerEnterHandler, IP
 
     public PlayerHandLayout playerHandLayout;
 
-    public GameObject cardHider;
-
-    public void SetCardVisibility(bool isVisible)
-    {
-        cardHider.SetActive(!isVisible);
-    }
-
-    public void CheckOwnershipAndSetVisibility()
-    {
-        // If this is not the local players card hide it.
-        if (!photonView.IsMine)
-        {
-            SetCardVisibility(false);
-        }
-    }
 
     public Card.CardType Type
     {

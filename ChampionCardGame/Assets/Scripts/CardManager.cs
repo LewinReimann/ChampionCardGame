@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 
-public class CardManager : MonoBehaviourPunCallbacks
+public class CardManager : MonoBehaviour
 {
     public GameObject cardPrefab;
     public Deck currentDeck;
@@ -85,20 +84,15 @@ public class CardManager : MonoBehaviourPunCallbacks
     public void DrawCard()
     {
 
-      if (!photonView.IsMine) return;
-      
 
       if (deck.Count > 0)
       {
             // Take the top card from the deck
             Card topCard = deck[0];
 
-            // Define position and rotation for the new card
-            Vector3 position = Vector3.zero;
-            Quaternion rotation = Quaternion.identity;
 
             // Instantiate the card prefab
-            GameObject cardObject = PhotonNetwork.Instantiate("Assets/Prefab/Card", position, rotation);
+            GameObject cardObject = Instantiate(cardPrefab);
             cardObject.transform.localScale = new Vector3(1f, 1f, 1f); // Set the cards scale
 
             // Get the CardDisplay component and set its card to the topCard
@@ -113,9 +107,7 @@ public class CardManager : MonoBehaviourPunCallbacks
 
             // Get the CardBehaviour component
             CardBehaviour cardBehaviour = cardObject.GetComponent<CardBehaviour>();
-            cardBehaviour.CheckOwnershipAndSetVisibility();
 
-            photonView.RPC("NotifyCardDrawn", RpcTarget.Others, topCard);
 
                 // Set the cards parent to the last slot in the hand
                 // cardObject.transform.SetParent(playerHandLayout.cardSlots[playerHandLayout.cardSlots.Count - 1]);
@@ -125,24 +117,6 @@ public class CardManager : MonoBehaviourPunCallbacks
                 Debug.LogWarning("Deck is empty. Cannot draw a card.");
                 
             }
-    }
-
-    [PunRPC]
-    public void NotifyCardDrawn(Card drawnCard)
-    {
-        // This RPC is called on other players' instances to notify them that a card was drawn
-        // Create the card object for the opponent but keep it hidden
-        GameObject cardObject = Instantiate(cardPrefab);
-        cardObject.transform.localScale = new Vector3(1f, 1f, 1f);
-
-        CardDisplay cardDisplay = cardObject.GetComponent<CardDisplay>();
-        cardDisplay.card = drawnCard;
-
-        // Hide the card for opponent
-        CardBehaviour cardBehaviour = cardObject.GetComponent<CardBehaviour>();
-        cardBehaviour.SetCardVisibility(false);
-
-        // Do any additional setup for opponents here
     }
 
 }

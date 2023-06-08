@@ -145,7 +145,7 @@ public class RoundManager : MonoBehaviour
 
     public void BattlePhase()
     {
-        
+        StartCoroutine(gameManager.ExecuteBattlePhase());
     }
 
     public void EndPhase()
@@ -155,5 +155,10 @@ public class RoundManager : MonoBehaviour
         {
             CardBehaviour card = championDropZone.cardInChampionZone.GetComponent<CardBehaviour>();
         }
+    }
+
+    public void ChampionDiedRoundSwitch()
+    {
+
     }
 }
