@@ -9,6 +9,9 @@ public class Card : ScriptableObject
 {
     public GameObject GameObject;
 
+    public CardTrigger trigger;
+    public CardEffect effect;
+
     // Enum to define card types
     public enum CardType
     {
@@ -45,4 +48,8 @@ public class Card : ScriptableObject
     public int health;
     public CardLocation location { get; set; } = CardLocation.Deck;
 
+    // Event Logics
+
+    public List<ICardTrigger> triggers = new List<ICardTrigger>();
+    public List<ICardEffect> effects = new List<ICardEffect>();
 }

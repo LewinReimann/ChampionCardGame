@@ -738,6 +738,7 @@ Transform:
   - {fileID: 1089759066}
   - {fileID: 2015473855}
   - {fileID: 1305675604}
+  - {fileID: 1408625769}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -955,6 +956,7 @@ MonoBehaviour:
   isBattleActive: 0
   roundManager: {fileID: 58598168}
   cardManager: {fileID: 992289224}
+  gameEvents: {fileID: 1408625770}
   dicePrefabPlayer: {fileID: 5366516685871269153, guid: b155abc467604b4469cf21cdacae95c0,
     type: 3}
   dicePrefabOpponent: {fileID: 5366516685871269153, guid: b155abc467604b4469cf21cdacae95c0,
@@ -2013,6 +2015,50 @@ MonoBehaviour:
   handParent: {fileID: 1347070796}
   spacing: 2
   startOffset: -5
+--- !u!1 &1408625768
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1408625769}
+  - component: {fileID: 1408625770}
+  m_Layer: 8
+  m_Name: EventManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1408625769
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1408625768}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 452529926}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1408625770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1408625768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d37437eed890ac249ab22e9ecbb2e5c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1491259850
 GameObject:
   m_ObjectHideFlags: 0

@@ -127,6 +127,9 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                 // Inform cardmanager to move the card from hand to field
                 cardManager.MoveCard(cardDisplay.card, Card.CardLocation.Hand, Card.CardLocation.Field);
 
+                // Raise the event that a card has been played
+                GameEvents.RaiseOnCardPlayed(cardDisplay.card);
+
                 Invoke("UpdatePlayerHandLayout", 0.1f);
             }
             else if (championDropZone.IsInsideChampionDropZone(transform.position) && roundManager.championPhaseActive && !championDropZone.MainChampion && Type == Card.CardType.Champion)

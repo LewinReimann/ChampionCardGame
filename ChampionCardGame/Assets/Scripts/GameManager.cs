@@ -30,6 +30,10 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public CardManager cardManager;
 
+    public GameEvents gameEvents;
+
+    public static Action<Card> OnCardPlayed;
+
     // Dice Stuff
 
     public GameObject dicePrefabPlayer;
@@ -134,4 +138,37 @@ public class GameManager : MonoBehaviourPunCallbacks
             Debug.Log("Player 1 wins the game!");
         }
     }
+
+    // Event stuff from here on below
+
+    public void OnEnable()
+    {
+        GameEvents.OnDiceRolled += HandleDiceRolled;
+        GameEvents.OnCardPlayed += HandleCardPlayed;
+        // More event subscriptions
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnDiceRolled -= HandleDiceRolled;
+        GameEvents.OnCardPlayed -= HandleCardPlayed;
+        // More event unsubsciptions
+    }
+
+    private void HandleDiceRolled(int value)
+    {
+        // Handle dice roleld event.
+    }
+
+    private void HandleCardPlayed(Card card)
+    {
+        // Check if the cards trigger condition is met
+        if (card.trigger.IsTriggered(this))
+        {
+            // if yes apply the cards effect
+            card.effect.ApplyEffect(this);
+        }
+    }
+
+    // More handles
 }
