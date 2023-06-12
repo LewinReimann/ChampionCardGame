@@ -81,6 +81,25 @@ public class CardManager : MonoBehaviour
         }
     }
 
+    public void ClearField()
+    {
+        // Copy the field list to avoid modifying the list while iterating through it.
+        List<Card> fieldCopy = new List<Card>(field);
+
+        foreach (Card card in fieldCopy)
+        {
+            // Move the card data to the graveyard
+            MoveCard(card, Card.CardLocation.Field, Card.CardLocation.Graveyard);
+
+            // Destroy the card game Object
+            Destroy(card.GameObject);
+        }
+
+        // Clear the field list (this is just to make sure)
+        field.Clear();
+
+    }
+
     public void DrawCard()
     {
 
@@ -90,7 +109,6 @@ public class CardManager : MonoBehaviour
             // Take the top card from the deck
             Card topCard = deck[0];
 
-
             // Instantiate the card prefab
             GameObject cardObject = Instantiate(cardPrefab);
             cardObject.transform.localScale = new Vector3(1f, 1f, 1f); // Set the cards scale
@@ -98,6 +116,9 @@ public class CardManager : MonoBehaviour
             // Get the CardDisplay component and set its card to the topCard
             CardDisplay cardDisplay = cardObject.GetComponent<CardDisplay>();
             cardDisplay.card = topCard;
+
+            // Assign the gameObject to the Card
+            topCard.GameObject = cardObject;
 
             // Move the card data from the deck to the hand
             MoveCard(topCard, Card.CardLocation.Deck, Card.CardLocation.Hand);

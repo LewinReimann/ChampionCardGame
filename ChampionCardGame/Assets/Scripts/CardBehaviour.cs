@@ -120,6 +120,7 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
                 // Set the parent of the card to the dropZone
                 transform.SetParent(originalParent, true);
+                transform.localRotation = originalRotation;
 
                 isInPlay = true;
 
@@ -144,9 +145,10 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             else if (Type == Card.CardType.Event && eventDropZone.IsInsideEventDropZone(transform.position) && roundManager.secondaryPhaseActive)
             {
                 originalParent = eventDropZone.transform;
-                originalRotation = Quaternion.Euler(0, 0, 0);
+                originalRotation = Quaternion.Euler(0, 180, 0);
 
                 transform.SetParent(originalParent, true);
+                transform.localRotation = originalRotation;
 
                 isInPlay = true;
 

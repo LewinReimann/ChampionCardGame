@@ -41,19 +41,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     public int player1Roll;
     public int player2Roll;
 
-    public void SpawnAndRollDice(GameObject dicePrefab, Transform spawnPoint)
-    {
-        // Instantiate the dice at the specified spawn point
-        GameObject diceInstance = Instantiate(dicePrefab, spawnPoint.position, Quaternion.identity);
-
-        // SEt the dice as a child of the spawnpoint
-        diceInstance.transform.SetParent(spawnPoint);
-
-        // Get the Dice component and call the roll method
-        Dice dice = diceInstance.GetComponent<Dice>();
-        dice.Roll();
-    }
-
     public void RollDice()
     {
         SpawnAndRollDice(dicePrefabPlayer, spawnPointPlayer);
@@ -81,9 +68,21 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         while (isBattleActive)
         {
-            int playerDiceRoll = UnityEngine.Random.Range(1, 7);
-            int opponentDiceRoll = UnityEngine.Random.Range(1, 7);
+            // Spawn the dice
+            Dice playerDice = SpawnAndRollDice(dicePrefabPlayer, spawnPointPlayer).GetComponent<Dice>();
+            Dice opponentDice = SpawnAndRollDice(dicePrefabOpponent, spawnPointOpponent).GetComponent<Dice>();
 
+            int playerDiceRoll = 0;
+            int opponentDiceRoll = 0;
+
+            // Subscribe to the OnRollCompleted event
+            playerDice.OnRollCompleted += (roll) => { playerDiceRoll = roll; };
+            opponentDice.OnRollCompleted += (roll) => { opponentDiceRoll = roll; };
+
+            // Wait until both dices have finished rolling
+            yield return new WaitUntil(() => playerDiceRoll > 0 && opponentDiceRoll > 0);
+
+            // Compare the dice rolls
             if (playerDiceRoll < opponentDiceRoll)
             {
                 opponentChampionHealth--;
@@ -93,26 +92,39 @@ public class GameManager : MonoBehaviourPunCallbacks
                 playerChampionHealth--;
             }
 
+            // Check if the battle should end
+            if (playerChampionHealth <= 0 || opponentChampionHealth <= 0)
+            {
+                isBattleActive = false;
+            }
+
+            // Delay before next roll
             yield return new WaitForSeconds(1f);
         }
+
+        // Proceed to the next phase
+        roundManager.SwitchPhase();
+        
+    }
+
+    public GameObject SpawnAndRollDice(GameObject dicePrefab, Transform spawnPoint)
+    {
+        // Instantiate the dice at the specifific spawn point
+        GameObject diceInstance = Instantiate(dicePrefab, spawnPoint.position, Quaternion.identity);
+
+        // Set the dice as a child of the spawn point
+        diceInstance.transform.SetParent(spawnPoint);
+
+        // Get the Dice component and call the Roll method
+        Dice dice = diceInstance.GetComponent<Dice>();
+        dice.Roll();
+
+        return diceInstance;
     }
 
     private void Update()
     {
-        if (playerChampionHealth <= 0)
-        {
-            isBattleActive = false;
-            playersLife--;
-            roundManager.SwitchPhase();
-        }
-
-        if (opponentChampionHealth <= 0)
-        {
-            isBattleActive = false;
-            opponentLife--;
-            roundManager.SwitchPhase();
-        }
-
+        
         if (playersLife <= 0)
         {
             Debug.Log("Player 2 wins the game!");

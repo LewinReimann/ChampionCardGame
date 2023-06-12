@@ -20,10 +20,20 @@ public class Dice : MonoBehaviour
         // Play the corresponding animation
         animator.Play("Roll" + result.ToString());
 
+        Invoke("ReportResult", 1f);
     }
 
-    private void ReportResult(int result)
+    private void ReportResult()
     {
-        
+        if (OnRollCompleted != null)
+        {
+            // Assuming the name of the animation clips are in the format "RollX" where X is the roll result.
+
+            int roll = int.Parse(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name.Substring(4));
+            OnRollCompleted(roll);
+        }
+
+        // Destroy the dice after reporting the result
+        Destroy(gameObject, 1f);
     }
 }

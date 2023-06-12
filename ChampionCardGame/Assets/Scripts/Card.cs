@@ -7,6 +7,8 @@ using UnityEngine;
 [System.Serializable]
 public class Card : ScriptableObject
 {
+    public GameObject GameObject;
+
     // Enum to define card types
     public enum CardType
     {

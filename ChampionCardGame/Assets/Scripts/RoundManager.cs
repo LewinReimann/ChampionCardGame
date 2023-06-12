@@ -38,8 +38,9 @@ public class RoundManager : MonoBehaviour
         // For example, to draw 7 cards with an initial delay of 3 seconds and a delay of 0.2 seconds between draws, you could use:
 
         drawPhaseActive = true;
-        Invoke("DrawPhase", 4f);
-        Invoke(roundText.text = "Draw Phase", 3f);
+
+        Invoke(roundText.text = "Draw Pase", 2f);
+        Invoke("SwitchPhase", 2f);
     }
 
     IEnumerator DrawCardsWithDelay(int numberOfCards, float initialDelay, float delayBetweenDraws)
@@ -51,18 +52,6 @@ public class RoundManager : MonoBehaviour
         {
             cardManager.DrawCard();
             yield return new WaitForSeconds(delayBetweenDraws); // wait for the delay between draws
-        }
-    }
-
-    public void CanPlayCards()
-    {
-        if (championPhaseActive == true || secondaryPhaseActive == true)
-        {
-            // enable deblock draggable and scripts that allow play
-        }
-        else
-        {
-            // Block draggable scripts
         }
     }
 
@@ -124,7 +113,8 @@ public class RoundManager : MonoBehaviour
 
     public void DrawPhase()
     {
-        
+        cardManager.DrawCard();
+
         Invoke("SwitchPhase", 1f);
     }
 
@@ -150,11 +140,11 @@ public class RoundManager : MonoBehaviour
 
     public void EndPhase()
     {
-        // Clear the Champion Drop Zone
-        if (championDropZone.cardInChampionZone != null)
-        {
-            CardBehaviour card = championDropZone.cardInChampionZone.GetComponent<CardBehaviour>();
-        }
+        // move all acards from the field to the graveyaed
+        cardManager.ClearField();
+
+        // Swith to the next phase
+        Invoke("SwitchPhase", 1f);
     }
 
     public void ChampionDiedRoundSwitch()

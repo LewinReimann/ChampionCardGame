@@ -6,10 +6,12 @@ using UnityEngine.EventSystems;
 public class ChampionDropZone : MonoBehaviour
 {
     public RoundManager roundManager;
+    public GameManager gameManager;
     private BoxCollider zoneCollider;
     public PlayerHandLayout playerHandLayout;
 
     public CardBehaviour cardInChampionZone;
+    public bool isPlayerDropZone;
     public bool MainChampion;
 
     private void Start()
@@ -41,6 +43,17 @@ public class ChampionDropZone : MonoBehaviour
             cardBehaviour.transform.localRotation = Quaternion.Euler(0, 0, 0);
             cardInChampionZone = cardBehaviour;
 
+            Card card = cardBehaviour.cardDisplay.card;
+
+            // Set the appropraite champion health in gameManager
+            if (isPlayerDropZone)
+            {
+                gameManager.playerChampionHealth = card.health;
+            }
+            else
+            {
+                gameManager.opponentChampionHealth = card.health;
+            }
             
 
             MainChampion = true;
