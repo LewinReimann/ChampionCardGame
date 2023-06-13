@@ -11,6 +11,9 @@ public class GameEvents : MonoBehaviour
     public static event Action OnTurnEnded;
     public static event Action<int> ModifyDiceRoll;
 
+    public delegate void CardEffectOnDiceRoll(ref int result);
+    public static event CardEffectOnDiceRoll OnCardEffectOnDiceRoll;
+
     // Additional events go here . . .
 
     // Methods to raise events
@@ -22,6 +25,12 @@ public class GameEvents : MonoBehaviour
     public static void RaiseOnDiceRolled(int value)
     {
         OnDiceRolled?.Invoke(value);
+    }
+
+    public static int RaiseOnCardEffectOnDiceRoll(int initialResult)
+    {
+        OnCardEffectOnDiceRoll?.Invoke(ref initialResult);
+        return initialResult;
     }
 
     public static void RaiseOnTurnEnded()

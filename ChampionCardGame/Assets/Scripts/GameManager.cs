@@ -145,6 +145,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         GameEvents.OnDiceRolled += HandleDiceRolled;
         GameEvents.OnCardPlayed += HandleCardPlayed;
+        GameEvents.OnCardEffectOnDiceRoll += HandleCardEffectOnDiceRoll;
         // More event subscriptions
     }
 
@@ -152,6 +153,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         GameEvents.OnDiceRolled -= HandleDiceRolled;
         GameEvents.OnCardPlayed -= HandleCardPlayed;
+        GameEvents.OnCardEffectOnDiceRoll -= HandleCardEffectOnDiceRoll;
         // More event unsubsciptions
     }
 
@@ -168,6 +170,30 @@ public class GameManager : MonoBehaviourPunCallbacks
             // if yes apply the cards effect
             card.effect.ApplyEffect(this);
         }
+    }
+
+    private void HandleCardEffectOnDiceRoll(ref int result)
+    {
+        // Retrieve active card effects
+        List<GameEvents.CardEffect> activeCardEffects = GetActiveCardEffects();
+
+        // Sort or queue them based on when they are played or some other stuff
+
+        // Apply each card effect to the result
+        foreach (var cardEffect in activeCardEffects)
+        {
+            // Apply effect (e.g. result += cardEffect.Modifier)
+            // Optionally play animations for card effect
+        }
+        // now "resullt" holds the final result after applying c ard effects
+    }
+
+    private List<GameEvents.CardEffect> GetActiveCardEffects()
+    {
+        // Retrieve the list of active card effects
+        // This could be a list mainted in the GameManager
+        // thats gets updated as cards are played
+        return new List<GameEvents.CardEffect>();
     }
 
     // More handles
