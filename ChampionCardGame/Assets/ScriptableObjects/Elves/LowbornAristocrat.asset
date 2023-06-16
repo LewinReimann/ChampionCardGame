@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4b33f2c44600e34a830205ea584955a, type: 3}
   m_Name: LowbornAristocrat
   m_EditorClassIdentifier: 
+  GameObject: {fileID: 0}
   type: 0
   faction: 2
   cardName: Lowborn Aristocrat
   cardArtwork: {fileID: 21300000, guid: 583682997c37a72429e89458f116a9aa, type: 3}
   championEffect: Gain +2 on your rolls
   secondaryEffect: Gain +2 on your rolls
+  cardTrigger: {fileID: 11400000, guid: 3fc05680f0a3e134796e599cb901831f, type: 2}
+  cardEffect: {fileID: 11400000, guid: a4aa55c0cddf18f46b816ea1ab6973ce, type: 2}
   health: 2

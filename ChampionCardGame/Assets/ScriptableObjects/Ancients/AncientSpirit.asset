@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4b33f2c44600e34a830205ea584955a, type: 3}
   m_Name: AncientSpirit
   m_EditorClassIdentifier: 
+  GameObject: {fileID: 0}
   type: 0
   faction: 1
   cardName: Ancient Spirit
@@ -19,4 +20,6 @@ MonoBehaviour:
   championEffect: Scout 2 times for an Ancient
   secondaryEffect: Gain +1 on your rolls. Deal 1 random damage to an allied secondary
     unit.
+  cardTrigger: {fileID: 11400000, guid: 3fc05680f0a3e134796e599cb901831f, type: 2}
+  cardEffect: {fileID: 11400000, guid: a4aa55c0cddf18f46b816ea1ab6973ce, type: 2}
   health: 3

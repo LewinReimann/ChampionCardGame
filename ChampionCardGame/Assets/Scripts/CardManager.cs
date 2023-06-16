@@ -88,6 +88,11 @@ public class CardManager : MonoBehaviour
 
         foreach (Card card in fieldCopy)
         {
+            // Unsubscribe from events
+            if (card.cardTrigger != null)
+            {
+                card.cardTrigger.UnsubscribeFromEvents();
+            }
             // Move the card data to the graveyard
             MoveCard(card, Card.CardLocation.Field, Card.CardLocation.Graveyard);
 

@@ -124,6 +124,17 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
                 isInPlay = true;
 
+                EventManager.Instance.RaiseEvent("WheneverCardPlayed");
+
+                // Subscribe to the events AFTER the event was raised
+                if (cardDisplay.card.cardTrigger != null)
+                {
+                    cardDisplay.card.cardEffect.Initialize(cardDisplay.card);
+
+                    cardDisplay.card.cardTrigger.Initialize(cardDisplay.card);
+                    cardDisplay.card.cardTrigger.SubscribeToEvents();
+                }
+
                 // Inform cardmanager to move the card from hand to field
                 cardManager.MoveCard(cardDisplay.card, Card.CardLocation.Hand, Card.CardLocation.Field);
 

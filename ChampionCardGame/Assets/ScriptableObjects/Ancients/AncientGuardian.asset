@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4b33f2c44600e34a830205ea584955a, type: 3}
   m_Name: AncientGuardian
   m_EditorClassIdentifier: 
+  GameObject: {fileID: 0}
   type: 0
   faction: 1
   cardName: Ancient Guardian of the Grove
   cardArtwork: {fileID: 21300000, guid: fe88d7c86bf3ee64a8bbe1e87a63b54b, type: 3}
   championEffect: When you roll a 6 or higher heal for 1.
   secondaryEffect: Heal for 3 and your secondary cards for 1
+  cardTrigger: {fileID: 11400000, guid: 3fc05680f0a3e134796e599cb901831f, type: 2}
+  cardEffect: {fileID: 11400000, guid: a4aa55c0cddf18f46b816ea1ab6973ce, type: 2}
   health: 3

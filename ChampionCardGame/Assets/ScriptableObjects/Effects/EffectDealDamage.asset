@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37267e20495d6264f99256da99e5e304, type: 3}
-  m_Name: Tet
+  m_Name: EffectDealDamage
   m_EditorClassIdentifier: 
-  actionType: 0
-  value: 0
+  actionController: {fileID: 0}
+  actionType: 2
+  value: 1

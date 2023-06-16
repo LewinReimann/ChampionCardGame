@@ -7,9 +7,13 @@ public class CardEffect : ScriptableObject
 {
     public ActionController actionController;
 
-    private void Start()
+    public void Initialize(Card associatedCard)
     {
-        actionController = FindObjectOfType<ActionController>();
+        if (actionController == null)
+        {
+            actionController = Object.FindObjectOfType<ActionController>();
+            Debug.Log("Is this CardEffect initialized correctly?");
+        }
     }
 
     public enum ActionType
@@ -34,9 +38,10 @@ public class CardEffect : ScriptableObject
     // (e.g. amount of damage, number of cards to draw, etc.)
     public int value;
 
-    public void ExecuteEffect(CardEffect effect)
+    public void ExecuteEffect()
     {
-        switch (effect.actionType)
+        Debug.Log("Executing effect of action type: " + actionType);
+        switch (this.actionType)
         {
             case CardEffect.ActionType.DrawCard:
                 actionController.ActionDrawCard();
@@ -45,10 +50,10 @@ public class CardEffect : ScriptableObject
                 actionController.ActionScoutCard();
                 break;
             case CardEffect.ActionType.DealDamage:
-                actionController.ActionDealDamage(effect.value);
+                actionController.ActionDealDamage(this.value);
                 break;
             case CardEffect.ActionType.Heal:
-                actionController.ActionHeal(effect.value);
+                actionController.ActionHeal(this.value);
                 break;
             case CardEffect.ActionType.RollPlus:
                 actionController.ActionRollPlus();
