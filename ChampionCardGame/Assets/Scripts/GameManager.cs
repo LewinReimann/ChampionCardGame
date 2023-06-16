@@ -62,6 +62,16 @@ public class GameManager : MonoBehaviourPunCallbacks
         cardManager.InitializeDeck();
     }
 
+    public void ChampionDealDamage(int damageAmount)
+    {
+        opponentChampionHealth -= damageAmount;
+    }
+
+    public void ChampionHeal(int healAmount)
+    {
+        playerChampionHealth += healAmount;
+    }
+
     public IEnumerator ExecuteBattlePhase()
     {
         isBattleActive = true;

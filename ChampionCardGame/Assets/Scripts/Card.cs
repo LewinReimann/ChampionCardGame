@@ -42,6 +42,9 @@ public class Card : ScriptableObject
     public string championEffect;
     public string secondaryEffect;
 
+    public CardEffect primaryEffect;
+    public CardEffect secondEffect;
+
     public int health;
     public CardLocation location { get; set; } = CardLocation.Deck;
 
