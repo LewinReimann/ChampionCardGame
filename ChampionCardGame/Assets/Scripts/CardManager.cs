@@ -7,6 +7,7 @@ public class CardManager : MonoBehaviour
     public GameObject cardPrefab;
     public Deck currentDeck;
     public PlayerHandLayout playerHandLayout;
+    public int playerIndex;
 
     // These lists hold the actual card data.
     public List<Card> deck;
@@ -111,6 +112,7 @@ public class CardManager : MonoBehaviour
 
       if (deck.Count > 0)
       {
+            
             // Take the top card from the deck
             Card topCard = deck[0];
 
@@ -133,6 +135,10 @@ public class CardManager : MonoBehaviour
 
             // Get the CardBehaviour component
             CardBehaviour cardBehaviour = cardObject.GetComponent<CardBehaviour>();
+            cardBehaviour.playerIndex = playerIndex;
+
+            // Set the CardManager reference in the CardBheaviour script
+            cardBehaviour.appropriateCardManager = this;
 
 
                 // Set the cards parent to the last slot in the hand

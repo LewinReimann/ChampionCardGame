@@ -6,6 +6,7 @@ public class EventDropZone : MonoBehaviour
 {
     public RoundManager roundManager;
     private BoxCollider zoneCollider;
+    public int playerIndex;
 
     public PlayerHandLayout playerHandLayout;
 

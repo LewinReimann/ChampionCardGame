@@ -11,7 +11,7 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public Vector3 originalScale;
     private bool isDragging = false;
 
-    public CardManager cardManager;
+    public CardManager appropriateCardManager;
 
     public bool isInPlay;
 
@@ -20,6 +20,12 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public CardDisplay cardDisplay;
 
     public PlayerHandLayout playerHandLayout;
+
+    public int playerIndex;
+
+    public DropZone correctDropZone;
+    public EventDropZone correctEventDropZone;
+    public ChampionDropZone correctChampionDropZone;
 
 
     public Card.CardType Type
@@ -43,7 +49,38 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         roundManager = FindObjectOfType<RoundManager>();
         cardDisplay = GetComponent<CardDisplay>();
         playerHandLayout = FindObjectOfType<PlayerHandLayout>();
-        cardManager = FindObjectOfType<CardManager>();
+        appropriateCardManager = (playerIndex == 0) ? GameManager.instance.playerCardManager : GameManager.instance.opponentCardManager;
+
+        // Find all instances and get the correct ones based on playerIndex
+        ChampionDropZone[] allChampionDropZones = FindObjectsOfType<ChampionDropZone>();
+        foreach (var zone in allChampionDropZones)
+        {
+            if (zone.playerIndex == playerIndex)
+            {
+                correctChampionDropZone = zone;
+                break;
+            }
+        }
+
+        DropZone[] allDropZones = FindObjectsOfType<DropZone>();
+        foreach (var zone in allDropZones)
+        {
+            if (zone.playerIndex == playerIndex)
+            {
+                correctDropZone = zone;
+                break;
+            }
+        }
+
+        EventDropZone[] allEventDropZones = FindObjectsOfType<EventDropZone>();
+        foreach (var zone in allEventDropZones)
+        {
+            if (zone.playerIndex == playerIndex)
+            {
+                correctEventDropZone = zone;
+                break;
+            }
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -80,7 +117,7 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (!isInPlay)
+        if (!isInPlay && GameManager.instance.currentGamePlayerIndex == playerIndex)
         {
             isDragging = true;
 
@@ -105,17 +142,15 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (!isInPlay)
+        if (!isInPlay && GameManager.instance.currentGamePlayerIndex == playerIndex)
         {
+            
             isDragging = false;
 
-            ChampionDropZone championDropZone = FindObjectOfType<ChampionDropZone>();
-            DropZone dropZone = FindObjectOfType<DropZone>();
-            EventDropZone eventDropZone = FindObjectOfType<EventDropZone>();
-
-            if (dropZone.IsInsideDropZone(transform.position) && roundManager.secondaryPhaseActive && Type != Card.CardType.Event)
+            // Normal DropZone
+            if (correctDropZone.IsInsideDropZone(transform.position) && roundManager.secondaryPhaseActive && Type != Card.CardType.Event && playerIndex == correctDropZone.playerIndex)
             {
-                originalParent = dropZone.transform;
+                originalParent = correctDropZone.transform;
                 originalRotation = Quaternion.Euler(0, 0, 0);
 
                 // Set the parent of the card to the dropZone
@@ -136,26 +171,28 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                 }
 
                 // Inform cardmanager to move the card from hand to field
-                cardManager.MoveCard(cardDisplay.card, Card.CardLocation.Hand, Card.CardLocation.Field);
+                appropriateCardManager.MoveCard(cardDisplay.card, Card.CardLocation.Hand, Card.CardLocation.Field);
 
                 Invoke("UpdatePlayerHandLayout", 0.1f);
             }
-            else if (championDropZone.IsInsideChampionDropZone(transform.position) && roundManager.championPhaseActive && !championDropZone.MainChampion && Type == Card.CardType.Champion)
+            // Champion DropZone
+            else if (correctChampionDropZone.IsInsideChampionDropZone(transform.position) && roundManager.championPhaseActive && !correctChampionDropZone.MainChampion && Type == Card.CardType.Champion && playerIndex == correctChampionDropZone.playerIndex)
             {
 
-                championDropZone.PlaceCardInChampionDropZone(this);
+                correctChampionDropZone.PlaceCardInChampionDropZone(this);
 
                 isInPlay = true;
 
                 // Inform cardmanager to move the card from hand to field
-                cardManager.MoveCard(cardDisplay.card, Card.CardLocation.Hand, Card.CardLocation.Field);
+                appropriateCardManager.MoveCard(cardDisplay.card, Card.CardLocation.Hand, Card.CardLocation.Field);
 
                 Invoke("UpdatePlayerHandLayout", 0.1f);
 
             }
-            else if (Type == Card.CardType.Event && eventDropZone.IsInsideEventDropZone(transform.position) && roundManager.secondaryPhaseActive)
+            // Event DropZone
+            else if (Type == Card.CardType.Event && correctEventDropZone.IsInsideEventDropZone(transform.position) && roundManager.secondaryPhaseActive && playerIndex == correctEventDropZone.playerIndex)
             {
-                originalParent = eventDropZone.transform;
+                originalParent = correctEventDropZone.transform;
                 originalRotation = Quaternion.Euler(0, 180, 0);
 
                 transform.SetParent(originalParent, true);
@@ -163,7 +200,7 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
                 isInPlay = true;
 
-                cardManager.MoveCard(cardDisplay.card, Card.CardLocation.Hand, Card.CardLocation.Field);
+                appropriateCardManager.MoveCard(cardDisplay.card, Card.CardLocation.Hand, Card.CardLocation.Field);
 
                 Invoke("UpdatePlayerHandLayout", 0.1f);
             }

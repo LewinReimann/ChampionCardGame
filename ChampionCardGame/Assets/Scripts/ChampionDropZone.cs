@@ -11,7 +11,7 @@ public class ChampionDropZone : MonoBehaviour
     public PlayerHandLayout playerHandLayout;
 
     public CardBehaviour cardInChampionZone;
-    public bool isPlayerDropZone;
+    public int playerIndex;
     public bool MainChampion;
 
     private void Start()
@@ -27,6 +27,7 @@ public class ChampionDropZone : MonoBehaviour
 
     public void PlaceCardInChampionDropZone(CardBehaviour cardBehaviour)
     {
+        
         if (roundManager.championPhaseActive && cardBehaviour.Type == Card.CardType.Champion)
         {
             if (cardInChampionZone != null)
@@ -46,17 +47,20 @@ public class ChampionDropZone : MonoBehaviour
             Card card = cardBehaviour.cardDisplay.card;
 
             // Set the appropraite champion health in gameManager
-            if (isPlayerDropZone)
+            if (playerIndex == 0)
             {
                 gameManager.playerChampionHealth = card.health;
             }
-            else
+            else if (playerIndex == 1)
             {
                 gameManager.opponentChampionHealth = card.health;
             }
             
 
             MainChampion = true;
+
+            // Notify the round manager to check if both main champs are placed
+            roundManager.MainChampionCheck();
         }
     }
 }

@@ -17,8 +17,11 @@ public class RoundManager : MonoBehaviour
     public TMP_Text roundText;
 
     public GameManager gameManager;
-    public CardManager cardManager;
-    public ChampionDropZone championDropZone;
+    public CardManager playerCardManager;
+    public CardManager opponentCardManager;
+
+    public ChampionDropZone playerChampionDropZone;
+    public ChampionDropZone opponentChampionDropZone;
 
     public void Start()
     {
@@ -32,9 +35,20 @@ public class RoundManager : MonoBehaviour
         GameStarts();
     }
 
+    public void MainChampionCheck()
+    {
+        // Check if both Main champions are placed and their boolean checked
+        if (playerChampionDropZone.MainChampion && opponentChampionDropZone.MainChampion)
+        {
+            // if both main champions are palced, switch to the next phase
+            SwitchPhase();
+        }
+    }
+
     public void GameStarts()
     {
-        StartCoroutine(DrawCardsWithDelay(7, 3f, 0.2f));
+        StartCoroutine(DrawCardsWithDelay(playerCardManager, 7, 3f, 0.2f));
+        StartCoroutine(DrawCardsWithDelay(opponentCardManager, 7, 3f, 0.2f));
         // For example, to draw 7 cards with an initial delay of 3 seconds and a delay of 0.2 seconds between draws, you could use:
 
         drawPhaseActive = true;
@@ -43,7 +57,7 @@ public class RoundManager : MonoBehaviour
         Invoke("SwitchPhase", 2f);
     }
 
-    IEnumerator DrawCardsWithDelay(int numberOfCards, float initialDelay, float delayBetweenDraws)
+    IEnumerator DrawCardsWithDelay(CardManager cardManager, int numberOfCards, float initialDelay, float delayBetweenDraws)
     {
         yield return new WaitForSeconds(initialDelay); // Wait for the initial delay
 
@@ -113,7 +127,8 @@ public class RoundManager : MonoBehaviour
 
     public void DrawPhase()
     {
-        cardManager.DrawCard();
+        playerCardManager.DrawCard();
+        opponentCardManager.DrawCard();
 
         Invoke("SwitchPhase", 1f);
     }
@@ -141,7 +156,8 @@ public class RoundManager : MonoBehaviour
     public void EndPhase()
     {
         // move all acards from the field to the graveyaed
-        cardManager.ClearField();
+        playerCardManager.ClearField();
+        opponentCardManager.ClearField();
 
         // Swith to the next phase
         Invoke("SwitchPhase", 1f);

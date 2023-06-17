@@ -7,6 +7,9 @@ using System;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
+    public List<GamePlayer> gamePlayers;
+    public int currentGamePlayerIndex = 0;
+
     public TMP_Text playerRollText;
     public TMP_Text opponentRollText;
     public TMP_Text playersLifeText;
@@ -28,7 +31,22 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     new private PhotonView photonView;
 
-    public CardManager cardManager;
+    public CardManager playerCardManager;
+    public CardManager opponentCardManager;
+
+    public static GameManager instance;
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+    }
 
     // Dice Stuff
 
@@ -59,8 +77,21 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         playersLifeText.text = playersLife.ToString();
 
-        cardManager.InitializeDeck();
+        playerCardManager.InitializeDeck();
+        opponentCardManager.InitializeDeck();
+
+        // Initialize players
+        gamePlayers = new List<GamePlayer>()
+        {
+            new GamePlayer { gamePlayerName = "Player 1", playerIndex = 0 },
+            new GamePlayer { gamePlayerName = "Player 2 ", playerIndex = 1 }
+        };
+
+        // Set the first players turn
+        currentGamePlayerIndex = 0;
     }
+
+    
 
     public void ChampionDealDamage(int damageAmount)
     {
@@ -134,6 +165,16 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
+        // Check for a button press or some other trigger to switch turns
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SwitchTurn();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            SwitchActivePlayer();
+        }
         
         if (playersLife <= 0)
         {
@@ -143,5 +184,18 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             Debug.Log("Player 1 wins the game!");
         }
+    }
+
+    public void SwitchTurn()
+    {
+        // Increment player index, if its the last player wrap around
+        currentGamePlayerIndex = (currentGamePlayerIndex + 1) % gamePlayers.Count;
+        Debug.Log(gamePlayers[currentGamePlayerIndex].gamePlayerName + "'s turn");
+    }
+
+    public void SwitchActivePlayer()
+    {
+        // Toggle between 0 and 1
+        currentGamePlayerIndex = (currentGamePlayerIndex == 0) ? 1 : 0;
     }
 }
