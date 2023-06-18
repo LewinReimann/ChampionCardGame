@@ -6,13 +6,14 @@ using UnityEngine;
 public class CardEffect : ScriptableObject
 {
     public ActionController actionController;
+    private int playerIndex;
 
-    public void Initialize(Card associatedCard)
+    public void Initialize(CardBehaviour cardBehaviour)
     {
+        this.playerIndex = cardBehaviour.playerIndex;
         if (actionController == null)
         {
             actionController = Object.FindObjectOfType<ActionController>();
-            Debug.Log("Is this CardEffect initialized correctly?");
         }
     }
 
@@ -40,7 +41,6 @@ public class CardEffect : ScriptableObject
 
     public void ExecuteEffect()
     {
-        Debug.Log("Executing effect of action type: " + actionType);
         switch (this.actionType)
         {
             case CardEffect.ActionType.DrawCard:
@@ -50,10 +50,10 @@ public class CardEffect : ScriptableObject
                 actionController.ActionScoutCard();
                 break;
             case CardEffect.ActionType.DealDamage:
-                actionController.ActionDealDamage(this.value);
+                actionController.ActionDealDamage(playerIndex, this.value);
                 break;
             case CardEffect.ActionType.Heal:
-                actionController.ActionHeal(this.value);
+                actionController.ActionHeal(playerIndex, this.value);
                 break;
             case CardEffect.ActionType.RollPlus:
                 actionController.ActionRollPlus();

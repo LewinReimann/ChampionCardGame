@@ -27,6 +27,8 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public EventDropZone correctEventDropZone;
     public ChampionDropZone correctChampionDropZone;
 
+    public GameObject cardHider;
+
 
     public Card.CardType Type
     {
@@ -48,8 +50,17 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         roundManager = FindObjectOfType<RoundManager>();
         cardDisplay = GetComponent<CardDisplay>();
-        playerHandLayout = FindObjectOfType<PlayerHandLayout>();
         appropriateCardManager = (playerIndex == 0) ? GameManager.instance.playerCardManager : GameManager.instance.opponentCardManager;
+
+        PlayerHandLayout[] allPlayerHandLayouts = FindObjectsOfType<PlayerHandLayout>();
+        foreach (var layout in allPlayerHandLayouts)
+        {
+            if (layout.playerIndex == playerIndex)
+            {
+                playerHandLayout = layout;
+                break;
+            }
+        }
 
         // Find all instances and get the correct ones based on playerIndex
         ChampionDropZone[] allChampionDropZones = FindObjectsOfType<ChampionDropZone>();
@@ -81,9 +92,38 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                 break;
             }
         }
+
+        if (GameManager.instance.currentGamePlayerIndex == playerIndex)
+        {
+            // Disable CardHider if the card belongs tothe current player
+            cardHider.SetActive(false);
+        }
+        else
+        {
+            // Enable cardhider if the card does not belong to the current player
+            cardHider.SetActive(true);
+        }
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public void HideCard()
+    {
+        if (isInPlay)
+        {
+            cardHider.SetActive(false);
+        }
+        else if (GameManager.instance.currentGamePlayerIndex == playerIndex)
+        {
+            // Disable CardHider if the card belongs tothe current player
+            cardHider.SetActive(false);
+        }
+        else
+        {
+            // Enable cardhider if the card does not belong to the current player
+            cardHider.SetActive(true);
+        }
+    }
+
+        public void OnPointerEnter(PointerEventData eventData)
     {
         if (!isInPlay && !isDragging)
         {
@@ -121,8 +161,26 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         {
             isDragging = true;
 
-            // The card follows the mouse cursor while dragging.
-            Vector3 mousePosition = Input.mousePosition;
+            // Only enable the correct DropZone based on the player and the round phase.
+            if (playerIndex == GameManager.instance.currentGamePlayerIndex)
+            {
+                if (roundManager.championPhaseActive && Type == Card.CardType.Champion)
+                {
+                    correctChampionDropZone.EnableCollider();
+                }
+                else if (roundManager.secondaryPhaseActive)
+                {
+                    correctDropZone.EnableCollider();
+                    correctEventDropZone.EnableCollider();
+                }
+                else
+                {
+
+                }
+            }
+
+                // The card follows the mouse cursor while dragging.
+                Vector3 mousePosition = Input.mousePosition;
 
             // Convert the z component of the center of the hand from world space to local space
             Vector3 handCenter = transform.parent.position;
@@ -164,7 +222,7 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                 // Subscribe to the events AFTER the event was raised
                 if (cardDisplay.card.cardTrigger != null)
                 {
-                    cardDisplay.card.cardEffect.Initialize(cardDisplay.card);
+                    cardDisplay.card.cardEffect.Initialize(this);
 
                     cardDisplay.card.cardTrigger.Initialize(cardDisplay.card);
                     cardDisplay.card.cardTrigger.SubscribeToEvents();
@@ -214,6 +272,10 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                 transform.SetParent(originalParent, false);
             }
         }
+        correctChampionDropZone.DisableCollider();
+        correctDropZone.DisableCollider();
+        correctEventDropZone.DisableCollider();
+
     }
 
     void UpdatePlayerHandLayout()

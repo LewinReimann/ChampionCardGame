@@ -22,8 +22,6 @@ public class CardTrigger : ScriptableObject
         if (associatedCard != null)
         {
             cardEffect = associatedCard.cardEffect;
-
-            Debug.Log("Card Effect Initialized for Card: " + associatedCard.cardName);
         }
     }
 
@@ -31,8 +29,6 @@ public class CardTrigger : ScriptableObject
     {
         string eventName = triggerType.ToString();
         EventManager.Instance.Subscribe(eventName, OnEventFired);
-
-        Debug.Log("Card subscribed to event type: " + triggerType);
     }
 
     private void OnEventFired()

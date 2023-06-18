@@ -24,14 +24,14 @@ public class ActionController : MonoBehaviour
 
     }
 
-    public void ActionDealDamage(int damageAmount)
+    public void ActionDealDamage(int playerIndex, int damageAmount)
     {
-        gameManager.ChampionDealDamage(damageAmount);
+        gameManager.ChampionDealDamage(playerIndex, damageAmount);
     }
 
-    public void ActionHeal(int healAmount)
+    public void ActionHeal(int playerIndex, int healAmount)
     {
-        gameManager.ChampionHeal(healAmount);
+        gameManager.ChampionHeal(playerIndex, healAmount);
     }
 
     public void ActionRollPlus()

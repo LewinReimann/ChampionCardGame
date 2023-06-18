@@ -84,26 +84,35 @@ public class CardManager : MonoBehaviour
 
     public void ClearField()
     {
-        // Copy the field list to avoid modifying the list while iterating through it.
-        List<Card> fieldCopy = new List<Card>(field);
+        // Fetch all CardBehaviour objects in the scene
+        CardBehaviour[] allCardsInPlay = FindObjectsOfType<CardBehaviour>();
 
-        foreach (Card card in fieldCopy)
+        // Loop though all fetched CardBehaviours
+        foreach (CardBehaviour card in allCardsInPlay)
         {
-            // Unsubscribe from events
-            if (card.cardTrigger != null)
+            // Check if the card is in play and belongs to the cardManager
+            if (card.isInPlay && card.playerIndex == playerIndex)
             {
-                card.cardTrigger.UnsubscribeFromEvents();
-            }
-            // Move the card data to the graveyard
-            MoveCard(card, Card.CardLocation.Field, Card.CardLocation.Graveyard);
+                CardDisplay cardDisplay = card.GetComponent<CardDisplay>();
+                if (cardDisplay != null)
+                {
+                    // Unsubscribe from events
+                    if (cardDisplay.card.cardTrigger != null)
+                    {
+                        cardDisplay.card.cardTrigger.UnsubscribeFromEvents();
+                    }
 
-            // Destroy the card game Object
-            Destroy(card.GameObject);
+                    // Move the card data to the graveyard
+                    MoveCard(cardDisplay.card, Card.CardLocation.Field, Card.CardLocation.Graveyard);
+                }
+
+                // Destroy the card game Object
+                Destroy(card.gameObject);
+            }
         }
 
         // Clear the field list (this is just to make sure)
         field.Clear();
-
     }
 
     public void DrawCard()

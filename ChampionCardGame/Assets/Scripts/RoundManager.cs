@@ -41,7 +41,7 @@ public class RoundManager : MonoBehaviour
         if (playerChampionDropZone.MainChampion && opponentChampionDropZone.MainChampion)
         {
             // if both main champions are palced, switch to the next phase
-            SwitchPhase();
+            Invoke("SwitchPhase", 1f);
         }
     }
 
@@ -130,7 +130,7 @@ public class RoundManager : MonoBehaviour
         playerCardManager.DrawCard();
         opponentCardManager.DrawCard();
 
-        Invoke("SwitchPhase", 1f);
+        Invoke("SwitchPhase", 3f);
     }
 
     public void ChampionPhase()
@@ -159,8 +159,14 @@ public class RoundManager : MonoBehaviour
         playerCardManager.ClearField();
         opponentCardManager.ClearField();
 
+        playerChampionDropZone.MainChampion = false;
+        opponentChampionDropZone.MainChampion = false;
+
         // Swith to the next phase
-        Invoke("SwitchPhase", 1f);
+        Invoke("SwitchPhase", 2f);
+
+        gameManager.playerChampionHealth = 1;
+        gameManager.opponentChampionHealth = 1;
     }
 
     public void ChampionDiedRoundSwitch()

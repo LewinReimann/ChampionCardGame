@@ -14,10 +14,30 @@ public class ChampionDropZone : MonoBehaviour
     public int playerIndex;
     public bool MainChampion;
 
+    public SpriteRenderer highlight;
+
     private void Start()
     {
         zoneCollider = GetComponent<BoxCollider>();
         MainChampion = false;
+    }
+
+    public void DisableCollider()
+    {
+        if (zoneCollider != null)
+        {
+            zoneCollider.enabled = false;
+        }
+        highlight.enabled = false;
+    }
+
+    public void EnableCollider()
+    {
+        if (zoneCollider != null)
+        {
+            zoneCollider.enabled = true;
+        }
+        highlight.enabled = true;
     }
 
     public bool IsInsideChampionDropZone(Vector3 position)

@@ -93,14 +93,28 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     
 
-    public void ChampionDealDamage(int damageAmount)
+    public void ChampionDealDamage(int playerIndex, int damageAmount)
     {
-        opponentChampionHealth -= damageAmount;
+        if (playerIndex == 0)
+        {
+            opponentChampionHealth -= damageAmount;
+        }
+        else if (playerIndex == 1)
+        {
+            playerChampionHealth -= damageAmount;
+        }
     }
 
-    public void ChampionHeal(int healAmount)
+    public void ChampionHeal(int playerIndex, int healAmount)
     {
-        playerChampionHealth += healAmount;
+        if (playerIndex == 0)
+        {
+            playerChampionHealth += healAmount;
+        }
+        else if (playerIndex == 1)
+        {
+            opponentChampionHealth += healAmount;
+        }
     }
 
     public IEnumerator ExecuteBattlePhase()
@@ -133,19 +147,10 @@ public class GameManager : MonoBehaviourPunCallbacks
                 playerChampionHealth--;
             }
 
-            // Check if the battle should end
-            if (playerChampionHealth <= 0 || opponentChampionHealth <= 0)
-            {
-                isBattleActive = false;
-            }
 
             // Delay before next roll
             yield return new WaitForSeconds(1f);
-        }
-
-        // Proceed to the next phase
-        roundManager.SwitchPhase();
-        
+        }        
     }
 
     public GameObject SpawnAndRollDice(GameObject dicePrefab, Transform spawnPoint)
@@ -184,6 +189,30 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             Debug.Log("Player 1 wins the game!");
         }
+
+        if (playerChampionHealth <= 0 || opponentChampionHealth <= 0)
+        {
+            isBattleActive = false;
+
+            roundManager.drawPhaseActive = false;
+            roundManager.championPhaseActive = false;
+            roundManager.secondaryPhaseActive = false;
+            roundManager.revealPhaseActive = false;
+            roundManager.battlePhaseActive = false;
+
+            roundManager.endPhaseActive = true;
+
+            roundManager.roundText.text = "End Phase";
+            roundManager.EndPhase();
+            if (playerChampionHealth <= 0)
+            {
+                playersLife--;
+            }
+            else if (opponentChampionHealth <= 0)
+            {
+                opponentLife--;
+            }
+}
     }
 
     public void SwitchTurn()
@@ -191,11 +220,29 @@ public class GameManager : MonoBehaviourPunCallbacks
         // Increment player index, if its the last player wrap around
         currentGamePlayerIndex = (currentGamePlayerIndex + 1) % gamePlayers.Count;
         Debug.Log(gamePlayers[currentGamePlayerIndex].gamePlayerName + "'s turn");
+
+        // Update card visibility
+        UpdateCardVisibility();
     }
 
     public void SwitchActivePlayer()
     {
         // Toggle between 0 and 1
         currentGamePlayerIndex = (currentGamePlayerIndex == 0) ? 1 : 0;
+
+        // Update card visibility
+        UpdateCardVisibility();
+    }
+
+    private void UpdateCardVisibility()
+    {
+        // Find all instance of CardBehaviour in game
+        CardBehaviour[] allCardBehaviours = FindObjectsOfType<CardBehaviour>();
+
+        // Call HideCard method on each instance of cardbehaviour
+        foreach (CardBehaviour cardBehaviour in allCardBehaviours)
+        {
+            cardBehaviour.HideCard();
+        }
     }
 }

@@ -344,37 +344,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 5899553310055306825}
   m_maskType: 0
---- !u!1 &1483804228191116605
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4146463642937406383}
-  m_Layer: 0
-  m_Name: CardHider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &4146463642937406383
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1483804228191116605}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.623439, y: 0.14754707, z: -2.221071}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8608473586037764323}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2410299033518006472
 GameObject:
   m_ObjectHideFlags: 0
@@ -838,7 +807,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8608473586037764323}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4052136747664164393
 SpriteRenderer:
@@ -923,7 +892,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8608473586037764323}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1275,7 +1244,6 @@ Transform:
   - {fileID: 6323735319886847161}
   - {fileID: 147806367044453764}
   - {fileID: 714580230765668020}
-  - {fileID: 4146463642937406383}
   - {fileID: 4404085500226316682}
   - {fileID: 8088046720126179187}
   m_Father: {fileID: 0}
@@ -1333,10 +1301,15 @@ MonoBehaviour:
   originalRotation: {x: 0, y: 0, z: 0, w: 0}
   originalParent: {fileID: 0}
   originalScale: {x: 0, y: 0, z: 0}
-  cardManager: {fileID: 0}
+  appropriateCardManager: {fileID: 0}
   isInPlay: 0
   cardDisplay: {fileID: 0}
   playerHandLayout: {fileID: 0}
+  playerIndex: 0
+  correctDropZone: {fileID: 0}
+  correctEventDropZone: {fileID: 0}
+  correctChampionDropZone: {fileID: 0}
+  cardHider: {fileID: 4980097583430682678}
 --- !u!114 &6510293314630168591
 MonoBehaviour:
   m_ObjectHideFlags: 0

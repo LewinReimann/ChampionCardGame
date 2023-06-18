@@ -10,9 +10,29 @@ public class DropZone : MonoBehaviour
 
     public PlayerHandLayout playerHandLayout;
 
+    public SpriteRenderer highlight;
+
     private void Start()
     {
         zoneCollider = GetComponent<BoxCollider>();
+    }
+
+    public void DisableCollider()
+    {
+        if (zoneCollider != null)
+        {
+            zoneCollider.enabled = false;
+        }
+        highlight.enabled = false;
+    }
+
+    public void EnableCollider()
+    {
+        if (zoneCollider != null)
+        {
+            zoneCollider.enabled = true;
+        }
+        highlight.enabled = true;
     }
 
     public bool IsInsideDropZone(Vector3 position)

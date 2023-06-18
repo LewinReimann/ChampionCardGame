@@ -13,6 +13,8 @@ public class PlayerHandLayout : MonoBehaviour
     public float spacing = 0.2f;
     public float startOffset = -5f;
 
+    public int playerIndex;
+
     public void UpdateLayout()
     {
         // Clear the current handSlot list
