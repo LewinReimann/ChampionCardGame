@@ -276,6 +276,13 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         correctDropZone.DisableCollider();
         correctEventDropZone.DisableCollider();
 
+        if (isInPlay)
+        {
+            int playOrder = GameManager.instance.playedCards.Count + 1;
+            GameManager.instance.playedCards.Add(new PlayedCard(cardDisplay.card, Type, playOrder));
+
+            GameManager.instance.LogPlayedCards();
+        }
     }
 
     void UpdatePlayerHandLayout()

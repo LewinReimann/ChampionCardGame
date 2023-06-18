@@ -34,6 +34,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     public CardManager playerCardManager;
     public CardManager opponentCardManager;
 
+    // List to store played cards.
+    public List<PlayedCard> playedCards = new List<PlayedCard>();
+
     public static GameManager instance;
 
     void Awake()
@@ -91,7 +94,14 @@ public class GameManager : MonoBehaviourPunCallbacks
         currentGamePlayerIndex = 0;
     }
 
-    
+    public void LogPlayedCards()
+    {
+        Debug.Log("Played Cards:");
+        foreach (var playedCard in playedCards)
+        {
+            Debug.Log($"Card Name:  {playedCard.Card.cardName}, Type: {playedCard.Type}, Play Order: {playedCard.PlayOrder}");
+        }
+    }
 
     public void ChampionDealDamage(int playerIndex, int damageAmount)
     {
