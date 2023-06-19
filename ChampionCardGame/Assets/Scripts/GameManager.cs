@@ -94,15 +94,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         currentGamePlayerIndex = 0;
     }
 
-    public void LogPlayedCards()
-    {
-        Debug.Log("Played Cards:");
-        foreach (var playedCard in playedCards)
-        {
-            Debug.Log($"Card Name:  {playedCard.Card.cardName}, Type: {playedCard.Type}, Play Order: {playedCard.PlayOrder}");
-        }
-    }
-
     public void ChampionDealDamage(int playerIndex, int damageAmount)
     {
         if (playerIndex == 0)
@@ -229,8 +220,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         // Increment player index, if its the last player wrap around
         currentGamePlayerIndex = (currentGamePlayerIndex + 1) % gamePlayers.Count;
-        Debug.Log(gamePlayers[currentGamePlayerIndex].gamePlayerName + "'s turn");
-
+        
         // Update card visibility
         UpdateCardVisibility();
     }

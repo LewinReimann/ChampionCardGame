@@ -96,12 +96,6 @@ public class CardManager : MonoBehaviour
                 CardDisplay cardDisplay = card.GetComponent<CardDisplay>();
                 if (cardDisplay != null)
                 {
-                    // Unsubscribe from events
-                    if (cardDisplay.card.cardTrigger != null)
-                    {
-                        cardDisplay.card.cardTrigger.UnsubscribeFromEvents();
-                    }
-
                     // Move the card data to the graveyard
                     MoveCard(cardDisplay.card, Card.CardLocation.Field, Card.CardLocation.Graveyard);
                 }

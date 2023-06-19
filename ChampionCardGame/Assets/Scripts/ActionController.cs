@@ -4,19 +4,42 @@ using UnityEngine;
 
 public class ActionController : MonoBehaviour
 {
-    private GameManager gameManager;
-    private CardManager cardManager;
+    public GameManager gameManager;
+    public EventManager eventManager;
 
+    public static ActionController instance;
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+
+    }
+
+    private void SubscribeToTrigger(Card.TriggerTypes triggerType)
+    {
+        EventManager.Instance.Subscribe(triggerType, () => HandleEvent(triggerType));
+    }
 
     private void Start()
     {
-        gameManager = FindObjectOfType<GameManager>();
-        cardManager = FindObjectOfType<CardManager>();
+        // Subscribe to all events
+        foreach (Card.TriggerTypes triggerType in System.Enum.GetValues(typeof(Card.TriggerTypes)))
+        {
+            SubscribeToTrigger(triggerType);
+            Debug.Log("Subscribed to all events uwu");
+        }
     }
 
     public void ActionDrawCard()
     {
-        cardManager.DrawCard();
+        
     }
 
     public void ActionScoutCard()
@@ -72,5 +95,60 @@ public class ActionController : MonoBehaviour
     public void ActionSpellshield()
     {
 
+    }
+
+    // LOGIQ AND CARD HANDLING LISTS EVENTS QUEUE AND SO ON
+
+    public void HandleEvent(Card.TriggerTypes triggerType)
+    {
+        // Check championCards, spellCards, and eventCards for matching triggertypes
+        foreach (var spellCardInfo in spellCards)
+        {
+            if (spellCardInfo.TriggerType == triggerType)
+            {
+                ExecuteEffects();
+            }
+            foreach (var championCardInfo in championCards)
+            {
+                if (championCardInfo.TriggerType == triggerType)
+                {
+                    ExecuteEffects();
+                }
+            }
+            foreach (var eventCardInfo in eventCards)
+            {
+                if (eventCardInfo.TriggerType == triggerType)
+                {
+                    ExecuteEffects();
+                }
+            }
+        }
+    }
+
+    public void ExecuteEffects()
+    {
+        Debug.Log("A Trigger was right and we fire an effect");
+    }
+
+    public List<PlayedCardInfo> championCards = new List<PlayedCardInfo>();
+    public List<PlayedCardInfo> spellCards = new List<PlayedCardInfo>();
+    public List<PlayedCardInfo> eventCards = new List<PlayedCardInfo>();
+
+    public void RegisterPlayedCard(Card.EffectTypes effectTypes, int playerIndex, Card.TriggerTypes triggerType, Card.CardType cardType, int effectValue)
+    {
+        PlayedCardInfo playedCardInfo = new PlayedCardInfo(effectTypes, playerIndex, triggerType, effectValue);
+
+        switch (cardType)
+        {
+            case Card.CardType.Champion:
+                championCards.Add(playedCardInfo);
+                break;
+            case Card.CardType.Spell:
+                spellCards.Add(playedCardInfo);
+                break;
+            case Card.CardType.Event:
+                eventCards.Add(playedCardInfo);
+                break;
+        }
     }
 }

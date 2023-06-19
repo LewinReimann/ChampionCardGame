@@ -872,7 +872,6 @@ Transform:
   - {fileID: 1345606739}
   - {fileID: 516685144}
   - {fileID: 1586998711}
-  - {fileID: 667985270}
   - {fileID: 968974808}
   - {fileID: 545982947}
   m_Father: {fileID: 0}
@@ -1238,7 +1237,7 @@ Transform:
   - {fileID: 1718613900}
   - {fileID: 516635664}
   m_Father: {fileID: 452529926}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!114 &545982948
 MonoBehaviour:
@@ -1405,53 +1404,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &667985268
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 667985270}
-  - component: {fileID: 667985269}
-  m_Layer: 0
-  m_Name: AnimationController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &667985269
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 667985268}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3975482235080aa4ba1ffe03137851ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animationPrefab: {fileID: 6781096232124270997, guid: faf89088e32176144bc3237021b57828,
-    type: 3}
-  animationDisplayArea: {fileID: 667985270}
---- !u!4 &667985270
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 667985268}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 452529926}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &957083565
 GameObject:
@@ -1762,7 +1714,7 @@ Transform:
   - {fileID: 1305675604}
   - {fileID: 992289225}
   m_Father: {fileID: 452529926}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &968974809
 MonoBehaviour:
@@ -2961,6 +2913,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcece53474589ed4db8e61ec51e54436, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 516685146}
+  eventManager: {fileID: 1586998714}
+  championCards: []
+  spellCards: []
+  eventCards: []
 --- !u!114 &1586998714
 MonoBehaviour:
   m_ObjectHideFlags: 0

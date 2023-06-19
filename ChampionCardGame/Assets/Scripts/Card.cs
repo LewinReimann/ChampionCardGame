@@ -34,16 +34,45 @@ public class Card : ScriptableObject
         Elve
     }
 
+    public enum TriggerTypes
+    {
+        WheneverCardDrawn,
+        WheneverCardPlayed,
+        CardPlayed,
+        WhenDamageReceived,
+        WhenHealingReceived,
+        WhenDestroyed,
+        WhenTurnEnd,
+        WhenBattlePhaseEnd,
+        WhenSpellCasted
+    }
+
+    public enum EffectTypes
+    {
+        DrawCard,
+        ScoutCard,
+        DealDamage,
+        Heal,
+        RollPlus,
+        Summon,
+        SearchFor,
+        CastCard,
+        DestroySecondary,
+        DestroyTopDeck,
+        Revive,
+        Spellshield
+    }
+
     public CardType type;
     public CardFaction faction;
+    public TriggerTypes trigger;
+    public EffectTypes effect;
+    public int effectValue;
 
     public string cardName;
     public Sprite cardArtwork;
     public string championEffect;
     public string secondaryEffect;
-
-    public CardTrigger cardTrigger;
-    public CardEffect cardEffect;
 
     public int health;
     public CardLocation location { get; set; } = CardLocation.Deck;

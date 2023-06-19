@@ -24,10 +24,10 @@ public class EventManager : MonoBehaviour
 
     // Dictionary to hold all listeners for each event type
     // Key is the event type ( for now lets assume its a string), and Value is a list of listeners
-    private Dictionary<string, List<Action>> eventListeners = new Dictionary<string, List<Action>>();
+    private Dictionary<Card.TriggerTypes, List<Action>> eventListeners = new Dictionary<Card.TriggerTypes, List<Action>>();
 
     // Method for listeners to subscirbe to an event
-    public void Subscribe(string eventType, Action listener)
+    public void Subscribe(Card.TriggerTypes eventType, Action listener)
     {
         // if there is no entry for this even type, create it
         if (!eventListeners.ContainsKey(eventType))
@@ -40,7 +40,7 @@ public class EventManager : MonoBehaviour
     }
 
     // Method for listeners to unsubscribe to an event
-    public void Unsubscribe(string eventType, Action listener)
+    public void Unsubscribe(Card.TriggerTypes eventType, Action listener)
     {
         // if there is an entry for this event type, remove the listener
         if (eventListeners.ContainsKey(eventType))
@@ -50,7 +50,7 @@ public class EventManager : MonoBehaviour
     }
 
     // Method to raise an event, notifying all listeners for  that event
-    public void RaiseEvent(string eventType)
+    public void RaiseEvent(Card.TriggerTypes eventType)
     {
         // if there are listeners for this event, notify all of them
         if (eventListeners.ContainsKey(eventType))

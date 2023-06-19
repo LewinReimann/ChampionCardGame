@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4b33f2c44600e34a830205ea584955a, type: 3}
   m_Name: SibellaWarrior
   m_EditorClassIdentifier: 
+  GameObject: {fileID: 0}
   type: 0
   faction: 0
+  trigger: 1
+  effect: 0
+  effectValue: 0
   cardName: Sibella the Brave
   cardArtwork: {fileID: 21300000, guid: 0be201e87ead9c04daa238450656e635, type: 3}
   championEffect: Deal X Damage
