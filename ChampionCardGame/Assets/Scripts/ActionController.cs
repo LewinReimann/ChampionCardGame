@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.Linq;
 
 public class ActionController : MonoBehaviour
 {
     public GameManager gameManager;
     public EventManager eventManager;
+    public CardManager playerCardManager;
+    public CardManager opponentCardManager;
 
     public static ActionController instance;
 
@@ -29,6 +33,9 @@ public class ActionController : MonoBehaviour
 
     private void Start()
     {
+        // Initialize effect handlers dictionary
+        InitializeEffectHandlers();
+
         // Subscribe to all events
         foreach (Card.TriggerTypes triggerType in System.Enum.GetValues(typeof(Card.TriggerTypes)))
         {
@@ -37,14 +44,21 @@ public class ActionController : MonoBehaviour
         }
     }
 
-    public void ActionDrawCard()
+    public void ActionDrawCard(int playerIndex, int drawAmount)
     {
-        
+        // Determine the appropriate card manager based on the playerIndex
+        CardManager appropriateCardManager = (playerIndex == 0) ? playerCardManager : opponentCardManager;
+
+        // Call the DrawCard method drawAmount times
+        for (int i = 0; i < drawAmount; i++)
+        {
+            appropriateCardManager.DrawCard();
+        }
     }
 
-    public void ActionScoutCard()
+    public void ActionScoutCard(int playerIndex, int damageAmount)
     {
-
+        Debug.Log("Scout Effect");
     }
 
     public void ActionDealDamage(int playerIndex, int damageAmount)
@@ -57,77 +71,91 @@ public class ActionController : MonoBehaviour
         gameManager.ChampionHeal(playerIndex, healAmount);
     }
 
-    public void ActionRollPlus()
+    public void ActionRollPlus(int playerIndex, int plusAmount)
     {
-
+        Debug.Log("RollPlus Effect");
     }
 
-    public void ActionSummon()
+    public void ActionSummon(int playerIndex, int summonAmount)
     {
-
+        Debug.Log("Summon Effect");
     }
 
-    public void ActionSearchFor()
+    public void ActionSearchFor(int playerIndex, int searchAmount)
     {
-
+        Debug.Log("SearchFor Effect");
     }
 
-    public void ActionCastCard()
+    public void ActionCastCard(int playerIndex, int castAmount)
     {
-
+        Debug.Log("Cast Effect");
     }
 
-    public void ActionDestroySecondary()
+    public void ActionDestroySecondary(int playerIndex, int destroyedAmount)
     {
-
+        Debug.Log("DestroySecondary Effect");
     }
 
-    public void ActionDestroyTopDeck()
+    public void ActionDestroyTopDeck(int playerIndex, int destroyedAmount)
     {
-
+        Debug.Log("TopDeck Effect");
     }
 
-    public void ActionRevive()
+    public void ActionRevive(int playerIndex, int revivedAmount)
     {
-
+        Debug.Log("Revive Effect");
     }
 
-    public void ActionSpellshield()
+    public void ActionSpellshield(int playerIndex, int spellshieldAmount)
     {
-
+        Debug.Log("SpellShield Effect");
     }
 
     // LOGIQ AND CARD HANDLING LISTS EVENTS QUEUE AND SO ON
 
+    private Dictionary<Card.EffectTypes, Action<int, int>> effectHandlers;
+
+    private void InitializeEffectHandlers()
+    {
+        effectHandlers = new Dictionary<Card.EffectTypes, Action<int, int>>
+        {
+            { Card.EffectTypes.DrawCard, (playerIndex, value) => ActionDrawCard(playerIndex, value) },
+            { Card.EffectTypes.DealDamage, ActionDealDamage },
+            { Card.EffectTypes.Heal, ActionHeal },
+            { Card.EffectTypes.RollPlus, ActionRollPlus },
+            { Card.EffectTypes.Summon, ActionSummon },
+            { Card.EffectTypes.SearchFor, ActionSearchFor },
+            { Card.EffectTypes.CastCard, ActionCastCard },
+            { Card.EffectTypes.DestroySecondary, ActionDestroySecondary },
+            { Card.EffectTypes.DestroyTopDeck, ActionDestroyTopDeck },
+            { Card.EffectTypes.Revive, ActionRevive },
+            { Card.EffectTypes.Spellshield, ActionSpellshield }
+        };
+    }
+
     public void HandleEvent(Card.TriggerTypes triggerType)
     {
         // Check championCards, spellCards, and eventCards for matching triggertypes
-        foreach (var spellCardInfo in spellCards)
+        foreach (var playedCard in championCards.Concat(spellCards).Concat(eventCards))
         {
-            if (spellCardInfo.TriggerType == triggerType)
+            if (playedCard.TriggerType == triggerType)
             {
-                ExecuteEffects();
-            }
-            foreach (var championCardInfo in championCards)
-            {
-                if (championCardInfo.TriggerType == triggerType)
-                {
-                    ExecuteEffects();
-                }
-            }
-            foreach (var eventCardInfo in eventCards)
-            {
-                if (eventCardInfo.TriggerType == triggerType)
-                {
-                    ExecuteEffects();
-                }
+                ExecuteEffect(playedCard.Effect, playedCard.PlayerIndex, playedCard.EffectValue);
             }
         }
     }
 
-    public void ExecuteEffects()
+    public void ExecuteEffect(Card.EffectTypes effectType, int playerIndex, int value)
     {
-        Debug.Log("A Trigger was right and we fire an effect");
+        // Execute the appropriate effect handler
+        if (effectHandlers.ContainsKey(effectType))
+        {
+            effectHandlers[effectType].Invoke(playerIndex, value);
+        }
+        else
+        {
+            Debug.Log("Effect handler not found for effect type: " + effectType.ToString());
+        }
     }
 
     public List<PlayedCardInfo> championCards = new List<PlayedCardInfo>();

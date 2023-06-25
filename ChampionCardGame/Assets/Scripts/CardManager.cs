@@ -112,7 +112,6 @@ public class CardManager : MonoBehaviour
     public void DrawCard()
     {
 
-
       if (deck.Count > 0)
       {
             

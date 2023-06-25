@@ -16,8 +16,8 @@ MonoBehaviour:
   type: 0
   faction: 2
   trigger: 1
-  effect: 0
-  effectValue: 0
+  effect: 3
+  effectValue: 1
   cardName: Elnaari Blademaster
   cardArtwork: {fileID: 21300000, guid: 128727af70eff84428823bcc104b5ae8, type: 3}
   championEffect: 'Combo: If you roll a 7, 8 and a 9, summon 2 ancient spirits.'
