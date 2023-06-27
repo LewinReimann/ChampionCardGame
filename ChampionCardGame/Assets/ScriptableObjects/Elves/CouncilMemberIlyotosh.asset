@@ -16,8 +16,9 @@ MonoBehaviour:
   type: 0
   faction: 2
   trigger: 2
-  effect: 0
+  effect: 5
   effectValue: 1
+  summonCardIndices: 010000000200000003000000
   cardName: Council Member Ilyotosh
   cardArtwork: {fileID: 21300000, guid: cabef7bdce998464f809fb8419a142dd, type: 3}
   championEffect: If you roll a 3 summon the 3 Council Members.

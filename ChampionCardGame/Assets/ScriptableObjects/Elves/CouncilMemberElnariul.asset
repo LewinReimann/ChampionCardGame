@@ -16,8 +16,9 @@ MonoBehaviour:
   type: 0
   faction: 2
   trigger: 2
-  effect: 0
-  effectValue: 1
+  effect: 5
+  effectValue: 2
+  summonCardIndices: 010000000200000003000000
   cardName: Council Member Elnariul
   cardArtwork: {fileID: 21300000, guid: 779bf49ee9a4e0a4592904665aa24ea6, type: 3}
   championEffect: If you roll a 2 summon the 3 Council Members on your side of the

@@ -1102,6 +1102,29 @@ MonoBehaviour:
   field: []
   grave: []
   banished: []
+  summonableCardsPool:
+  - {fileID: 11400000, guid: eb4c7a6bb664d144ba1c53da22e732a5, type: 2}
+  - {fileID: 11400000, guid: 66535754bbdfd4b41af8d337c11f85c1, type: 2}
+  - {fileID: 11400000, guid: 0055b3c97fe0e5e4e9848887178723ea, type: 2}
+  - {fileID: 11400000, guid: d3b0480b5c8ab7249b750d69506ff6c5, type: 2}
+  - {fileID: 11400000, guid: 15f14ee8cf63a6545b35212f5c872d9c, type: 2}
+  - {fileID: 11400000, guid: 7e9064d962785ce49b6cadda634726a1, type: 2}
+  - {fileID: 11400000, guid: f58e12a3cb8e2254695504f534bf38d5, type: 2}
+  - {fileID: 11400000, guid: ed88aa1569f24c740ab14d76af5e2e05, type: 2}
+  - {fileID: 11400000, guid: f03f551c11db59e44a5554e5afb4c8e6, type: 2}
+  - {fileID: 11400000, guid: bb15bdb2488ceb84797bcd4514b781c8, type: 2}
+  - {fileID: 11400000, guid: a977770d5c3c7b24e8994b6be1e4f5cb, type: 2}
+  - {fileID: 11400000, guid: ada2c67185d7f9e43becc6deb1539f1a, type: 2}
+  - {fileID: 11400000, guid: dd1586b892002ea40b902bd22b4775f5, type: 2}
+  - {fileID: 11400000, guid: 9f69c837579de6b40a06b2c1ca560b83, type: 2}
+  - {fileID: 11400000, guid: f39aa8f0698fe6a429d80760963924eb, type: 2}
+  - {fileID: 11400000, guid: a0c3ead0a3640d74f830be8274293d36, type: 2}
+  - {fileID: 11400000, guid: 4820d9ca8e62dc3498f7b29b7d1b3b71, type: 2}
+  - {fileID: 11400000, guid: b69905e305f751447b1f165a2c6853b7, type: 2}
+  - {fileID: 11400000, guid: 252f88a44b45d1348bccff2ac58140d0, type: 2}
+  - {fileID: 11400000, guid: 9e803b3904c120a469e11862e3bb8f8d, type: 2}
+  - {fileID: 11400000, guid: 6ff54bec902165b4b9d249e20ad1282b, type: 2}
+  - {fileID: 11400000, guid: 8dd53232da028964e9d879264459599a, type: 2}
 --- !u!1 &516685143
 GameObject:
   m_ObjectHideFlags: 0
@@ -1770,6 +1793,29 @@ MonoBehaviour:
   field: []
   grave: []
   banished: []
+  summonableCardsPool:
+  - {fileID: 11400000, guid: eb4c7a6bb664d144ba1c53da22e732a5, type: 2}
+  - {fileID: 11400000, guid: 66535754bbdfd4b41af8d337c11f85c1, type: 2}
+  - {fileID: 11400000, guid: 0055b3c97fe0e5e4e9848887178723ea, type: 2}
+  - {fileID: 11400000, guid: d3b0480b5c8ab7249b750d69506ff6c5, type: 2}
+  - {fileID: 11400000, guid: 15f14ee8cf63a6545b35212f5c872d9c, type: 2}
+  - {fileID: 11400000, guid: 7e9064d962785ce49b6cadda634726a1, type: 2}
+  - {fileID: 11400000, guid: f58e12a3cb8e2254695504f534bf38d5, type: 2}
+  - {fileID: 11400000, guid: ed88aa1569f24c740ab14d76af5e2e05, type: 2}
+  - {fileID: 11400000, guid: f03f551c11db59e44a5554e5afb4c8e6, type: 2}
+  - {fileID: 11400000, guid: bb15bdb2488ceb84797bcd4514b781c8, type: 2}
+  - {fileID: 11400000, guid: a977770d5c3c7b24e8994b6be1e4f5cb, type: 2}
+  - {fileID: 11400000, guid: ada2c67185d7f9e43becc6deb1539f1a, type: 2}
+  - {fileID: 11400000, guid: dd1586b892002ea40b902bd22b4775f5, type: 2}
+  - {fileID: 11400000, guid: 9f69c837579de6b40a06b2c1ca560b83, type: 2}
+  - {fileID: 11400000, guid: f39aa8f0698fe6a429d80760963924eb, type: 2}
+  - {fileID: 11400000, guid: a0c3ead0a3640d74f830be8274293d36, type: 2}
+  - {fileID: 11400000, guid: 4820d9ca8e62dc3498f7b29b7d1b3b71, type: 2}
+  - {fileID: 11400000, guid: b69905e305f751447b1f165a2c6853b7, type: 2}
+  - {fileID: 11400000, guid: 252f88a44b45d1348bccff2ac58140d0, type: 2}
+  - {fileID: 11400000, guid: 9e803b3904c120a469e11862e3bb8f8d, type: 2}
+  - {fileID: 11400000, guid: 6ff54bec902165b4b9d249e20ad1282b, type: 2}
+  - {fileID: 11400000, guid: 8dd53232da028964e9d879264459599a, type: 2}
 --- !u!4 &992289225
 Transform:
   m_ObjectHideFlags: 0
@@ -2917,6 +2963,9 @@ MonoBehaviour:
   eventManager: {fileID: 1586998714}
   playerCardManager: {fileID: 992289224}
   opponentCardManager: {fileID: 516635666}
+  roundManager: {fileID: 58598168}
+  playerDropZone: {fileID: 1826004892}
+  opponentDropZone: {fileID: 1130094696}
   championCards: []
   spellCards: []
   eventCards: []

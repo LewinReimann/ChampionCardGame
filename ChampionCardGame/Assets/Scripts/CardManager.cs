@@ -16,6 +16,8 @@ public class CardManager : MonoBehaviour
     public List<Card> grave = new List<Card>();
     public List<Card> banished = new List<Card>();
 
+    public List<Card> summonableCardsPool;
+
 
     private void Start()
     {

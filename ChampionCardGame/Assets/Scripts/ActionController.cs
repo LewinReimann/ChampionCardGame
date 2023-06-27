@@ -10,6 +10,10 @@ public class ActionController : MonoBehaviour
     public EventManager eventManager;
     public CardManager playerCardManager;
     public CardManager opponentCardManager;
+    public RoundManager roundManager;
+
+    public Transform playerDropZone;
+    public Transform opponentDropZone;
 
     public static ActionController instance;
 
@@ -76,9 +80,48 @@ public class ActionController : MonoBehaviour
         Debug.Log("RollPlus Effect");
     }
 
-    public void ActionSummon(int playerIndex, int summonAmount)
+    public void ActionSummon(int playerIndex, List<int> cardIndices)
     {
-        Debug.Log("Summon Effect");
+        // Get the appropriate CardManager based on playerIndex
+        CardManager appropriateCardManager = (playerIndex == 0) ? playerCardManager : opponentCardManager;
+
+        // Iterate through the list of cards indices and summon each card
+        foreach (int cardIndex in cardIndices)
+        {
+            // Get the card to be summoned from the summonable cards pool based on cardIndex
+            if (cardIndex < 0 || cardIndex >= appropriateCardManager.summonableCardsPool.Count)
+            {
+                Debug.LogError("Invalid card index for summon.");
+                return;
+            }
+            Card cardToSummon = appropriateCardManager.summonableCardsPool[cardIndex];
+
+            // Instantiate the card 
+            GameObject cardObject = Instantiate(appropriateCardManager.cardPrefab);
+            cardObject.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+
+            // Get the CardDisplay component and set its card to cardToSummon
+            CardDisplay cardDisplay = cardObject.GetComponent<CardDisplay>();
+            cardDisplay.card = cardToSummon;
+
+            CardBehaviour cardBehaviour = cardObject.GetComponent<CardBehaviour>();
+            cardBehaviour.playerIndex = playerIndex;
+            cardBehaviour.appropriateCardManager = appropriateCardManager;
+
+            // Summon the card in the regular DropZone
+            if (roundManager.secondaryPhaseActive && cardToSummon.type != Card.CardType.Event)
+            {
+                Transform originalParent = (playerIndex == 0) ? playerDropZone : opponentDropZone;
+                Quaternion originalRotation = Quaternion.Euler(0, 0, 0);
+
+                // set the parent of the dropZone
+                cardObject.transform.SetParent(originalParent, true);
+                cardObject.transform.localRotation = originalRotation;
+
+                // Add the card to the field list directly
+                appropriateCardManager.field.Add(cardToSummon);
+            }
+        }
     }
 
     public void ActionSearchFor(int playerIndex, int searchAmount)
@@ -123,7 +166,6 @@ public class ActionController : MonoBehaviour
             { Card.EffectTypes.DealDamage, ActionDealDamage },
             { Card.EffectTypes.Heal, ActionHeal },
             { Card.EffectTypes.RollPlus, ActionRollPlus },
-            { Card.EffectTypes.Summon, ActionSummon },
             { Card.EffectTypes.SearchFor, ActionSearchFor },
             { Card.EffectTypes.CastCard, ActionCastCard },
             { Card.EffectTypes.DestroySecondary, ActionDestroySecondary },
@@ -131,6 +173,9 @@ public class ActionController : MonoBehaviour
             { Card.EffectTypes.Revive, ActionRevive },
             { Card.EffectTypes.Spellshield, ActionSpellshield }
         };
+
+        // This is how you can add the ActionSummon separatly using a lambda expression. This is so that we c an use a List<int> nad not playerIndex, value like above
+        effectHandlers[Card.EffectTypes.Summon] = (playerIndex, value) => ActionSummon(playerIndex, null);
     }
 
     public void HandleEvent(Card.TriggerTypes triggerType)
@@ -145,10 +190,17 @@ public class ActionController : MonoBehaviour
         }
     }
 
-    public void ExecuteEffect(Card.EffectTypes effectType, int playerIndex, int value)
+    public void ExecuteEffect(Card.EffectTypes effectType, int playerIndex, int value, List<int> summonCardIndices = null)
     {
         // Execute the appropriate effect handler
-        if (effectHandlers.ContainsKey(effectType))
+        // First check if it summon
+        if (effectType == Card.EffectTypes.Summon)
+        {
+            // Handle summon effect with a list of card indices
+            ActionSummon(playerIndex, summonCardIndices);
+        }
+
+        else if (effectHandlers.ContainsKey(effectType))
         {
             effectHandlers[effectType].Invoke(playerIndex, value);
         }

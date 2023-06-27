@@ -68,6 +68,7 @@ public class Card : ScriptableObject
     public TriggerTypes trigger;
     public EffectTypes effect;
     public int effectValue;
+    public List<int> summonCardIndices;
 
     public string cardName;
     public Sprite cardArtwork;
