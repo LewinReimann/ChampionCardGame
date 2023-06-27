@@ -15,8 +15,8 @@ MonoBehaviour:
   GameObject: {fileID: 0}
   type: 0
   faction: 1
-  trigger: 1
-  effect: 4
+  trigger: 2
+  effect: 0
   effectValue: 1
   cardName: Ancient Spirit
   cardArtwork: {fileID: 21300000, guid: b2b964cd53875ff4e9ddd1f003ee8b2e, type: 3}

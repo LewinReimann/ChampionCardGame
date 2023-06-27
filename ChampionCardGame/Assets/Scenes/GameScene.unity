@@ -2916,7 +2916,7 @@ MonoBehaviour:
   gameManager: {fileID: 516685146}
   eventManager: {fileID: 1586998714}
   playerCardManager: {fileID: 992289224}
-  opponentCardManager: {fileID: 0}
+  opponentCardManager: {fileID: 516635666}
   championCards: []
   spellCards: []
   eventCards: []
