@@ -16,8 +16,9 @@ MonoBehaviour:
   type: 0
   faction: 1
   trigger: 2
-  effect: 0
+  effect: 3
   effectValue: 1
+  summonCardIndices: 
   cardName: Vengefull Ancient
   cardArtwork: {fileID: 21300000, guid: 1ff7efe7d31dd3145a892cdc5cc263b6, type: 3}
   championEffect: Scout 2 times for an Ancient

@@ -17,7 +17,7 @@ MonoBehaviour:
   faction: 2
   trigger: 2
   effect: 5
-  effectValue: 3
+  effectValue: 1
   summonCardIndices: 010000000200000003000000
   cardName: Council Member Ilturiel
   cardArtwork: {fileID: 21300000, guid: 643284852f4ff994cbcac1adb76778ae, type: 3}

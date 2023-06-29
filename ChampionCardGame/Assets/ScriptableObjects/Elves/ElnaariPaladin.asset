@@ -16,8 +16,9 @@ MonoBehaviour:
   type: 0
   faction: 2
   trigger: 2
-  effect: 0
-  effectValue: 1
+  effect: 3
+  effectValue: 2
+  summonCardIndices: 
   cardName: Elnaari Paladin Ilyo
   cardArtwork: {fileID: 21300000, guid: c44e5c4f287bd5f4a97ff98d6a91364f, type: 3}
   championEffect: Gain +2 health for every ancient on the field

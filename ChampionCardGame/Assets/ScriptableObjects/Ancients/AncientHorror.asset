@@ -16,8 +16,9 @@ MonoBehaviour:
   type: 0
   faction: 1
   trigger: 2
-  effect: 0
-  effectValue: 1
+  effect: 2
+  effectValue: 2
+  summonCardIndices: 
   cardName: Ancient Horror Il'Rakatosh
   cardArtwork: {fileID: 21300000, guid: b044027f673ab67499151aab4501a7e6, type: 3}
   championEffect: If you roll a 12 or higher deal 5 damage

@@ -10,12 +10,18 @@ public class PlayedCardInfo
     public int PlayerIndex { get; }
     public Card.TriggerTypes TriggerType { get; }
     public int EffectValue { get; }
+    public List<int> SummonCardIndices { get; set; }
+    public ActionController.EffectContext Context { get; set; }
 
-    public PlayedCardInfo(Card.EffectTypes effect, int playerIndex, Card.TriggerTypes triggerType, int effectValue)
+    public PlayedCardInfo(Card.EffectTypes effect, int playerIndex, Card.TriggerTypes triggerType, int effectValue, List<int> summonCardIndices, ActionController.EffectContext context)
     {
         Effect = effect;
         PlayerIndex = playerIndex;
         TriggerType = triggerType;
         EffectValue = effectValue;
+        SummonCardIndices = summonCardIndices;
+
+        // Assign the EffectContext
+        this.Context = context;
     }
 }

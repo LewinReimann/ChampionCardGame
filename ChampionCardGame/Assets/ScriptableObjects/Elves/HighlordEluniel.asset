@@ -16,8 +16,9 @@ MonoBehaviour:
   type: 0
   faction: 2
   trigger: 2
-  effect: 0
+  effect: 5
   effectValue: 1
+  summonCardIndices: 120000001200000012000000
   cardName: Highlord Eluniel Fearsong
   cardArtwork: {fileID: 21300000, guid: 82002a5aa181c9140b5c692eab58b5ec, type: 3}
   championEffect: 'Summoning: Summon 3 Ancient Spirit'

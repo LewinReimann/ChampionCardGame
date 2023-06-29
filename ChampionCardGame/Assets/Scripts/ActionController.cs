@@ -48,45 +48,45 @@ public class ActionController : MonoBehaviour
         }
     }
 
-    public void ActionDrawCard(int playerIndex, int drawAmount)
+    public void ActionDrawCard(EffectContext context)
     {
         // Determine the appropriate card manager based on the playerIndex
-        CardManager appropriateCardManager = (playerIndex == 0) ? playerCardManager : opponentCardManager;
+        CardManager appropriateCardManager = (context.playerIndex == 0) ? playerCardManager : opponentCardManager;
 
         // Call the DrawCard method drawAmount times
-        for (int i = 0; i < drawAmount; i++)
+        for (int i = 0; i < context.Value; i++)
         {
             appropriateCardManager.DrawCard();
         }
     }
 
-    public void ActionScoutCard(int playerIndex, int damageAmount)
+    public void ActionScoutCard(EffectContext context)
     {
         Debug.Log("Scout Effect");
     }
 
-    public void ActionDealDamage(int playerIndex, int damageAmount)
+    public void ActionDealDamage(EffectContext context)
     {
-        gameManager.ChampionDealDamage(playerIndex, damageAmount);
+        gameManager.ChampionDealDamage(context.playerIndex, context.Value);
     }
 
-    public void ActionHeal(int playerIndex, int healAmount)
+    public void ActionHeal(EffectContext context)
     {
-        gameManager.ChampionHeal(playerIndex, healAmount);
+        gameManager.ChampionHeal(context.playerIndex, context.Value);
     }
 
-    public void ActionRollPlus(int playerIndex, int plusAmount)
+    public void ActionRollPlus(EffectContext context)
     {
         Debug.Log("RollPlus Effect");
     }
 
-    public void ActionSummon(int playerIndex, List<int> cardIndices)
+    public void ActionSummon(EffectContext context)
     {
         // Get the appropriate CardManager based on playerIndex
-        CardManager appropriateCardManager = (playerIndex == 0) ? playerCardManager : opponentCardManager;
+        CardManager appropriateCardManager = (context.playerIndex == 0) ? playerCardManager : opponentCardManager;
 
         // Iterate through the list of cards indices and summon each card
-        foreach (int cardIndex in cardIndices)
+        foreach (int cardIndex in context.CardIndices)
         {
             // Get the card to be summoned from the summonable cards pool based on cardIndex
             if (cardIndex < 0 || cardIndex >= appropriateCardManager.summonableCardsPool.Count)
@@ -105,13 +105,16 @@ public class ActionController : MonoBehaviour
             cardDisplay.card = cardToSummon;
 
             CardBehaviour cardBehaviour = cardObject.GetComponent<CardBehaviour>();
-            cardBehaviour.playerIndex = playerIndex;
+            cardBehaviour.playerIndex = context.playerIndex;
             cardBehaviour.appropriateCardManager = appropriateCardManager;
+
+            // SEt inPlay to true as the card is being summoned
+            cardBehaviour.isInPlay = true;
 
             // Summon the card in the regular DropZone
             if (roundManager.secondaryPhaseActive && cardToSummon.type != Card.CardType.Event)
             {
-                Transform originalParent = (playerIndex == 0) ? playerDropZone : opponentDropZone;
+                Transform originalParent = (context.playerIndex == 0) ? playerDropZone : opponentDropZone;
                 Quaternion originalRotation = Quaternion.Euler(0, 0, 0);
 
                 // set the parent of the dropZone
@@ -124,48 +127,49 @@ public class ActionController : MonoBehaviour
         }
     }
 
-    public void ActionSearchFor(int playerIndex, int searchAmount)
+    public void ActionSearchFor(EffectContext context)
     {
         Debug.Log("SearchFor Effect");
     }
 
-    public void ActionCastCard(int playerIndex, int castAmount)
+    public void ActionCastCard(EffectContext context)
     {
         Debug.Log("Cast Effect");
     }
 
-    public void ActionDestroySecondary(int playerIndex, int destroyedAmount)
+    public void ActionDestroySecondary(EffectContext context)
     {
         Debug.Log("DestroySecondary Effect");
     }
 
-    public void ActionDestroyTopDeck(int playerIndex, int destroyedAmount)
+    public void ActionDestroyTopDeck(EffectContext context)
     {
         Debug.Log("TopDeck Effect");
     }
 
-    public void ActionRevive(int playerIndex, int revivedAmount)
+    public void ActionRevive(EffectContext context)
     {
         Debug.Log("Revive Effect");
     }
 
-    public void ActionSpellshield(int playerIndex, int spellshieldAmount)
+    public void ActionSpellshield(EffectContext context)
     {
         Debug.Log("SpellShield Effect");
     }
 
     // LOGIQ AND CARD HANDLING LISTS EVENTS QUEUE AND SO ON
 
-    private Dictionary<Card.EffectTypes, Action<int, int>> effectHandlers;
+    private Dictionary<Card.EffectTypes, Action<EffectContext>> effectHandlers;
 
     private void InitializeEffectHandlers()
     {
-        effectHandlers = new Dictionary<Card.EffectTypes, Action<int, int>>
+        effectHandlers = new Dictionary<Card.EffectTypes, Action<EffectContext>>
         {
-            { Card.EffectTypes.DrawCard, (playerIndex, value) => ActionDrawCard(playerIndex, value) },
+            { Card.EffectTypes.DrawCard, ActionDrawCard },
             { Card.EffectTypes.DealDamage, ActionDealDamage },
             { Card.EffectTypes.Heal, ActionHeal },
             { Card.EffectTypes.RollPlus, ActionRollPlus },
+            { Card.EffectTypes.Summon, ActionSummon },
             { Card.EffectTypes.SearchFor, ActionSearchFor },
             { Card.EffectTypes.CastCard, ActionCastCard },
             { Card.EffectTypes.DestroySecondary, ActionDestroySecondary },
@@ -173,9 +177,6 @@ public class ActionController : MonoBehaviour
             { Card.EffectTypes.Revive, ActionRevive },
             { Card.EffectTypes.Spellshield, ActionSpellshield }
         };
-
-        // This is how you can add the ActionSummon separatly using a lambda expression. This is so that we c an use a List<int> nad not playerIndex, value like above
-        effectHandlers[Card.EffectTypes.Summon] = (playerIndex, value) => ActionSummon(playerIndex, null);
     }
 
     public void HandleEvent(Card.TriggerTypes triggerType)
@@ -185,24 +186,32 @@ public class ActionController : MonoBehaviour
         {
             if (playedCard.TriggerType == triggerType)
             {
-                ExecuteEffect(playedCard.Effect, playedCard.PlayerIndex, playedCard.EffectValue);
+                // Create a new EffectContext for each played card that matches the trigger type
+                EffectContext context = new EffectContext();
+
+                // Populate the EffectContext with the necessary data from the played card
+                context.playerIndex = playedCard.PlayerIndex;
+                context.Value = playedCard.EffectValue;
+                context.CardIndices = playedCard.SummonCardIndices;
+
+                // Execute the effect with the populated context
+                ExecuteEffect(playedCard.Effect, context);
             }
         }
     }
 
-    public void ExecuteEffect(Card.EffectTypes effectType, int playerIndex, int value, List<int> summonCardIndices = null)
+    public class EffectContext
     {
-        // Execute the appropriate effect handler
-        // First check if it summon
-        if (effectType == Card.EffectTypes.Summon)
-        {
-            // Handle summon effect with a list of card indices
-            ActionSummon(playerIndex, summonCardIndices);
-        }
+        public int playerIndex { get; set; }
+        public int Value { get; set; }
+        public List<int> CardIndices { get; set; }
+    }
 
-        else if (effectHandlers.ContainsKey(effectType))
+    public void ExecuteEffect(Card.EffectTypes effectType, EffectContext context)
+    {
+        if (effectHandlers.ContainsKey(effectType))
         {
-            effectHandlers[effectType].Invoke(playerIndex, value);
+            effectHandlers[effectType].Invoke(context);
         }
         else
         {
@@ -214,9 +223,9 @@ public class ActionController : MonoBehaviour
     public List<PlayedCardInfo> spellCards = new List<PlayedCardInfo>();
     public List<PlayedCardInfo> eventCards = new List<PlayedCardInfo>();
 
-    public void RegisterPlayedCard(Card.EffectTypes effectTypes, int playerIndex, Card.TriggerTypes triggerType, Card.CardType cardType, int effectValue)
+    public void RegisterPlayedCard(Card.EffectTypes effectTypes, int playerIndex, Card.TriggerTypes triggerType, Card.CardType cardType, int effectValue, List<int> summonCardIndices, EffectContext context)
     {
-        PlayedCardInfo playedCardInfo = new PlayedCardInfo(effectTypes, playerIndex, triggerType, effectValue);
+        PlayedCardInfo playedCardInfo = new PlayedCardInfo(effectTypes, playerIndex, triggerType, effectValue, summonCardIndices, context);
 
         switch (cardType)
         {

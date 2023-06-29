@@ -17,7 +17,7 @@ MonoBehaviour:
   faction: 2
   trigger: 2
   effect: 5
-  effectValue: 2
+  effectValue: 1
   summonCardIndices: 010000000200000003000000
   cardName: Council Member Elnariul
   cardArtwork: {fileID: 21300000, guid: 779bf49ee9a4e0a4592904665aa24ea6, type: 3}

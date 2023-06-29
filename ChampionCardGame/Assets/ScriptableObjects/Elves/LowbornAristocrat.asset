@@ -16,8 +16,9 @@ MonoBehaviour:
   type: 0
   faction: 2
   trigger: 2
-  effect: 0
+  effect: 3
   effectValue: 1
+  summonCardIndices: 
   cardName: Lowborn Aristocrat
   cardArtwork: {fileID: 21300000, guid: 583682997c37a72429e89458f116a9aa, type: 3}
   championEffect: Gain +2 on your rolls

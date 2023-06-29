@@ -269,14 +269,22 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
         if (isInPlay)
         {
+            // Here, create an EffectContext and call ExecuteEffect
+            ActionController.EffectContext context = new ActionController.EffectContext()
+            {
+                Value = cardDisplay.card.effectValue,
+                playerIndex = playerIndex,
+                CardIndices = cardDisplay.card.summonCardIndices
+            };
+
             // Check if the cards trigger type is CardPlayed
             if (cardDisplay.card.trigger == Card.TriggerTypes.CardPlayed)
             {
                 // CAll the ActionController directly to execute the effect
-                ActionController.instance.ExecuteEffect(cardDisplay.card.effect, playerIndex, cardDisplay.card.effectValue);
+                ActionController.instance.ExecuteEffect(cardDisplay.card.effect, context);
             }
             // The card has been played, inform ActionController
-            ActionController.instance.RegisterPlayedCard(cardDisplay.card.effect, playerIndex, cardDisplay.card.trigger, cardDisplay.card.type, cardDisplay.card.effectValue);
+            ActionController.instance.RegisterPlayedCard(cardDisplay.card.effect, playerIndex, cardDisplay.card.trigger, cardDisplay.card.type, cardDisplay.card.effectValue, cardDisplay.card.summonCardIndices, context);
         }
     }
 
