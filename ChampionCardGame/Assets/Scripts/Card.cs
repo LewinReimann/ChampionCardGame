@@ -2,11 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class CardEffect
+{
+    public Card.EffectTypes Effect;
+    public Card.TriggerTypes Trigger;
+    public int Value;
+    public List<int> SummonCardIndices;
+}
 
 [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
-[System.Serializable]
 public class Card : ScriptableObject
 {
+
     public GameObject GameObject;
 
     // Enum to define card types
@@ -63,17 +71,16 @@ public class Card : ScriptableObject
         Spellshield
     }
 
+    public CardEffect PrimaryEffect;
+    public CardEffect SecondaryEffect;
+
     public CardType type;
     public CardFaction faction;
-    public TriggerTypes trigger;
-    public EffectTypes effect;
-    public int effectValue;
-    public List<int> summonCardIndices;
-
+    
     public string cardName;
     public Sprite cardArtwork;
     public string championEffect;
-    public string secondaryEffect;
+    public string secondaryEffectText;
 
     public int health;
     public CardLocation location { get; set; } = CardLocation.Deck;

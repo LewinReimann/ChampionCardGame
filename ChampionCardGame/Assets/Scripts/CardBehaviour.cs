@@ -29,6 +29,8 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public GameObject cardHider;
 
+    public bool isMainChampion = false;
+
 
     public Card.CardType Type
     {
@@ -208,6 +210,8 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             // Normal DropZone
             if (correctDropZone.IsInsideDropZone(transform.position) && roundManager.secondaryPhaseActive && Type != Card.CardType.Event && playerIndex == correctDropZone.playerIndex)
             {
+                isMainChampion = false;
+
                 originalParent = correctDropZone.transform;
                 originalRotation = Quaternion.Euler(0, 0, 0);
 
@@ -227,6 +231,7 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             // Champion DropZone
             else if (correctChampionDropZone.IsInsideChampionDropZone(transform.position) && roundManager.championPhaseActive && !correctChampionDropZone.MainChampion && Type == Card.CardType.Champion && playerIndex == correctChampionDropZone.playerIndex)
             {
+                isMainChampion = true;
 
                 correctChampionDropZone.PlaceCardInChampionDropZone(this);
 
@@ -241,6 +246,8 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             // Event DropZone
             else if (Type == Card.CardType.Event && correctEventDropZone.IsInsideEventDropZone(transform.position) && roundManager.secondaryPhaseActive && playerIndex == correctEventDropZone.playerIndex)
             {
+                isMainChampion = false;
+
                 originalParent = correctEventDropZone.transform;
                 originalRotation = Quaternion.Euler(0, 180, 0);
 
@@ -255,6 +262,7 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             }
             else
             {
+                isMainChampion = false;
 
                 // Restore the cards original position roptation and parent.
                 transform.localPosition = originalPosition;
@@ -269,22 +277,85 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
         if (isInPlay)
         {
-            // Here, create an EffectContext and call ExecuteEffect
-            ActionController.EffectContext context = new ActionController.EffectContext()
+            // CHeck if the card is a championCard
+            if (cardDisplay.card.type == Card.CardType.Champion)
             {
-                Value = cardDisplay.card.effectValue,
-                playerIndex = playerIndex,
-                CardIndices = cardDisplay.card.summonCardIndices
-            };
+                // Create the effectContext
+                ActionController.EffectContext context;
 
-            // Check if the cards trigger type is CardPlayed
-            if (cardDisplay.card.trigger == Card.TriggerTypes.CardPlayed)
+                // Execute the primary or secodnary effect based on isMainChampion true or false
+                if (isMainChampion)
+                {
+                    context = new ActionController.EffectContext()
+                    {
+                        Value = cardDisplay.card.effectValue,
+                        playerIndex = playerIndex,
+                        CardIndices = cardDisplay.card.summonCardIndices
+                    };
+                    ActionController.instance.ExecuteEffect(
+                        cardDisplay.card.effect, null, // secondaryEffect is null
+                        playerIndex, cardDisplay.card.trigger, null, // secondaryTrigger is null
+                        cardDisplay.card.type, cardDisplay.card.effectValue, null, // secondaryEffectValue is null
+                        cardDisplay.card.summonCardIndices, null, // secondarySummonCardIndices is null
+                        context);
+                }
+                else
+                {
+                    context = new ActionController.EffectContext()
+                    {
+                        Value = cardDisplay.card.SecondaryEffectValue,
+                        playerIndex = playerIndex,
+                        CardIndices = cardDisplay.card.secondarySummonCardIndices
+                    };
+                    ActionController.instance.ExecuteEffect(
+                        cardDisplay.card.secondaryEffect, null, // effect is null
+                        playerIndex, cardDisplay.card.secondaryTrigger, null, // trigger is null
+                        cardDisplay.card.type, null, cardDisplay.card.secondaryEffectValue, // effectValue is null
+                        null, cardDisplay.card.secondarySummonCardIndices, // summonCardIndices is null
+                        context);
+                }
+            }
+            else // For non-champion cards
             {
-                // CAll the ActionController directly to execute the effect
-                ActionController.instance.ExecuteEffect(cardDisplay.card.effect, context);
+                // Create an EffectContext and call ExecuteEffect
+                ActionController.EffectContext context = new ActionController.EffectContext()
+                {
+                    Value = cardDisplay.card.effectValue,
+                    playerIndex = playerIndex,
+                    CardIndices = cardDisplay.card.summonCardIndices
+                };
+
+                // Check if the cards trigger type is CardPlayed
+                if (cardDisplay.card.trigger == Card.TriggerTypes.CardPlayed)
+                {
+                    // Call the ActionController directly to execute the effect
+                    ActionController.instance.ExecuteEffect(cardDisplay.card.effect, context);
+                }
             }
             // The card has been played, inform ActionController
-            ActionController.instance.RegisterPlayedCard(cardDisplay.card.effect, playerIndex, cardDisplay.card.trigger, cardDisplay.card.type, cardDisplay.card.effectValue, cardDisplay.card.summonCardIndices, context);
+            if (cardDisplay.card.type == Card.CardType.Champion)
+            {
+                if (isMainChampion)
+                {
+                    ActionController.instance.RegisterPlayedCard(
+                        cardDisplay.card.effect, 
+                        playerIndex, cardDisplay.card.trigger, 
+                        cardDisplay.card.type, cardDisplay.card.effectValue, 
+                        cardDisplay.card.summonCardIndices, 
+                        context);
+                }
+                else
+                {
+                    ActionController.instance.RegisterPlayedCard(
+                        cardDisplay.card.secondaryEffect,
+                        playerIndex,
+                        cardDisplay.card.secondaryTrigger,
+                        cardDisplay.card.type,
+                        cardDisplay.card.secondaryEffectValue,
+                        cardDisplay.card.secondarySummonCardIndices,
+                        context);
+                }
+            }
         }
     }
 

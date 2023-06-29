@@ -223,9 +223,22 @@ public class ActionController : MonoBehaviour
     public List<PlayedCardInfo> spellCards = new List<PlayedCardInfo>();
     public List<PlayedCardInfo> eventCards = new List<PlayedCardInfo>();
 
-    public void RegisterPlayedCard(Card.EffectTypes effectTypes, int playerIndex, Card.TriggerTypes triggerType, Card.CardType cardType, int effectValue, List<int> summonCardIndices, EffectContext context)
+    public void RegisterPlayedCard(
+        Card.EffectTypes effectTypes, Card.EffectTypes? secondaryEffectTypes,
+        int playerIndex, 
+        Card.TriggerTypes triggerType, Card.TriggerTypes? secondaryTriggerType,
+        Card.CardType cardType, 
+        int effectValue, int? secondaryEffectValue,
+        List<int> summonCardIndices, List<int>? secondarySummonCardIndices,
+        EffectContext context)
     {
-        PlayedCardInfo playedCardInfo = new PlayedCardInfo(effectTypes, playerIndex, triggerType, effectValue, summonCardIndices, context);
+        PlayedCardInfo playedCardInfo = new PlayedCardInfo(
+            effectTypes, secondaryEffectTypes,
+            playerIndex, 
+            triggerType, secondaryTriggerType,
+            effectValue, secondaryEffectValue,
+            summonCardIndices, secondarySummonCardIndices,
+            context);
 
         switch (cardType)
         {
