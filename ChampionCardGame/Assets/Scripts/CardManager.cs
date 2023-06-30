@@ -144,10 +144,12 @@ public class CardManager : MonoBehaviour
             // Set the CardManager reference in the CardBheaviour script
             cardBehaviour.appropriateCardManager = this;
 
+            EventManager.Instance.RaiseEvent(Card.TriggerTypes.WheneverCardDrawn, playerIndex);
 
-                // Set the cards parent to the last slot in the hand
-                // cardObject.transform.SetParent(playerHandLayout.cardSlots[playerHandLayout.cardSlots.Count - 1]);
-            }
+
+            // Set the cards parent to the last slot in the hand
+            // cardObject.transform.SetParent(playerHandLayout.cardSlots[playerHandLayout.cardSlots.Count - 1]);
+        }
             else
             {
                 Debug.LogWarning("Deck is empty. Cannot draw a card.");

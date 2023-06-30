@@ -165,8 +165,11 @@ public class RoundManager : MonoBehaviour
         // Swith to the next phase
         Invoke("SwitchPhase", 2f);
 
-        gameManager.playerChampionHealth = 1;
-        gameManager.opponentChampionHealth = 1;
+        gameManager.playerChampionHealth = 20;
+        gameManager.opponentChampionHealth = 20;
+
+        // Clear lists of played cards in ActionController
+        ActionController.instance.ClearPlayedCards();
     }
 
     public void ChampionDiedRoundSwitch()

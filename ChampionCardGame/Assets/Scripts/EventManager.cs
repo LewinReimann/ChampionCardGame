@@ -24,15 +24,15 @@ public class EventManager : MonoBehaviour
 
     // Dictionary to hold all listeners for each event type
     // Key is the event type ( for now lets assume its a string), and Value is a list of listeners
-    private Dictionary<Card.TriggerTypes, List<Action>> eventListeners = new Dictionary<Card.TriggerTypes, List<Action>>();
+    private Dictionary<Card.TriggerTypes, List<Action<int>>> eventListeners = new Dictionary<Card.TriggerTypes, List<Action<int>>>();
 
     // Method for listeners to subscirbe to an event
-    public void Subscribe(Card.TriggerTypes eventType, Action listener)
+    public void Subscribe(Card.TriggerTypes eventType, Action<int> listener)
     {
         // if there is no entry for this even type, create it
         if (!eventListeners.ContainsKey(eventType))
         {
-            eventListeners[eventType] = new List<Action>();
+            eventListeners[eventType] = new List<Action<int>>();
         }
 
         // Add the listener to the lsit of this event type
@@ -40,7 +40,7 @@ public class EventManager : MonoBehaviour
     }
 
     // Method for listeners to unsubscribe to an event
-    public void Unsubscribe(Card.TriggerTypes eventType, Action listener)
+    public void Unsubscribe(Card.TriggerTypes eventType, Action<int> listener)
     {
         // if there is an entry for this event type, remove the listener
         if (eventListeners.ContainsKey(eventType))
@@ -50,7 +50,7 @@ public class EventManager : MonoBehaviour
     }
 
     // Method to raise an event, notifying all listeners for  that event
-    public void RaiseEvent(Card.TriggerTypes eventType)
+    public void RaiseEvent(Card.TriggerTypes eventType, int playerIndex)
     {
         // if there are listeners for this event, notify all of them
         if (eventListeners.ContainsKey(eventType))
@@ -59,7 +59,7 @@ public class EventManager : MonoBehaviour
 
             foreach (var listener in eventListeners[eventType])
             {
-                listener.Invoke();
+                listener.Invoke(playerIndex);
             }
         }
         else

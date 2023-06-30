@@ -32,7 +32,7 @@ public class ActionController : MonoBehaviour
 
     private void SubscribeToTrigger(Card.TriggerTypes triggerType)
     {
-        EventManager.Instance.Subscribe(triggerType, () => HandleEvent(triggerType));
+        EventManager.Instance.Subscribe(triggerType, (playerIndex) => HandleEvent(triggerType, playerIndex));
     }
 
     private void Start()
@@ -124,6 +124,8 @@ public class ActionController : MonoBehaviour
                 // Add the card to the field list directly
                 appropriateCardManager.field.Add(cardToSummon);
             }
+
+            EventManager.Instance.RaiseEvent(Card.TriggerTypes.WhenUnitSummoned, context.playerIndex);
         }
     }
 
@@ -179,12 +181,12 @@ public class ActionController : MonoBehaviour
         };
     }
 
-    public void HandleEvent(Card.TriggerTypes triggerType)
+    public void HandleEvent(Card.TriggerTypes triggerType, int playerIndex)
     {
         // Check championCards, spellCards, and eventCards for matching triggertypes
         foreach (var playedCard in championCards.Concat(spellCards).Concat(eventCards))
         {
-            if (playedCard.TriggerType == triggerType)
+            if (playedCard.TriggerType == triggerType && playedCard.PlayerIndex == playerIndex)
             {
                 // Create a new EffectContext for each played card that matches the trigger type
                 EffectContext context = new EffectContext();
@@ -239,5 +241,12 @@ public class ActionController : MonoBehaviour
                 eventCards.Add(playedCardInfo);
                 break;
         }
+    }
+
+    public void ClearPlayedCards()
+    {
+        championCards.Clear();
+        spellCards.Clear();
+        eventCards.Clear();
     }
 }

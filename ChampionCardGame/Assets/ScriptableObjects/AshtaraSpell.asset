@@ -16,11 +16,15 @@ MonoBehaviour:
   type: 1
   faction: 1
   trigger: 2
-  effect: 0
-  effectValue: 1
+  effect: 2
+  effectValue: 4
   summonCardIndices: 
+  secondaryTrigger: 0
+  secondaryEffectType: 0
+  secondaryEffectValue: 0
+  secondarySummonCardIndices: 
   cardName: SPELL
   cardArtwork: {fileID: 21300000, guid: 1ce28b4b7ac194c46856107a2bfe1f2a, type: 3}
-  championEffect: Deal X Damage
-  secondaryEffect: Heal X Damage
+  championEffectText: 
+  secondaryEffectText: 
   health: 6

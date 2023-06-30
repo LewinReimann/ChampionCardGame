@@ -222,7 +222,7 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
                 isInPlay = true;
 
-                EventManager.Instance.RaiseEvent(Card.TriggerTypes.WheneverCardPlayed);
+                EventManager.Instance.RaiseEvent(Card.TriggerTypes.WheneverCardPlayed, playerIndex);
 
                 // Inform cardmanager to move the card from hand to field
                 appropriateCardManager.MoveCard(cardDisplay.card, Card.CardLocation.Hand, Card.CardLocation.Field);
