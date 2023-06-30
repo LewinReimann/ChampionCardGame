@@ -208,6 +208,11 @@ public class CardBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             // Normal DropZone
             if (correctDropZone.IsInsideDropZone(transform.position) && roundManager.secondaryPhaseActive && Type != Card.CardType.Event && playerIndex == correctDropZone.playerIndex)
             {
+                if (Type == Card.CardType.Champion)
+                {
+                    cardDisplay.card.ChangeToSecondary();
+                }
+
                 originalParent = correctDropZone.transform;
                 originalRotation = Quaternion.Euler(0, 0, 0);
 

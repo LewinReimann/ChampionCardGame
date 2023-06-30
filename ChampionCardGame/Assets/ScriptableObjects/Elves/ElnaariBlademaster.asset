@@ -19,8 +19,12 @@ MonoBehaviour:
   effect: 3
   effectValue: 1
   summonCardIndices: 
+  secondaryTrigger: 2
+  secondaryEffectType: 2
+  secondaryEffectValue: 1
+  secondarySummonCardIndices: 
   cardName: Elnaari Blademaster
   cardArtwork: {fileID: 21300000, guid: 128727af70eff84428823bcc104b5ae8, type: 3}
-  championEffect: 'Combo: If you roll a 7, 8 and a 9, summon 2 ancient spirits.'
-  secondaryEffect: When you roll a 6 gain +1 on your rolls.
+  championEffectText: 
+  secondaryEffectText: 
   health: 5

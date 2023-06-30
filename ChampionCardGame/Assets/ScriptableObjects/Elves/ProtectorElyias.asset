@@ -19,8 +19,12 @@ MonoBehaviour:
   effect: 3
   effectValue: 1
   summonCardIndices: 
+  secondaryTrigger: 2
+  secondaryEffectType: 2
+  secondaryEffectValue: 1
+  secondarySummonCardIndices: 
   cardName: Protector Elyias
   cardArtwork: {fileID: 21300000, guid: f8d395e19198e8e48bfcd122b46c52d4, type: 3}
-  championEffect: Gain +6 Health in the Battle Phase
-  secondaryEffect: When you roll a 7 or higher deal 1 damage
+  championEffectText: 
+  secondaryEffectText: 
   health: 6

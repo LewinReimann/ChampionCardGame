@@ -19,9 +19,12 @@ MonoBehaviour:
   effect: 3
   effectValue: 1
   summonCardIndices: 
+  secondaryTrigger: 2
+  secondaryEffectType: 2
+  secondaryEffectValue: 1
+  secondarySummonCardIndices: 
   cardName: Ancient Giant Ikanos
   cardArtwork: {fileID: 21300000, guid: 63a00e9c4c43e0e4cb4f9d2503390e25, type: 3}
-  championEffect: After every roll deal 1 damage to yourself
-  secondaryEffect: All damage against secondary units will be redirected to this
-    card.
+  championEffectText: 
+  secondaryEffectText: 
   health: 20

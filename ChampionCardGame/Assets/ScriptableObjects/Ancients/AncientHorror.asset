@@ -16,11 +16,15 @@ MonoBehaviour:
   type: 0
   faction: 1
   trigger: 2
-  effect: 2
-  effectValue: 2
+  effect: 3
+  effectValue: 1
   summonCardIndices: 
+  secondaryTrigger: 2
+  secondaryEffectType: 2
+  secondaryEffectValue: 1
+  secondarySummonCardIndices: 
   cardName: Ancient Horror Il'Rakatosh
   cardArtwork: {fileID: 21300000, guid: b044027f673ab67499151aab4501a7e6, type: 3}
-  championEffect: If you roll a 12 or higher deal 5 damage
-  secondaryEffect: Gain +1 on your rolls
+  championEffectText: 
+  secondaryEffectText: 
   health: 7

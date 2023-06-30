@@ -16,10 +16,15 @@ MonoBehaviour:
   type: 0
   faction: 2
   trigger: 2
-  effect: 0
+  effect: 3
   effectValue: 1
+  summonCardIndices: 
+  secondaryTrigger: 2
+  secondaryEffectType: 2
+  secondaryEffectValue: 1
+  secondarySummonCardIndices: 
   cardName: Nighteye
   cardArtwork: {fileID: 21300000, guid: c128d1b6307f40b4087420a7803db35d, type: 3}
-  championEffect: Gain +1 on your rolls
-  secondaryEffect: Draw a Card
+  championEffectText: 
+  secondaryEffectText: 
   health: 6

@@ -16,10 +16,15 @@ MonoBehaviour:
   type: 0
   faction: 2
   trigger: 2
-  effect: 0
+  effect: 3
   effectValue: 1
+  summonCardIndices: 
+  secondaryTrigger: 2
+  secondaryEffectType: 2
+  secondaryEffectValue: 1
+  secondarySummonCardIndices: 
   cardName: Lord of the Grove
   cardArtwork: {fileID: 21300000, guid: f513dba72e614324c9021ca3b017158f, type: 3}
-  championEffect: If you roll a 5 or lower deal 1 damage to yourself
-  secondaryEffect: Scout for an Elven Card
+  championEffectText: 
+  secondaryEffectText: 
   health: 10

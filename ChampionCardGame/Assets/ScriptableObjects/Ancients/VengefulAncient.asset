@@ -19,9 +19,12 @@ MonoBehaviour:
   effect: 3
   effectValue: 1
   summonCardIndices: 
+  secondaryTrigger: 2
+  secondaryEffectType: 2
+  secondaryEffectValue: 1
+  secondarySummonCardIndices: 
   cardName: Vengefull Ancient
   cardArtwork: {fileID: 21300000, guid: 1ff7efe7d31dd3145a892cdc5cc263b6, type: 3}
-  championEffect: Scout 2 times for an Ancient
-  secondaryEffect: If I die deal 1 damage to your enemy. Deal 1 damage to an allied
-    secondary unit.
+  championEffectText: 
+  secondaryEffectText: 
   health: 3

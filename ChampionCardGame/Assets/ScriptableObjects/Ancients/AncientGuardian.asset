@@ -17,10 +17,14 @@ MonoBehaviour:
   faction: 1
   trigger: 2
   effect: 3
-  effectValue: 2
+  effectValue: 1
   summonCardIndices: 
+  secondaryTrigger: 2
+  secondaryEffectType: 2
+  secondaryEffectValue: 1
+  secondarySummonCardIndices: 
   cardName: Ancient Guardian of the Grove
   cardArtwork: {fileID: 21300000, guid: fe88d7c86bf3ee64a8bbe1e87a63b54b, type: 3}
-  championEffect: When you roll a 6 or higher heal for 1.
-  secondaryEffect: Heal for 3 and your secondary cards for 1
+  championEffectText: 
+  secondaryEffectText: 
   health: 3

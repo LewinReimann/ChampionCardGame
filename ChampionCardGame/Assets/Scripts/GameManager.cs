@@ -96,14 +96,39 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void ChampionDealDamage(int playerIndex, int damageAmount)
     {
-        if (playerIndex == 0)
+        /* int dealerIndex = playerIndex;
+        int receiverIndex = playerIndex = 0 ? 1 : 0;
+        
+        
+
+        if (dealerIndex == 0)
         {
             opponentChampionHealth -= damageAmount;
         }
-        else if (playerIndex == 1)
+        else
         {
             playerChampionHealth -= damageAmount;
         }
+
+        // RAise WhenSpecialDamageDealt for the player who dealt the damage
+        if (dealerIndex == 0)
+        {
+            EventManager.Instance.RaiseEvent(Card.TriggerTypes.WhenSpecialDamageDealt);
+        }
+        else if (dealerIndex == 1)
+        {
+            EventManager.Instance.RaiseEvent(Card.TriggerTypes.WhenSpecialDamageDealt);
+        }
+
+        // Raise WhenDamageReceived for the player who received the damage
+        if (receiverIndex == 0)
+        {
+            EventManager.Instance.RaiseEvent(Card.TriggerTypes.WhenDamageReceived);
+        }
+        else if (receiverIndex == 1)
+        {
+            EventManager.Instance.RaiseEvent(Card.TriggerTypes.WhenDamageReceived);
+        } */
     }
 
     public void ChampionHeal(int playerIndex, int healAmount)

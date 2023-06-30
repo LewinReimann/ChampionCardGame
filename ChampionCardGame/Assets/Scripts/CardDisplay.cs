@@ -32,8 +32,8 @@ public class CardDisplay : MonoBehaviourPun
         {
             cardNameText.text = card.cardName;
             cardArtworkSprite.sprite = card.cardArtwork;
-            championEffectText.text = card.championEffect;
-            secondaryEffectText.text = card.secondaryEffect;
+            championEffectText.text = card.championEffectText;
+            secondaryEffectText.text = card.secondaryEffectText;
             healthText.text = card.health.ToString();
             factionText.text = card.faction.ToString();
         }

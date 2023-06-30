@@ -15,12 +15,16 @@ MonoBehaviour:
   GameObject: {fileID: 0}
   type: 0
   faction: 2
-  trigger: 1
-  effect: 5
+  trigger: 2
+  effect: 3
   effectValue: 1
   summonCardIndices: 15000000
+  secondaryTrigger: 2
+  secondaryEffectType: 2
+  secondaryEffectValue: 1
+  secondarySummonCardIndices: 
   cardName: Vessel of the Ancient One
   cardArtwork: {fileID: 21300000, guid: ac6c5b27dc5924542bb22b1b9dda992f, type: 3}
-  championEffect: If you roll a 6 or higher summon a Vengefull Ancient
-  secondaryEffect: Summon 2 Ancient Spirits
+  championEffectText: 
+  secondaryEffectText: 
   health: 5

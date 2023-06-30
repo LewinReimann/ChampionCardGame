@@ -16,10 +16,15 @@ MonoBehaviour:
   type: 0
   faction: 2
   trigger: 2
-  effect: 0
+  effect: 3
   effectValue: 1
+  summonCardIndices: 
+  secondaryTrigger: 2
+  secondaryEffectType: 2
+  secondaryEffectValue: 1
+  secondarySummonCardIndices: 
   cardName: Elven Scout El'turael
   cardArtwork: {fileID: 21300000, guid: 1a8e10020f3b49a418a65afe7fff18dd, type: 3}
-  championEffect: 'Summoning: Reveal all events in hand and on field.'
-  secondaryEffect: Scout for an Ancient Card.
+  championEffectText: 
+  secondaryEffectText: 
   health: 5

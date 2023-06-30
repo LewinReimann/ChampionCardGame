@@ -16,11 +16,15 @@ MonoBehaviour:
   type: 0
   faction: 2
   trigger: 2
-  effect: 5
+  effect: 3
   effectValue: 1
   summonCardIndices: 010000000200000003000000
+  secondaryTrigger: 2
+  secondaryEffectType: 2
+  secondaryEffectValue: 1
+  secondarySummonCardIndices: 
   cardName: Council Member Ilturiel
   cardArtwork: {fileID: 21300000, guid: 643284852f4ff994cbcac1adb76778ae, type: 3}
-  championEffect: If you roll a 2 summon the 3 Council Members
-  secondaryEffect: If you roll a 2 gain +1 on your rolls and heal for 1 health.
+  championEffectText: 
+  secondaryEffectText: 
   health: 6

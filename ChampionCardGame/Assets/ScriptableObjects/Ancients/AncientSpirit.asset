@@ -19,9 +19,12 @@ MonoBehaviour:
   effect: 3
   effectValue: 1
   summonCardIndices: 
+  secondaryTrigger: 2
+  secondaryEffectType: 2
+  secondaryEffectValue: 1
+  secondarySummonCardIndices: 
   cardName: Ancient Spirit
   cardArtwork: {fileID: 21300000, guid: b2b964cd53875ff4e9ddd1f003ee8b2e, type: 3}
-  championEffect: Scout 2 times for an Ancient
-  secondaryEffect: Gain +1 on your rolls. Deal 1 random damage to an allied secondary
-    unit.
+  championEffectText: 
+  secondaryEffectText: 
   health: 3

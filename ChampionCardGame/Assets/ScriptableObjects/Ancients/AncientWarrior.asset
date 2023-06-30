@@ -19,9 +19,12 @@ MonoBehaviour:
   effect: 3
   effectValue: 1
   summonCardIndices: 
+  secondaryTrigger: 2
+  secondaryEffectType: 2
+  secondaryEffectValue: 1
+  secondarySummonCardIndices: 
   cardName: Unstable Ancient Warrior
   cardArtwork: {fileID: 21300000, guid: 6d8f32f832de34441b0265d2476c8540, type: 3}
-  championEffect: Gain health equal to your +1s on your rolls. Deal 1 damage to yourself
-    every roll.
-  secondaryEffect: If I die deal 3 damage
+  championEffectText: 
+  secondaryEffectText: 
   health: 3

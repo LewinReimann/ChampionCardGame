@@ -40,6 +40,11 @@ public class Card : ScriptableObject
         WheneverCardPlayed,
         CardPlayed,
         WhenDamageReceived,
+        WhenSpecialDamageReceived,
+        WhenNormalDamageReceived,
+        WhenSpecialDamageDealt,
+        WhenNormalDamageDealt,
+        WhenUnitSummoned,
         WhenHealingReceived,
         WhenDestroyed,
         WhenTurnEnd,
@@ -70,12 +75,24 @@ public class Card : ScriptableObject
     public int effectValue;
     public List<int> summonCardIndices;
 
+    public TriggerTypes secondaryTrigger;
+    public EffectTypes secondaryEffectType;
+    public int secondaryEffectValue;
+    public List<int> secondarySummonCardIndices;
+
     public string cardName;
     public Sprite cardArtwork;
-    public string championEffect;
-    public string secondaryEffect;
+    public string championEffectText;
+    public string secondaryEffectText;
 
     public int health;
     public CardLocation location { get; set; } = CardLocation.Deck;
 
+    public void ChangeToSecondary()
+    {
+        trigger = secondaryTrigger;
+        effect = secondaryEffectType;
+        effectValue = secondaryEffectValue;
+        summonCardIndices = secondarySummonCardIndices;
+    }
 }
